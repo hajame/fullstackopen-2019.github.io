@@ -6,9 +6,11 @@ letter: b
 
 <div class="content">
 
-Jatketaan muistiinpanosovelluksen yksinkertaistetun [redux-version](/osa5#redux-muistiinpanot) laajentamista.
+<!-- Jatketaan muistiinpanosovelluksen yksinkertaistetun [redux-version](/osa5#redux-muistiinpanot) laajentamista. -->
+Let's continue our work with the simplified [redux version](/osa5#redux-muistiinpanot) of our notes application.
 
-Sovelluskehitystä helpottaaksemme laajennetaan reduceria siten, että storelle määritellään alkutila, jossa on pari muistiinpanoa:
+<!-- Sovelluskehitystä helpottaaksemme laajennetaan reduceria siten, että storelle määritellään alkutila, jossa on pari muistiinpanoa: -->
+In order to ease our development, let's change our reducer so that the store gets initialized with a state that contains a couple of notes:
 
 ```js
 const initialState = [
@@ -32,13 +34,16 @@ const noteReducer = (state = initialState, action) => {
 export default noteReducer
 ```
 
-### Monimutkaisempi tila storessa
+<!-- ### Monimutkaisempi tila storessa -->
+### Store with complex state
 
-Toteutetaan sovellukseen näytettävien muistiinpanojen filtteröinti, jonka avulla näytettäviä muistiinpanoja voidaan rajata. Filtterin toteutus tapahtuu [radiobuttoneiden](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio) avulla:
+<!-- Toteutetaan sovellukseen näytettävien muistiinpanojen filtteröinti, jonka avulla näytettäviä muistiinpanoja voidaan rajata. Filtterin toteutus tapahtuu [radiobuttoneiden](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio) avulla: -->
+Let's implement filtering for the notes that are displayed to the user. The user interface for the filters will be implemented with [radio buttons](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio):
 
 ![](../assets/6/1.png)
 
-Aloitetaan todella suoraviivaisella toteutuksella:
+<!-- Aloitetaan todella suoraviivaisella toteutuksella: -->
+Let's start with a very simple and straightforward implementation:
 
 ```js
 import React from 'react'
@@ -76,11 +81,14 @@ const App = (props) => {
 }
 ```
 
-Koska painikkeiden attribuutin <i>name</i> arvo on kaikilla sama, muodostavat ne <i>nappiryhmän</i>, joista ainoastaan yksi voi olla kerrallaan valittuna.
+<!-- Koska painikkeiden attribuutin <i>name</i> arvo on kaikilla sama, muodostavat ne <i>nappiryhmän</i>, joista ainoastaan yksi voi olla kerrallaan valittuna. -->
+Since the <i>name</i> attribute of all the radio buttons is the same, they form a <i>button group</i> where only one option can be selected.
 
-Napeille on määritelty muutoksenkäsittelijä, joka tällä hetkellä ainoastaan tulostaa painettua nappia vastaavan merkkijonon konsoliin.
+<!-- Napeille on määritelty muutoksenkäsittelijä, joka tällä hetkellä ainoastaan tulostaa painettua nappia vastaavan merkkijonon konsoliin. -->
+The buttons have a change handler that currently only prints the string associated with the clicked button to the console.
 
-Päätämme toteuttaa filtteröinnin siten, että talletamme muistiinpanojen lisäksi sovelluksen storeen myös <i>filtterin arvon</i>. Eli muutoksen jälkeen storessa olevan tilan tulisi näyttää seuraavalta:
+<!-- Päätämme toteuttaa filtteröinnin siten, että talletamme muistiinpanojen lisäksi sovelluksen storeen myös <i>filtterin arvon</i>. Eli muutoksen jälkeen storessa olevan tilan tulisi näyttää seuraavalta: -->
+We decide to implement the filter functionality by storing <i>the value of the filter</i> in the redux store in addition to the notes themselves. The state of the store should look like this after making these changes:
 
 ```js
 {
@@ -92,11 +100,14 @@ Päätämme toteuttaa filtteröinnin siten, että talletamme muistiinpanojen lis
 }
 ```
 
-Tällä hetkellähän tilassa on ainoastaan muistiinpanot sisältävä taulukko. Uudessa ratkaisussa tilalla on siis kaksi avainta, <i>notes</i> jonka arvona muistiinpanot ovat sekä <i>filter</i>, jonka arvona on merkkijono joka kertoo mitkä muistiinpanoista tulisi näyttää ruudulla.
+<!-- Tällä hetkellähän tilassa on ainoastaan muistiinpanot sisältävä taulukko. Uudessa ratkaisussa tilalla on siis kaksi avainta, <i>notes</i> jonka arvona muistiinpanot ovat sekä <i>filter</i>, jonka arvona on merkkijono joka kertoo mitkä muistiinpanoista tulisi näyttää ruudulla. -->
+Only the array of notes is stored in the state of the current implementation of our application. In the new implementation the state object has two properties, <i>notes</i> that contains the array of notes and <i>filter</i> that contains a string that indicates which notes should be displayed to the user.
 
-### Yhdistetyt reducerit
+<!-- ### Yhdistetyt reducerit -->
+### Combined reducers
 
-Voisimme periaatteessa muokata jo olemassaolevaa reduceria ottamaan huomioon muuttuneen tilanteen. Parempi ratkaisu on kuitenkin määritellä tässä tilanteessa uusi, filtterin arvosta huolehtiva reduceri:
+<!-- Voisimme periaatteessa muokata jo olemassaolevaa reduceria ottamaan huomioon muuttuneen tilanteen. Parempi ratkaisu on kuitenkin määritellä tässä tilanteessa uusi, filtterin arvosta huolehtiva reduceri: -->
+We could modify our current reducer to deal with the new shape of the state. However, a better solution in this situation is to define a new separate reducer for the state of the filter:
 
 ```js
 const filterReducer = (state = 'ALL', action) => {
@@ -109,7 +120,8 @@ const filterReducer = (state = 'ALL', action) => {
 }
 ```
 
-Filtterin arvon asettavat actionit ovat siis muotoa
+<!-- Filtterin arvon asettavat actionit ovat siis muotoa -->
+The actions for changing the state of the filter look like this:
 
 ```js
 {
@@ -118,7 +130,8 @@ Filtterin arvon asettavat actionit ovat siis muotoa
 }
 ```
 
-Määritellään samalla myös sopiva _action creator_ -funktio. Sijoitetaan koodi moduuliin <i>src/reducers/filterReducer.js</i>:
+<!-- Määritellään samalla myös sopiva _action creator_ -funktio. Sijoitetaan koodi moduuliin <i>src/reducers/filterReducer.js</i>: -->
+Let's also create a new _action creator_ function. We will write the code for the action creator in a new <i>src/reducers/filterReducer.js</i> module:
 
 ```js
 const filterReducer = (state = 'ALL', action) => {
@@ -135,9 +148,11 @@ export const filterChange = filter => {
 export default filterReducer
 ```
 
-Saamme nyt muodostettua varsinaisen reducerin yhdistämällä kaksi olemassaolevaa reduceria funktion [combineReducers](https://redux.js.org/api-reference/combinereducers) avulla.
+<!-- Saamme nyt muodostettua varsinaisen reducerin yhdistämällä kaksi olemassaolevaa reduceria funktion [combineReducers](https://redux.js.org/api-reference/combinereducers) avulla. -->
+We can create the actual reducer for our application by combining the two existing reducers with the [combineReducers](https://redux.js.org/api-reference/combinereducers) function.
 
-Määritellään yhdistetty reduceri tiedostossa <i>index.js</i>:
+<!-- Määritellään yhdistetty reduceri tiedostossa <i>index.js</i>: -->
+Let's define the combined reducer in the <i>index.js</i> file:
 
 ```js
 import React from 'react'
