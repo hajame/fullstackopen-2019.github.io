@@ -6,42 +6,57 @@ letter: a
 
 <div class="content">
 
-Olemme noudattaneet sovelluksen tilan hallinnassa Reactin suosittelemaa käytäntöä määritellä tila ja sitä käsittelevät metodit [sovelluksen juurikomponentissa](https://reactjs.org/docs/lifting-state-up.html). Tilaa ja sitä käsitteleviä funktioita on välitetty propsien avulla niitä tarvitseville komponenteille. Tämä toimii johonkin pisteeseen saakka, mutta kun sovellusten koko kasvaa, muuttuu tilan hallinta haasteelliseksi.
+<!-- Olemme noudattaneet sovelluksen tilan hallinnassa Reactin suosittelemaa käytäntöä määritellä tila ja sitä käsittelevät metodit [sovelluksen juurikomponentissa](https://reactjs.org/docs/lifting-state-up.html). Tilaa ja sitä käsitteleviä funktioita on välitetty propsien avulla niitä tarvitseville komponenteille. Tämä toimii johonkin pisteeseen saakka, mutta kun sovellusten koko kasvaa, muuttuu tilan hallinta haasteelliseksi. -->
+So far we have followed the state management conventions recommended by React. We have placed the state and the methods for handling it to [the root component](https://reactjs.org/docs/lifting-state-up.html) of the application. The state and its handler methods have then been passed to other components with props. This works up to a certain point, but when applications grow larger, state management becomes challenging. 
 
-### Flux-arkkitehtuuri
+### Flux-architecture
 
-Facebook kehitti tilan hallinnan ongelmia helpottamaan [Flux](https://facebook.github.io/flux/docs/in-depth-overview.html#content)-arkkitehtuurin. Fluxissa sovelluksen tilan hallinta erotetaan kokonaan Reactin komponenttien ulkopuolisiin varastoihin eli <i>storeihin</i>. Storessa olevaa tilaa ei muuteta suoraan, vaan tapahtumien eli <i>actionien</i> avulla.
+<!-- Facebook kehitti tilan hallinnan ongelmia helpottamaan [Flux](https://facebook.github.io/flux/docs/in-depth-overview.html#content)-arkkitehtuurin. Fluxissa sovelluksen tilan hallinta erotetaan kokonaan Reactin komponenttien ulkopuolisiin varastoihin eli <i>storeihin</i>. Storessa olevaa tilaa ei muuteta suoraan, vaan tapahtumien eli <i>actionien</i> avulla. -->
+Facebook developed the [Flux](https://facebook.github.io/flux/docs/in-depth-overview.html#content)- architecture to make state management easier. In Flux, the state is separated completely from the React-components into its own <i>stores</i>.
+State in the store is not changed directly, but with different <i>actionien</i>.
 
-Kun action muuttaa storen tilaa, renderöidään näkymät uudelleen:
+<!-- Kun action muuttaa storen tilaa, renderöidään näkymät uudelleen: -->
+When an action changes the state of the store, the views are rerendered: 
 
 ![](https://facebook.github.io/flux/img/flux-simple-f8-diagram-1300w.png)
 
-Jos sovelluksen käyttö, esim. napin painaminen aiheuttaa tarpeen tilan muutokseen, tehdään tilanmuutos actonin avulla. Tämä taas aiheuttaa uuden näytön renderöitymisen:
+<!-- Jos sovelluksen käyttö, esim. napin painaminen aiheuttaa tarpeen tilan muutokseen, tehdään tilanmuutos actonin avulla. Tämä taas aiheuttaa uuden näytön renderöitymisen: -->
+If some action on the application, for example pushing a button, causes the need to change the state, the change is made with an action. 
+This causes rerendering the view again: 
 
 ![](https://facebook.github.io/flux/img/flux-simple-f8-diagram-with-client-action-1300w.png)
 
-Flux tarjoaa siis standardin tavan sille miten ja missä sovelluksen tila pidetään sekä tavalle tehdä tilaan muutoksia.
+<!-- Flux tarjoaa siis standardin tavan sille miten ja missä sovelluksen tila pidetään sekä tavalle tehdä tilaan muutoksia. 
+-->
+Flux offers a standard way for how and where the application's state is kept and how it is modified. 
 
 ### Redux
 
-Facebookilla on olemassa valmis toteutus Fluxille, käytämme kuitenkin saman periaatteen mukaan toimivaa, mutta hieman yksinkertaisempaa [Redux](https://redux.js.org)-kirjastoa, jota myös Facebookilla käytetään nykyään alkuperäisen Flux-toteutuksen sijaan.
+<!-- Facebookilla on olemassa valmis toteutus Fluxille, käytämme kuitenkin saman periaatteen mukaan toimivaa, mutta hieman yksinkertaisempaa [Redux](https://redux.js.org)-kirjastoa, jota myös Facebookilla käytetään nykyään alkuperäisen Flux-toteutuksen sijaan. -->
+Facebook has an implementation for Flux, but we will be using the [Redux](https://redux.js.org) - library. It works with the same princible, but is a bit simpler. Facebook also uses Redux now instead of their original Flux. 
 
-Tutustutaan Reduxiin tekemällä jälleen kerran laskurin toteuttava sovellus:
+<!-- Tutustutaan Reduxiin tekemällä jälleen kerran laskurin toteuttava sovellus: -->
+We will get to know Redux by implementing a counter application yet again: 
 
 ![](../images/6/1.png)
 
 
-Tehdään uusi create-react-app-sovellus ja asennetaan siihen <i></i>redux</i> komennolla
+<!-- Tehdään uusi create-react-app-sovellus ja asennetaan siihen <i></i>redux</i> komennolla -->
+Create a new crate-react-app-application and install </i>redux</i> with the command
 
 ```bash
 npm install redux --save
 ```
 
-Fluxin tapaan Reduxissa sovelluksen tila talletetaan [storeen](https://redux.js.org/basics/store).
+<!-- Fluxin tapaan Reduxissa sovelluksen tila talletetaan [storeen](https://redux.js.org/basics/store). -->
+As in Flux, in Redux the state is also stored in a [store](https://redux.js.org/basics/store).
 
-Koko sovelluksen tila talletetaan <i>yhteen</i> storen tallettamaan Javascript-objektiin. Koska sovelluksemme ei tarvitse mitään muuta tilaa kuin laskurin arvon, talletetaan se storeen suoraan. Jos sovelluksen tila olisi monipuolisempi, talletettaisiin "eri asiat" storessa olevaan olioon erillisinä kenttinä.
+<!-- Koko sovelluksen tila talletetaan <i>yhteen</i> storen tallettamaan Javascript-objektiin. Koska sovelluksemme ei tarvitse mitään muuta tilaa kuin laskurin arvon, talletetaan se storeen suoraan. Jos sovelluksen tila olisi monipuolisempi, talletettaisiin "eri asiat" storessa olevaan olioon erillisinä kenttinä. -->
+The whole state of the application is stored into <i>one</i> JavaScript-object in the store. Because our application only needs the value of the counter, we will save it straight to the store. If the state was more complicated, different things in the state would be saved as separate fields of the object. 
 
-Storen tilaa muutetaan [actionien](https://redux.js.org/basics/actions) avulla. Actionit ovat olioita, joilla on vähintään actionin <i>tyypin</i> määrittelevä kenttä <i>type</i>. Sovelluksessamme tarvitsemme esimerkiksi seuraavaa actionia:
+<!-- Storen tilaa muutetaan [actionien](https://redux.js.org/basics/actions) avulla. Actionit ovat olioita, joilla on vähintään actionin <i>tyypin</i> määrittelevä kenttä <i>type</i>. Sovelluksessamme tarvitsemme esimerkiksi seuraavaa actionia: -->
+The state of the store is changed with [actions](https://redux.js.org/basics/actions). Actions are objects, which have at least a field determining the <i>type</i> of the action. 
+Our application needs for example the following action: 
 
 ```js
 {
@@ -49,7 +64,8 @@ Storen tilaa muutetaan [actionien](https://redux.js.org/basics/actions) avulla. 
 }
 ```
 
-Jos actioneihin liittyy dataa, määritellään niille tarpeen vaatiessa muitakin kenttiä. Laskurisovelluksemme on kuitenkin niin yksinkertainen, että actioneille riittää pelkkä tyyppikenttä.
+<!-- Jos actioneihin liittyy dataa, määritellään niille tarpeen vaatiessa muitakin kenttiä. Laskurisovelluksemme on kuitenkin niin yksinkertainen, että actioneille riittää pelkkä tyyppikenttä. -->
+If the actions 
 
 Actionien vaikutus sovelluksen tilaan määritellään [reducerin](https://redux.js.org/basics/reducers) avulla. Käytännössä reducer on funktio, joka saa parametrikseen olemassaolevan staten tilan sekä actionin ja <i>palauttaa</i> staten uuden tilan.
 

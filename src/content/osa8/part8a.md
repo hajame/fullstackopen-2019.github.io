@@ -670,11 +670,13 @@ So every time a <i>Person</i> object is returned, the fields <i>name</i>, <i>pho
 <!-- Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/graphql-phonebook-backend/tree/part8-1), branchissa <i>part8-1</i>. -->
 The current code of the application can be found from [ github](https://github.com/fullstack-hy2019/graphql-phonebook-backend/tree/part8-1), branch <i>part8-1</i>.
 
-### Mutaatio
+### Mutations
 
-Laajennetaan sovellusta siten, että puhelinluetteloon on mahdollista lisätä uusia henkilöitä. GraphQL:ssä kaikki muutoksen aiheuttavat operaatiot tehdään [mutaatioiden](https://graphql.org/learn/queries/#mutations) avulla. Mutaatiot määritellään skeemaan tyypin <i>Mutation</i> avaimina.
+<!-- Laajennetaan sovellusta siten, että puhelinluetteloon on mahdollista lisätä uusia henkilöitä. GraphQL:ssä kaikki muutoksen aiheuttavat operaatiot tehdään [mutaatioiden](https://graphql.org/learn/queries/#mutations) avulla. Mutaatiot määritellään skeemaan tyypin <i>Mutation</i> avaimina. -->
+Lets add functionality for adding new persons to the phonebook. In GraphQL, all operations which cause a change are done with [mutations](https://graphql.org/learn/queries/#mutations). Mutations are described in the schema as the keys of type <i>Mutation</i>.
 
-Käyttäjän lisäävä mutaation skeema näyttää seuraavalta
+<!-- Käyttäjän lisäävä mutaation skeema näyttää seuraavalta -->
+The schema for a mutation for adding a new person looks as follows: 
 
 ```js
 type Mutation {
@@ -687,9 +689,11 @@ type Mutation {
 }
 ```
 
-Mutaatio siis saa parametreina käyttäjän tiedot. Parametreista <i>phone</i> on ainoa, jolle ei ole pakko asettaa arvoa. Mutaatioilla on parametrien lisäksi paluuarvo. Paluuarvo on nyt tyyppiä <i>Person</i>, ideana on palauttaa operaation onnistuessa lisätyn henkilön tiedot ja muussa tapauksessa <i>null</i>. Mutaatiossa ei anneta parametrina kentän <i>id</i> arvoa, sen luominen on parempi jättää palvelimen vastuulle.
+<!-- Mutaatio siis saa parametreina käyttäjän tiedot. Parametreista <i>phone</i> on ainoa, jolle ei ole pakko asettaa arvoa. Mutaatioilla on parametrien lisäksi paluuarvo. Paluuarvo on nyt tyyppiä <i>Person</i>, ideana on palauttaa operaation onnistuessa lisätyn henkilön tiedot ja muussa tapauksessa <i>null</i>. Mutaatiossa ei anneta parametrina kentän <i>id</i> arvoa, sen luominen on parempi jättää palvelimen vastuulle. -->
+The Mutation is given the details of the person as parameters. The parameter <i>phone</i> is the only one which is not non-null. The Mutation also has a return value. The return value is type <i>Person</i>, the idea being that the details of the added person are returned is the operation is successfull and if not, null. Value for the field <i>id</i> is not given as a parameter. Generating an id is better left for the server. 
 
-Myös mutaatioita varten on määriteltävä resolveri:
+<!-- Myös mutaatioita varten on määriteltävä resolveri: -->
+Mutations also require a resolver: 
 
 ```js
 const uuid = require('uuid/v1')
@@ -714,11 +718,14 @@ const resolvers = {
 }
 ```
 
-Mutaatio siis lisää parametreina _args_ saamansa olion taulukkoon _persons_ ja palauttaa lisätyn olion. 
+<!-- Mutaatio siis lisää parametreina _args_ saamansa olion taulukkoon _persons_ ja palauttaa lisätyn olion.  -->
+The mutation adds the object given to it as a parameter _args_ to the array _persons_, and returns the object it added to the array. 
 
-Kentälle <i>id</i> saadaan luotua uniikki tunniste kirjaston [uuid](https://github.com/kelektiv/node-uuid#readme) avulla. 
+<!-- Kentälle <i>id</i> saadaan luotua uniikki tunniste kirjaston [uuid](https://github.com/kelektiv/node-uuid#readme) avulla.  -->
+The <i>id</i> field is given an unique value using the [uuid](https://github.com/kelektiv/node-uuid#readme) library. 
 
-Uusi henkilö voidaan lisätä seuraavalla mutaatiolla
+<!-- Uusi henkilö voidaan lisätä seuraavalla mutaatiolla -->
+A new person can be added with the following mutation
 
 ```js
 mutation {
@@ -739,7 +746,8 @@ mutation {
 }
 ```
 
-Kannattaa huomata, että lisättävä henkilö talletetaan taulukkoon _persons_ muodossa
+<!-- Kannattaa huomata, että lisättävä henkilö talletetaan taulukkoon _persons_ muodossa -->
+Note, that the person is saved to the _persons_ array as 
 
 ```js
 {
@@ -751,7 +759,8 @@ Kannattaa huomata, että lisättävä henkilö talletetaan taulukkoon _persons_ 
 }
 ```
 
-Vastaus mutaatioon on kuitenkin
+<!-- Vastaus mutaatioon on kuitenkin -->
+But the response to the mutation is 
 
 ```js
 {
@@ -769,19 +778,25 @@ Vastaus mutaatioon on kuitenkin
 }
 ```
 
-eli tyypin <i>Person</i> kentän <i>address</i> resolveri muotoilee vastauksena palautettavan olion oikean muotoiseksi.
+<!-- eli tyypin <i>Person</i> kentän <i>address</i> resolveri muotoilee vastauksena palautettavan olion oikean muotoiseksi. -->
+So the resolver of the <i>address</i> field of the <i>Person</i> type formats the response object to the right form. 
 
-### Virheiden käsittely
+### Error handling
 
-Jos yritämme luoda uuden henkilön, mutta parametrit eivät vastaa skeemassa määriteltyä (esim. katuosoite puuttuu), antaa palvelin virheilmoituksen: 
+<!-- Jos yritämme luoda uuden henkilön, mutta parametrit eivät vastaa skeemassa määriteltyä (esim. katuosoite puuttuu), antaa palvelin virheilmoituksen:  -->
+If we try to create a new person, but the parameters do not correspond with the schema description, the server gives a error message: 
 
 ![](../images/8/5.png)
 
-GraphQL:n [validoinnin](https://graphql.org/learn/validation/) avulla pystytään siis jo automaattisesi hoitamaan osa virheenkäsittelyä. 
+<!-- GraphQL:n [validoinnin](https://graphql.org/learn/validation/) avulla pystytään siis jo automaattisesi hoitamaan osa virheenkäsittelyä.  -->
+So some of the error handling can be automatically with graphQL [validation](https://graphql.org/learn/validation/).
 
-Kaikkea GraphQL ei kuitenkaan pysty hoitamaan automaattisesti. Esimerkiksi tarkemmat säännöt mutaatiolla lisättävän datan kenttien muodolle on lisättävä itse. Niistä aiheutuvat virheet tulee hoitaa [GraphQL:n poikkeuskäsittelymekanismilla](https://www.apollographql.com/docs/apollo-server/features/errors.html).
+<!-- Kaikkea GraphQL ei kuitenkaan pysty hoitamaan automaattisesti. Esimerkiksi tarkemmat säännöt mutaatiolla lisättävän datan kenttien muodolle on lisättävä itse. Niistä aiheutuvat virheet tulee hoitaa [GraphQL:n poikkeuskäsittelymekanismilla](https://www.apollographql.com/docs/apollo-server/features/errors.html). -->
+However GraphQL cannot handle everything automatically. For example stricter rules for data sent to a Mutation has to be added by oneself. 
+The errors from those rules are handled by [the error handling mechanism of GraphQL](https://www.apollographql.com/docs/apollo-server/features/errors.html).
 
-Estetään saman nimen lisääminen puhelinluetteloon useampaan kertaan:
+<!-- Estetään saman nimen lisääminen puhelinluetteloon useampaan kertaan: -->
+Lets block adding the same name to the phonebook multiple times: 
 
 ```js
 const { ApolloServer, UserInputError, gql } = require('apollo-server') // highlight-line
@@ -808,15 +823,18 @@ const resolvers = {
 }
 ```
 
-Eli jos lisättävä nimi on jo luettelossa heitetään poikkeus _UserInputError_.
+<!-- Eli jos lisättävä nimi on jo luettelossa heitetään poikkeus _UserInputError_. -->
+So if the name to be added already exists in the phonebook, throw _UserInputError_ error. 
 
 ![](../images/8/6.png)
 
-Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/graphql-phonebook-backend/tree/part8-2), branchissa <i>part8-2</i>.
+<!-- Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/graphql-phonebook-backend/tree/part8-2), branchissa <i>part8-2</i>. -->
+The current code of the application can be found from [ github](https://github.com/fullstack-hy2019/graphql-phonebook-backend/tree/part8-1), branch <i>part8-2</i>.
 
 ### Enum
 
-Tehdään sovellukseen vielä sellainen lisäys, että kaikki henkilöt palauttavaa kyselyä voidaan säädellä parametrilla <i>phone</i> siten, että kysely palauttaa vain henkilöt, joilla on puhelinnumero
+<!-- Tehdään sovellukseen vielä sellainen lisäys, että kaikki henkilöt palauttavaa kyselyä voidaan säädellä parametrilla <i>phone</i> siten, että kysely palauttaa vain henkilöt, joilla on puhelinnumero -->
+Lets add a possibility to filter the query returning all persons with the parameter <i>phone</i> so, that it returns only persons with a phone number
 
 ```js
 query {
@@ -827,7 +845,8 @@ query {
 }
 ```
 
-tai henkilöt, joilla ei ole puhelinnumeroa
+<!-- tai henkilöt, joilla ei ole puhelinnumeroa -->
+or persons without a phonenumber 
 
 ```js
 query {
@@ -837,7 +856,8 @@ query {
 }
 ```
 
-Skeema laajenee seuraavasti:
+<!-- Skeema laajenee seuraavasti: -->
+The schema changes like so: 
 
 ```js
 // highlight-start
@@ -854,9 +874,11 @@ type Query {
 }
 ```
 
-Tyyppi <i>YesNo</i> on GraphQL:n [enum](https://graphql.org/learn/schema/#enumeration-types), eli lueteltu tyyppi, jolla on kaksi mahdollista arvoa, <i>YES</i> ja <i>NO</i>. Kyselyssä _allPersons_ parametri _phone_ on tyypiltään <i>YesNo</i>, mutta sen arvo ei ole pakollinen.
+<!-- Tyyppi <i>YesNo</i> on GraphQL:n [enum](https://graphql.org/learn/schema/#enumeration-types), eli lueteltu tyyppi, jolla on kaksi mahdollista arvoa, <i>YES</i> ja <i>NO</i>. Kyselyssä _allPersons_ parametri _phone_ on tyypiltään <i>YesNo</i>, mutta sen arvo ei ole pakollinen. -->
+The type <i>YesNo</i> is GraphQL [enum](https://graphql.org/learn/schema/#enumeration-types), or an enumerable, with two possible values <i>YES</i> or <i>NO</i>. In the query _allPersons_ the parameter _phone_  has the type <i>YesNo</i>, but is not non-null. 
 
-Resolveri muuttuu seuraavasti
+<!-- Resolveri muuttuu seuraavasti -->
+the resolver changes like so
 
 ```js
 Query: {
@@ -878,9 +900,10 @@ Query: {
 },
 ```
 
-### Numeron muutos
+### Changing a phonenumber
 
-Tehdään sovellukseen myös mutaatio, joka mahdollistaa henkilön puhelinnumeron muuttamisen. Mutaation skeema näyttää seuraavalta
+<!-- Tehdään sovellukseen myös mutaatio, joka mahdollistaa henkilön puhelinnumeron muuttamisen. Mutaation skeema näyttää seuraavalta -->
+Lets add a mutation for changing the phonenumber of a person. The schema of this mutation looks as follows
 
 ```js
 type Mutation {
@@ -899,7 +922,8 @@ type Mutation {
 }
 ```
 
-ja sen toteuttaa seuraava resolveri:
+<!-- ja sen toteuttaa seuraava resolveri: -->
+and is done by a resolver:
 
 ```js
 Mutation: {
@@ -917,13 +941,15 @@ Mutation: {
 }
 ```
 
-Mutaatio hakee siis hakee kentän <i>name</i> perusteella henkilön, jonka numero päivitetään.
+<!-- Mutaatio hakee siis hakee kentän <i>name</i> perusteella henkilön, jonka numero päivitetään. -->
+The mutation finds the person to be updated person by the field <i>name</i>.
 
-Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/graphql-phonebook-backend/tree/part8-3), branchissa <i>part8-3</i>.
+The current code of the application can be found from [ github](https://github.com/fullstack-hy2019/graphql-phonebook-backend/tree/part8-1), branch <i>part8-3</i>.
 
-### Lisää kyselyistä
+### More on queries
 
-GraphQL:ssä on yhteen kyselyyn mahdollista yhdistää monia tyypin <i>Query</i> kenttiä, eli "yksittäisiä kyselyitä". Esim. seuraava kysely palautta puhelinluettelon henkilöiden lukumäärän sekä nimet:
+<!-- GraphQL:ssä on yhteen kyselyyn mahdollista yhdistää monia tyypin <i>Query</i> kenttiä, eli "yksittäisiä kyselyitä". Esim. seuraava kysely palautta puhelinluettelon henkilöiden lukumäärän sekä nimet: -->
+With GraphQl it is possible to combine multiple fields of type <i>Query</i>, or "separate queries" into one query. For example the following query returns both the amount of persons in the phonebook and their names: 
 
 ```js
 query {
@@ -934,7 +960,8 @@ query {
 }
 ```
 
-Vastaus näyttää seuraavalta
+<!-- Vastaus näyttää seuraavalta -->
+The response looks as follows
 
 ```js
 {
@@ -955,7 +982,8 @@ Vastaus näyttää seuraavalta
 }
 ```
 
-Yhdistetty kysely voi myös viitata useampaan kertaan samaan kyselyyn. Tällöin erillisille kyselyille on kuitenkin annettava vaihtoehtoiset nimet kaksoispistesyntaksilla
+<!-- Yhdistetty kysely voi myös viitata useampaan kertaan samaan kyselyyn. Tällöin erillisille kyselyille on kuitenkin annettava vaihtoehtoiset nimet kaksoispistesyntaksilla -->
+Combined query can also use the same query multiple times. You must however give the queries alternative names like so
 
 ```js
 query {
@@ -968,7 +996,8 @@ query {
 }
 ```
 
-Vastaus on muotoa
+<!-- Vastaus on muotoa -->
+The response looks like
 
 ```js
 {
@@ -990,9 +1019,11 @@ Vastaus on muotoa
 }
 ```
 
-Joissain tilanteissa voi myös olla hyötyä nimetä kyselyt. Näin on erityisesti tilanteissa, joissa kyselyillä tai mutaatiolla on [parametreja](https://graphql.org/learn/queries/#variables). Tutustumme parametreihin pian.
+<!-- Joissain tilanteissa voi myös olla hyötyä nimetä kyselyt. Näin on erityisesti tilanteissa, joissa kyselyillä tai mutaatiolla on [parametreja](https://graphql.org/learn/queries/#variables). Tutustumme parametreihin pian. -->
+In some cases it might be beneficial to name the queries. This is the case especially when the queries or mutations have [parameters](https://graphql.org/learn/queries/#variables). We will go into parameters soon. 
 
-Jos kyselyitä on useita, pyytää Playground valitsemaan mikä niistä suoritetaan:
+<!-- Jos kyselyitä on useita, pyytää Playground valitsemaan mikä niistä suoritetaan: -->
+If there are multiple queries, Playground asks you to choose which of them to run:
 
 ![](../images/8/7.png)
 
@@ -1000,15 +1031,18 @@ Jos kyselyitä on useita, pyytää Playground valitsemaan mikä niistä suoritet
 
 <div class="tasks">
 
-### Tehtäviä
+### Exercises
 
-Tehtävissä toteutetaan yksinkertaisen kirjaston GraphQL:ää tarjoava backend. Ota sovelluksesi lähtökohtaksi [tämä tiedosto](https://github.com/fullstack-hy2019/misc/blob/master/library-backend.js). Muista _npm init_ ja riippuvuuksien asentaminen!
+<!-- Tehtävissä toteutetaan yksinkertaisen kirjaston GraphQL:ää tarjoava backend. Ota sovelluksesi lähtökohtaksi [tämä tiedosto](https://github.com/fullstack-hy2019/misc/blob/master/library-backend.js). Muista _npm init_ ja riippuvuuksien asentaminen! -->
+Through the exercises we implement a GraphQl backend for a small library. 
+Start with [this file](https://github.com/fullstack-hy2019/misc/blob/master/library-backend.js). Remember _npm init_ and to install dependencies!
 
-#### 8.1: kirjojen ja kirjailijoiden määrä
+#### 8.1: The number of books and authors
 
-Toteuta kyselyt _bookCount_ ja _authorCount_ jotka palauttavat kirjojen ja kirjailijoiden lukumäärän.
+<!-- Toteuta kyselyt _bookCount_ ja _authorCount_ jotka palauttavat kirjojen ja kirjailijoiden lukumäärän. -->
+Implement queries _bookCount_ and _authorCount_ which return the number of books and the number of authors. 
 
-Kyselyn 
+The query 
 
 ```js
 query {
@@ -1017,7 +1051,8 @@ query {
 }
 ```
 
-pitäisi alustavalla datalla tuottaa vastaus
+<!-- pitäisi alustavalla datalla tuottaa vastaus -->
+should return
 
 ```js
 {
@@ -1028,11 +1063,13 @@ pitäisi alustavalla datalla tuottaa vastaus
 }
 ```
 
-#### 8.2: kaikki kirjat ja kirjailijat
+#### 8.2: All books 
 
-Toteuta kysely _allBooks_,  joka palauttavat kaikki kirjat.
+<!-- Toteuta kysely _allBooks_,  joka palauttavat kaikki kirjat. -->
+Implement query _allBooks_, which returns the details of all books. 
 
-Seurava kysely siis pitäisi pystyä tekemään
+<!-- Seurava kysely siis pitäisi pystyä tekemään -->
+In the end user should be able to do the following query
 
 ```js
 query {
@@ -1045,11 +1082,13 @@ query {
 }
 ```
 
-#### 8.3: kaikki kirjailijat
+#### 8.3: All authors
 
-Toteuta kysely _allAuthors_ joka palauttaa kaikki kirjailijat. Kyselyn vastauksessa kirjailijoilla tulee myös olla kenttä _bookCount_ joka kertoo kirjailijan tekemien kirjojen määrän.
+<!-- Toteuta kysely _allAuthors_ joka palauttaa kaikki kirjailijat. Kyselyn vastauksessa kirjailijoilla tulee myös olla kenttä _bookCount_ joka kertoo kirjailijan tekemien kirjojen määrän. -->
+Implement query _allAuthors_, which returns the details of all authors. The response should include a field _bookCount_ containing the number of books the author has written. 
 
-Esim. kyselyn
+<!-- Esim. kyselyn -->
+For example the query
 
 ```js
 query {
@@ -1060,7 +1099,8 @@ query {
 }
 ```
 
-vastauksen tulisi näyttää seuraavalta
+<!-- vastauksen tulisi näyttää seuraavalta -->
+should return
 
 ```js
 {
@@ -1091,11 +1131,12 @@ vastauksen tulisi näyttää seuraavalta
 }
 ```
 
-#### 8.4: kirjailijan kirjat
+#### 8.4: Books of an author
 
-Laajenna kyselyä _allBooks_ siten, että sille voi antaa optionaalisen parametrin <i>author</i>, joka rajoittaa kirjalistan niihin, joiden author on parametrina annettu kirjailija.
+<!-- Laajenna kyselyä _allBooks_ siten, että sille voi antaa optionaalisen parametrin <i>author</i>, joka rajoittaa kirjalistan niihin, joiden author on parametrina annettu kirjailija. -->
+Modify the _allBooks_ query so, that user can give an optional parameter <i>author</i>. The response should include only books written by that author. 
 
-Esim. kyselyn
+For example query
 
 ```js
 query {
@@ -1105,7 +1146,8 @@ query {
 }
 ```
 
-tulisi palauttaa
+<!-- tulisi palauttaa -->
+should return
 
 ```js
 {
@@ -1122,11 +1164,13 @@ tulisi palauttaa
 }
 ```
 
-#### 8.5: genren kirjat
+#### 8.5: Books by genre
 
-Laajenna kyselyä _allBooks_ siten, että sille voi antaa optionaalisen parametrin <i>genre</i>, joka rajoittaa kirjalistan niihin, joiden genrejen joukossa on parametrina annettu genre.
+<!-- Laajenna kyselyä _allBooks_ siten, että sille voi antaa optionaalisen parametrin <i>genre</i>, joka rajoittaa kirjalistan niihin, joiden genrejen joukossa on parametrina annettu genre. -->
+Modify the query _allBooks_ so, that user can give optional parameter <i>genre</i>. The response should include only books of that genre. 
 
-Esim. kyselyn
+<!-- Esim. kyselyn -->
+For example query
 
 ```js
 query {
@@ -1137,7 +1181,8 @@ query {
 }
 ```
 
-tulisi palauttaa
+<!-- tulisi palauttaa -->
+should return
 
 ```js
 {
@@ -1164,7 +1209,8 @@ tulisi palauttaa
 }
 ```
 
-Kyselyn pitää toimia myös siinä tapauksessa, että se saa molemmat optionaaliset parametrit:
+<!-- Kyselyn pitää toimia myös siinä tapauksessa, että se saa molemmat optionaaliset parametrit: -->
+The query must work when both optional parameters are given: 
 
 ```js
 query {
@@ -1175,9 +1221,10 @@ query {
 }
 ```
 
-#### 8.6: Kirjan lisäys
+#### 8.6: Adding a book
 
-Toteuta mutaatio _addBook_, jota voi käyttää seuraavasti
+<!-- Toteuta mutaatio _addBook_, jota voi käyttää seuraavasti -->
+Implement mutation _addBook_, which can be used like this:
 
 ```js
 mutation {
@@ -1193,7 +1240,8 @@ mutation {
 }
 ```
 
-Mutaatio toimii myös niissä tilanteissa, joissa kirjoittaja ei ole ennestään palvelimen tiedossa:
+<!-- Mutaatio toimii myös niissä tilanteissa, joissa kirjoittaja ei ole ennestään palvelimen tiedossa: -->
+The mutation works even if the author is not already saved to the server:
 
 ```js
 mutation {
@@ -1209,7 +1257,8 @@ mutation {
 }
 ```
 
-Jos näin on, lisätään uusi kirjailija järjestelmään. Kirjailijan syntymävuodesta ei ole tässä vaiheessa tietoa, eli kysely
+<!-- Jos näin on, lisätään uusi kirjailija järjestelmään. Kirjailijan syntymävuodesta ei ole tässä vaiheessa tietoa, eli kysely -->
+If the author is not yet saved to the server, a new author is added to the system. The birth years of authors are not saved to the server yet, so the query
 
 ```js
 query {
@@ -1221,7 +1270,8 @@ query {
 }
 ```
 
-palauttaa
+<!-- palauttaa -->
+returns
 
 ```js
 {
@@ -1238,9 +1288,10 @@ palauttaa
 }
 ```
 
-#### 8.7: Kirjailijan syntymävuoden päivitys
+#### 8.7: Updating the birth year of an author
 
-Toteuta mutaatio _editAuthor_ jonka avulla on mahdollista asettaa kirjailijalle syntymävuosi. Mutaatiota käytetään seuraavasti
+<!-- Toteuta mutaatio _editAuthor_ jonka avulla on mahdollista asettaa kirjailijalle syntymävuosi. Mutaatiota käytetään seuraavasti -->
+Implement mutation _editAuthor_, which can be used to set a birth year for an author. The mutation is used like so
 
 ```js
 mutation {
@@ -1251,7 +1302,8 @@ mutation {
 }
 ```
 
-Jos kirjailija löytyy, palauttaa operaatio editoidun kirjailijan:
+<!-- Jos kirjailija löytyy, palauttaa operaatio editoidun kirjailijan: -->
+If the correct author is found, the operation returns the edited author:
 
 ```js
 {
@@ -1264,7 +1316,8 @@ Jos kirjailija löytyy, palauttaa operaatio editoidun kirjailijan:
 }
 ```
 
-Olemattoman kirjailijan syntymävuoden editointiin reagoidaan palauttamalla <i>null</i>:
+<!-- Olemattoman kirjailijan syntymävuoden editointiin reagoidaan palauttamalla <i>null</i>: -->
+If the author is not in the system, <i>null</i> is returned: 
 
 ```js
 {
