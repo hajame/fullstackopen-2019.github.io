@@ -179,15 +179,19 @@ ReactDOM.render(
 )
 ```
 
-Koska sovelluksemme hajoaa tässä vaiheessa täysin, komponentin <i>App</i> sijasta renderöidään tyhjä <i>div</i>-elementti.
+<!-- Koska sovelluksemme hajoaa tässä vaiheessa täysin, komponentin <i>App</i> sijasta renderöidään tyhjä <i>div</i>-elementti. -->
+Since our application breaks completely at this point, we render an empty <i>div</i> element instead of the <i>App</i> component.
 
-Konsoliin tulostuu storen tila:
+<!-- Konsoliin tulostuu storen tila: -->
+The state of the store gets printed to the console:
 
 ![](../images/6/4.png)
 
-eli store on juuri siinä muodossa missä haluammekin sen olevan!
+<!-- eli store on juuri siinä muodossa missä haluammekin sen olevan! -->
+As we can see from the output, the store has the exact shape we wanted it to!
 
-Tarkastellaan vielä yhdistetyn reducerin luomista
+<!-- Tarkastellaan vielä yhdistetyn reducerin luomista -->
+Let's take a closer look at how the combined reducer is created:
 
 ```js
 const reducer = combineReducers({
@@ -196,9 +200,11 @@ const reducer = combineReducers({
 })
 ```
 
-Näin tehdyn reducerin määrittelemän storen tila on olio, jossa on kaksi kenttää, <i>notes</i> ja <i>filter</i>. Tilan kentän <i>notes</i> arvon määrittelee <i>noteReducer</i>, jonka ei tarvitse välittää mitään tilan muista kentistä. Vastaavasti <i>filter</i> kentän käsittely tapahtuu <i>filterReducer</i>:in avulla.
+<!-- Näin tehdyn reducerin määrittelemän storen tila on olio, jossa on kaksi kenttää, <i>notes</i> ja <i>filter</i>. Tilan kentän <i>notes</i> arvon määrittelee <i>noteReducer</i>, jonka ei tarvitse välittää mitään tilan muista kentistä. Vastaavasti <i>filter</i> kentän käsittely tapahtuu <i>filterReducer</i>:in avulla. -->
+The state of the store defined by the reducer above is an object with two properties <i>notes</i> and <i>filter</i>. The value of the <i>notes</i> property is defined by the <i>noteReducer</i>, that does not have to deal with the other properties of the state. Likewise, the <i>filter</i> property is managed by the <i>filterReducer</i>.
 
-Ennen muun koodin muutoksia, kokeillaan vielä konsolista, miten actionit muuttavat yhdistetyn reducerin muodostamaa staten tilaa. Lisätään seuraavat tiedostoon <i>index.js</i>:
+<!-- Ennen muun koodin muutoksia, kokeillaan vielä konsolista, miten actionit muuttavat yhdistetyn reducerin muodostamaa staten tilaa. Lisätään seuraavat tiedostoon <i>index.js</i>: -->
+Before we make more changes to the code, let's take a look at how different actions change the state of the store defined by the combined reducer. Let's add the following to the <i>index.js</i> file:
 
 ```js
 import { createNote } from './reducers/noteReducer'
@@ -209,11 +215,13 @@ store.dispatch(filterChange('IMPORTANT'))
 store.dispatch(createNote('combineReducers muodostaa yhdistetyn reducerin'))
 ```
 
-Kun simuloimme näin filtterin tilan muutosta ja muistiinpanon luomista Konsoliin tulostuu storen tila jokaisen muutoksen jälkeen:
+<!-- Kun simuloimme näin filtterin tilan muutosta ja muistiinpanon luomista Konsoliin tulostuu storen tila jokaisen muutoksen jälkeen: -->
+By simulating the creation of a note and changing the state of the filter in this fashion, the state of the store gets logged to the console after every change that is made to the store:
 
 ![](../images/6/5.png)
 
-Jo tässä vaiheessa kannattaa laittaa mieleen eräs tärkeä detalji. Jos lisäämme <i>molempien reducerien alkuun</i> konsoliin tulostuksen:
+<!-- Jo tässä vaiheessa kannattaa laittaa mieleen eräs tärkeä detalji. Jos lisäämme <i>molempien reducerien alkuun</i> konsoliin tulostuksen: -->
+At this point it is good to become aware of a tiny but important detail. If we add a console log statement <i>to the beginning of both reducers</i>:
 
 ```js
 const filterReducer = (state = 'ALL', action) => {
@@ -222,13 +230,16 @@ const filterReducer = (state = 'ALL', action) => {
 };
 ```
 
-Näyttää konsolin perusteella siltä, että jokainen action kahdentuu:
+<!-- Näyttää konsolin perusteella siltä, että jokainen action kahdentuu: -->
+Based on the console output one might get the impression that every action gets duplicated:
 
 ![](../images/6/6.png)
 
-Onko koodissa bugi? Ei. Yhdistetty reducer toimii siten, että jokainen <i>action</i> käsitellään <i>kaikissa</i> yhdistetyn reducerin osissa. Usein tietystä actionista on kiinnostunut vain yksi reduceri, on kuitenkin tilanteita, joissa useampi reduceri muuttaa hallitsemaansa staten tilaa jonkin actionin seurauksena.
+<!-- Onko koodissa bugi? Ei. Yhdistetty reducer toimii siten, että jokainen <i>action</i> käsitellään <i>kaikissa</i> yhdistetyn reducerin osissa. Usein tietystä actionista on kiinnostunut vain yksi reduceri, on kuitenkin tilanteita, joissa useampi reduceri muuttaa hallitsemaansa staten tilaa jonkin actionin seurauksena. -->
+Is there a bug in our code? No. The combined reducer works in such a way that every <i>action</i> gets handled in <i>every</i> part of the combined reducer. Typically only one reducer is interested in any given action, but there are situations where multiple reducers change their own piece state based on the same action.
 
-### Filtteröinnin viimeistely
+<!-- ### Filtteröinnin viimeistely -->
+### Finishing the filters
 
 Viimeistellään nyt sovellus käyttämään yhdistettyä reduceria, eli palautetaan tiedostossa <i>index.js</i> suoritettava renderöinti muotoon
 
