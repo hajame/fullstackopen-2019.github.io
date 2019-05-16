@@ -6,35 +6,25 @@ letter: a
 
 <div class="content">
 
-<!-- Tälläkin kurssilla moneen kertaan käytetty REST on ollut pitkään vallitseva tapa toteuttaa palvelimen selaimelle tarjoama rajapinta ja yleensäkin verkossa toimivien sovellusten välinen integraatio. -->
-REST, familiar to us from the previous parts of the course, has long been the most prevalent way to implement the interfaces servers offer for browsers, and in general the integration between different applications in the web. 
+Tälläkin kurssilla moneen kertaan käytetty REST on ollut pitkään vallitseva tapa toteuttaa palvelimen selaimelle tarjoama rajapinta ja yleensäkin verkossa toimivien sovellusten välinen integraatio.
 
-<!-- RESTin rinnalle selaimessa ja mobiililaitteessa toimivan logiikan ja palvelimien väliseen kommunikointiin on viime vuosina noussut alunperin Facebookin kehittämä [GraphQL](http://graphql.org/). -->
-In the recent years [GraphQL](http://graphql.org/), developed by Facebook, has become popular for communication between web applications and servers. 
+RESTin rinnalle selaimessa ja mobiililaitteessa toimivan logiikan ja palvelimien väliseen kommunikointiin on viime vuosina noussut alunperin Facebookin kehittämä [GraphQL](http://graphql.org/).
 
-<!-- GraphQL on filosofialtaan todella erilainen RESTiin verrattuna. REST on <i>resurssipohjainen</i>. Jokaisella resurssilla, esim. <i>käyttäjällä</i> on oma sen identifioiva osoite, esim. <i>/users/10</i> ja kaikki resursseille tehtävät operaatiot toteutetaan tekemällä URL:ille kohdistuvia pyyntöjä, joiden toiminta määrittyy käytetyn HTTP-metodin avulla. -->
-The GraphQL philosophy is very different from REST. REST is <i>resource based</i>. Every resource, for example a <i>user</i> has its own address which identifies it, for example <i>/users/10</i>. All operations done to the resource are done with HTTP requests to its URL. The action depends on the used HTTP-method. 
+GraphQL on filosofialtaan todella erilainen RESTiin verrattuna. REST on <i>resurssipohjainen</i>. Jokaisella resurssilla, esim. <i>käyttäjällä</i> on oma sen identifioiva osoite, esim. <i>/users/10</i> ja kaikki resursseille tehtävät operaatiot toteutetaan tekemällä URL:ille kohdistuvia pyyntöjä, joiden toiminta määrittyy käytetyn HTTP-metodin avulla.
 
-<!-- RESTin resurssiperustaisuus toimii hyvin useissa tapauksissa, joissain tapauksissa se voi kuitenkin olla hieman kankea. -->
-The resource basedness of REST works well in most situations. However, it can be bit awkward sometimes. 
+RESTin resurssiperustaisuus toimii hyvin useissa tapauksissa, joissain tapauksissa se voi kuitenkin olla hieman kankea.
 
-<!-- Oletetaan että blogilistasovelluksemme sisältäisi somemaista toiminnallisuutta ja haluaisimme esim. näyttää sovelluksessa listan, joka sisältää kaikkien seuraamiemme (follow) käyttäjien blogeja kommentoineiden käyttäjien lisäämien blogien nimet. -->
-Lets assume our bloglist application contains social media like functionality, and we would i.e want to show a list of all the blogs the users who have commented on the blogs we follow have added. 
+Oletetaan että blogilistasovelluksemme sisältäisi somemaista toiminnallisuutta ja haluaisimme esim. näyttää sovelluksessa listan, joka sisältää kaikkien seuraamiemme (follow) käyttäjien blogeja kommentoineiden käyttäjien lisäämien blogien nimet.
 
-<!-- Jos palvelin toteuttaisi REST API:n, joutuisimme todennäköisesti tekemään monia HTTP-pyyntöjä selaimen koodista, ennen kuin saisimme muodostettua halutun datan. Pyyntöjen vastauksena tulisi myös paljon ylimääräistä dataa ja halutun datan keräävä selaimen koodi olisi todennäköisesti kohtuullisen monimutkainen. -->
-If the server implemented a REST API, we would propably have to do multiple HTTP-requests from the browser before we had all the data we wanted. The requests would also return a lot of unnecessary data, and the code on the browser would propably be quite complicated. 
+Jos palvelin toteuttaisi REST API:n, joutuisimme todennäköisesti tekemään monia HTTP-pyyntöjä selaimen koodista, ennen kuin saisimme muodostettua halutun datan. Pyyntöjen vastauksena tulisi myös paljon ylimääräistä dataa ja halutun datan keräävä selaimen koodi olisi todennäköisesti kohtuullisen monimutkainen.
 
-<!-- Jos kyseessä olisi usein käytetty toiminnallisuus, voitaisiin sitä varten toteuttaa oma REST-endpoint. Jos vastaavia skeaarioita olisi paljon, esim. kymmeniä, tulisi erittäin työlääksi toteuttaa kaikille toiminnallisuuksille oma REST-endpoint. -->
-If this was an often used functionality, there could be a REST-endpoint for it. If there were a lot of these kind of scenarios however, it would become very laborious to implement REST-endpoints for all of them. 
+Jos kyseessä olisi usein käytetty toiminnallisuus, voitaisiin sitä varten toteuttaa oma REST-endpoint. Jos vastaavia skeaarioita olisi paljon, esim. kymmeniä, tulisi erittäin työlääksi toteuttaa kaikille toiminnallisuuksille oma REST-endpoint.
 
-<!-- GraphQL:n avulla toteutettava palvelin sopii tämänkaltaisiin tilanteisiin hyvin. -->
-A GraphQL server is well suited for these kinds of situations. 
+GraphQL:n avulla toteutettava palvelin sopii tämänkaltaisiin tilanteisiin hyvin.
 
-<!-- GraphQL:ssä periaatteena on, että selaimen koodi muodostaa <i>kyselyn</i>, joka kuvailee halutun datan ja lähettää sen API:lle HTTP POST -pyynnöllä. Toisin kuin REST:issä, GraphQL:ssä kaikki kyselyt kohdistetaan samaan osoitteeseen ja ovat POST-tyyppisiä. -->
-The main princible of GraphQl is, that the code on the browser forms a <i>query</i> describing the data wanted, and sends it to the API with a HTTP POST request. Unlike REST, all GraphQl queries are sent to the same address, and their type is POST. 
+GraphQL:ssä periaatteena on, että selaimen koodi muodostaa <i>kyselyn</i>, joka kuvailee halutun datan ja lähettää sen API:lle HTTP POST -pyynnöllä. Toisin kuin REST:issä, GraphQL:ssä kaikki kyselyt kohdistetaan samaan osoitteeseen ja ovat POST-tyyppisiä.
 
-<!-- Edellä kuvatun skenaarion data saataisiin haettua (suurinpiirtein) seuraavan kaltaisella kyselyllä: -->
-The data described in the above scenario could be fetched with ( roughly ) the following query: 
+Edellä kuvatun skenaarion data saataisiin haettua (suurinpiirtein) seuraavan kaltaisella kyselyllä:
 
 ```bash
 query FetchBlogsQuery {
@@ -55,8 +45,7 @@ query FetchBlogsQuery {
 ```
 
 
-<!-- Palvelimen vastaus pyyntöön olisi suunnilleen seuraavanlainen JSON-olio: -->
-The servers response would be about the following JSON-object: 
+Palvelimen vastaus pyyntöön olisi suunnilleen seuraavanlainen JSON-olio:
 
 ```bash
 {
@@ -93,16 +82,13 @@ The servers response would be about the following JSON-object:
 }
 ```
 
-<!-- Sovelluslogiikka säilyy yksinkertaisena ja selaimen koodi saa täsmälleen haluamansa datan yksittäisellä kyselyllä. -->
-The application logic stays simple, and the code on the browser gets exactly the data it needs with a single query. 
+Sovelluslogiikka säilyy yksinkertaisena ja selaimen koodi saa täsmälleen haluamansa datan yksittäisellä kyselyllä.
 
-### Schemas and queries
+### Skeema ja kyselyt
 
-<!-- Tutustutaan GraphQL:n peruskäsitteistöön toteuttamalla GraphQL-version osien 2 ja 3 puhelinluettelosovelluksesta. -->
-We will get to know the basics of GraphQL by implementing a GraphQL version of the phonebook application from parts 2 and 3. 
+Tutustutaan GraphQL:n peruskäsitteistöön toteuttamalla GraphQL-version osien 2 ja 3 puhelinluettelosovelluksesta.
 
-<!-- Jokaisen GraphQL-sovelluksen ytimessä on [skeema](https://graphql.org/learn/schema/), joka määrittelee minkä muotoista dataa sovelluksessa vaihdetaan clientin ja palvelimen välillä. Puhelinluettelon alustava skeema on seuraavassa: -->
-In the heart of all GraphQL applications is a [schema](https://graphql.org/learn/schema/), which describes the data sent between client and the server. The initial schema for our phonebook is as follows: 
+Jokaisen GraphQL-sovelluksen ytimessä on [skeema](https://graphql.org/learn/schema/), joka määrittelee minkä muotoista dataa sovelluksessa vaihdetaan clientin ja palvelimen välillä. Puhelinluettelon alustava skeema on seuraavassa:
 
 ```js
 type Person {
@@ -120,25 +106,17 @@ type Query {
 }
 ```
 
-<!-- Skeema määrittelee kaksi [tyyppiä](https://graphql.org/learn/schema/#type-system). Tyypeistä ensimmäinen <i>Person</i> määrittelee, että henkilöillä on viisi kenttää. Kentistä neljä on tyyppiä <i>String</i>, joka on yksi GraphQL:n määrittelemistä [valmiista tyypeistä](https://graphql.org/learn/schema/#scalar-types). String-arvoisista kentistä muilla paitsi puhelinnumerolla (<i>phone</i>) on oltava arvo, tämä on merkitty skeemaan huutomerkillä. Kentän <i>id</i> tyyppi on <i>ID</i>. Arvoltaan <i>ID</i>-tyyppiset kentät ovat merkkijonoja, mutta GraphQL takaa, että ne ovat uniikkeja. -->
-The schema describes two [types](https://graphql.org/learn/schema/#type-system). The first type, <i>Person</i>, determines that persons have five fields. Four of the fields are type  <i>String</i>, which is one of the [scalar types](https://graphql.org/learn/schema/#scalar-types) of GraphQL. 
-All of the String fields, except <i>phone</i>, must be given a value. This is marked by the exclamation mark on the schema. The type of the field <i>id</i> is <i>ID</i>. <i>ID</i> fields are strings, but GraphQL ensures they are unique.  
+Skeema määrittelee kaksi [tyyppiä](https://graphql.org/learn/schema/#type-system). Tyypeistä ensimmäinen <i>Person</i> määrittelee, että henkilöillä on viisi kenttää. Kentistä neljä on tyyppiä <i>String</i>, joka on yksi GraphQL:n määrittelemistä [valmiista tyypeistä](https://graphql.org/learn/schema/#scalar-types). String-arvoisista kentistä muilla paitsi puhelinnumerolla (<i>phone</i>) on oltava arvo, tämä on merkitty skeemaan huutomerkillä. Kentän <i>id</i> tyyppi on <i>ID</i>. Arvoltaan <i>ID</i>-tyyppiset kentät ovat merkkijonoja, mutta GraphQL takaa, että ne ovat uniikkeja.
 
+Toinen skeeman määrittelemistä tyypeistä on [Query](https://graphql.org/learn/schema/#the-query-and-mutation-types). Käytännössä jokaisessa GraphQL-skeemassa määritellään tyyppi Query, joka kertoo mitä kyselyjä API:iin voidaan tehdä. 
 
-<!-- Toinen skeeman määrittelemistä tyypeistä on [Query](https://graphql.org/learn/schema/#the-query-and-mutation-types). Käytännössä jokaisessa GraphQL-skeemassa määritellään tyyppi Query, joka kertoo mitä kyselyjä API:iin voidaan tehdä.  -->
-The second type is a [Query](https://graphql.org/learn/schema/#the-query-and-mutation-types). Practically every GraphQL schema describes a Query, which tells what kind of queries can be made to the API. 
+Puhelinluettelo määrittelee kolme erilaista kyselyä ja _personCount_ palauttaa kokonaisluvun. _allPersons_ palauttaa listan <i>Person</i>-tyyppisiä olioita. <i>findPerson</i> saa merkkijonomuotoisen parametrin ja palauttaa <i>Person</i>-olion. 
 
-<!-- Puhelinluettelo määrittelee kolme erilaista kyselyä ja _personCount_ palauttaa kokonaisluvun. _allPersons_ palauttaa listan <i>Person</i>-tyyppisiä olioita. <i>findPerson</i> saa merkkijonomuotoisen parametrin ja palauttaa <i>Person</i>-olion.  -->
-The phonebook describes three different queries. _PersonCount_ returns an integer, _allPersons_ returns a list of <i>Person</i> objects and <i>findPerson</i> is given a string parameter and it returns a <i>Person</i> object. 
+Queryjen paluuarvon ja parametrin määrittelyssä on jälleen käytetty välillä huutomerkkiä merkkaamaan <i>pakollisuutta</i>, eli _personCount_ palauttaa varmasti kokonaisluvun. Kyselylle _findPerson_ on pakko antaa parametriksi merkkijono. Kysely palauttaa <i>Person</i>-olion tai arvon <i>null</i>. _allPersons_ palauttaa listan <i>Person</i>-olioita, listalla ei ole <i>null</i>-arvoja. 
 
-<!-- Queryjen paluuarvon ja parametrin määrittelyssä on jälleen käytetty välillä huutomerkkiä merkkaamaan <i>pakollisuutta</i>, eli _personCount_ palauttaa varmasti kokonaisluvun. Kyselylle _findPerson_ on pakko antaa parametriksi merkkijono. Kysely palauttaa <i>Person</i>-olion tai arvon <i>null</i>. _allPersons_ palauttaa listan <i>Person</i>-olioita, listalla ei ole <i>null</i>-arvoja.  -->
-Again exclamation marks are used to mark which return values and parameters are <i>Non-Null</i>. _PersonCount_ will, for sure, return a string. The query _findPerson_ must be given a string as a parameter. The query returns a <i>Person</i>-object or <i>null</i>. _AllPersons_ returns a list of <i>Person</i> objects, and the list does not contain any <i>null</i>-values. 
+Skeema siis määrittelee mitä kyselyjä client pystyy palvelimelta tekemään, minkälaisia parametreja kyselyillä voi olla sekä sen, minkä muotoista kyselyjen palauttama data on.
 
-<!-- Skeema siis määrittelee mitä kyselyjä client pystyy palvelimelta tekemään, minkälaisia parametreja kyselyillä voi olla sekä sen, minkä muotoista kyselyjen palauttama data on.  -->
-So the schema describes what queries the client can send to the server, what kind of parameters the queries can have, and what kind of data the queries return. 
-
-<!-- Kyselyistä yksinkertaisin _personCount_ näyttää seuraavalta -->
-The simplest of the queries, _personCount_, looks as follows: 
+Kyselyistä yksinkertaisin _personCount_ näyttää seuraavalta
 
 ```js
 query {
@@ -146,8 +124,7 @@ query {
 }
 ```
 
-<!-- Olettaen että sovellukseen olisi talletettu kolmen henkilön tiedot, vastaus kyselyyn näyttäisi seuraavalta: -->
-Assuming our applications has saved the information of three people, the response would look like this: 
+Olettaen että sovellukseen olisi talletettu kolmen henkilön tiedot, vastaus kyselyyn näyttäisi seuraavalta:
 
 ```js
 {
@@ -157,9 +134,8 @@ Assuming our applications has saved the information of three people, the respons
 }
 ```
 
-<!-- Kaikkien henkilöiden tiedot hakeva _allPersons_ on hieman monimutkaisempi. Koska kysely palauttaa listan <i>Person</i>-olioita, on kyselyn yhteydessä määriteltävä <i>mitkä kentät</i> kyselyn [halutaan palauttavan](https://graphql.org/learn/queries/#fields):  -->
-The query fetching the information of all of the people, _allPersons_, is a bit more complicated. Because the query returns a list of <i>Person</i>-objects, the query must describe 
-<i>which fields</i> of the objects the query [returns](https://graphql.org/learn/queries/#fields):
+Kaikkien henkilöiden tiedot hakeva _allPersons_ on hieman monimutkaisempi. Koska kysely palauttaa listan <i>Person</i>-olioita, on kyselyn yhteydessä määriteltävä <i>mitkä kentät</i> kyselyn [halutaan palauttavan](https://graphql.org/learn/queries/#fields): 
+
 ```js
 query {
   allPersons {
@@ -169,8 +145,7 @@ query {
 }
 ```
 
-<!-- Vastaus voisi näyttää seuraavalta: -->
-The response could look like this: 
+Vastaus voisi näyttää seuraavalta:
 
 
 ```js
@@ -194,8 +169,7 @@ The response could look like this:
 }
 ```
 
-<!-- Kysely voi määritellä palautettavaksi mitkä tahansa skeemassa mainitut kentät, esim. seuraava olisi myös mahdollista: -->
-A query can be made to return any field described in the schema. For example the following would also be possible: 
+Kysely voi määritellä palautettavaksi mitkä tahansa skeemassa mainitut kentät, esim. seuraava olisi myös mahdollista:
 
 ```js
 query {
@@ -207,8 +181,7 @@ query {
 }
 ```
 
-<!-- Vielä esimerkki parametria edellyttävästä kyselystä, joka hakee yksittäisen henkilön tiedot palauttavasta kyselystä. -->
-The last example shows a query which requires a parameter, and returns the details of one person. 
+Vielä esimerkki parametria edellyttävästä kyselystä, joka hakee yksittäisen henkilön tiedot palauttavasta kyselystä.
 
 ```js
 query {
@@ -221,11 +194,9 @@ query {
 }
 ```
 
-<!-- Kyselyn parametri siis annetaan suluissa, ja sen jälkeen määritellään aaltosuluissa paluuarvona tulevan olion halutut kentät.  -->
-So first the parameter is described in round brackets, and then the fields of the return value object are listed in curly brackets. 
+Kyselyn parametri siis annetaan suluissa, ja sen jälkeen määritellään aaltosuluissa paluuarvona tulevan olion halutut kentät. 
 
-<!-- Vastaus on muotoa: -->
-The response is like this: 
+Vastaus on muotoa:
 
 ```js
 {
@@ -240,8 +211,7 @@ The response is like this:
 }
 ```
 
-<!-- Kyselyn paluuarvoa ei oltu merkitty pakolliseksi, eli jos etsitään tuntematonta henkilöä -->
-The return value was not marked as non-Null, so if we search for the details of an unknown
+Kyselyn paluuarvoa ei oltu merkitty pakolliseksi, eli jos etsitään tuntematonta henkilöä
 
 ```js
 query {
@@ -251,8 +221,7 @@ query {
 }
 ```
 
-<!-- vastaus on <i>null</i> -->
-the return value is <i>null</i>.
+vastaus on <i>null</i>
 
 ```js
 {
@@ -262,31 +231,23 @@ the return value is <i>null</i>.
 }
 ```
 
-<!-- Kuten huomaamme, GraphQL kyselyn ja siihen vastauksena tulevan JSON:in muodoilla on vahva yhteys, voidaan ajatella että kysely kuvailee sen minkälaista dataa vastauksena halutaan. Ero REST:issä tehtäviin pyyntöihin on suuri, REST:iä käytettäessä pyynnon url ja sen tyyppi (GET, POST, PUT, DELETE) ei kerro mitään palautettavan datan muodosta.  -->
-As you can see, there is a direct link between a GraphQR query and  the returned JSON object. One can think that the query describes what kind of data it wants as a response. 
-The difference to REST queries is stark. With REST, the URL and the type of the request have nothing to do with the form of the return data. 
+Kuten huomaamme, GraphQL kyselyn ja siihen vastauksena tulevan JSON:in muodoilla on vahva yhteys, voidaan ajatella että kysely kuvailee sen minkälaista dataa vastauksena halutaan. Ero REST:issä tehtäviin pyyntöihin on suuri, REST:iä käytettäessä pyynnon url ja sen tyyppi (GET, POST, PUT, DELETE) ei kerro mitään palautettavan datan muodosta. 
 
-<!-- GraphQL:n skeema kuvaa ainoastaan palvelimen ja sitä käyttävien clientien välillä liikkuvan tiedon muodon. Tieto voi olla organisoituna ja talletettuna palvelimeen ihan missä muodossa tahansa. -->
-GraphQL query describes only the data moving between a server and the client. On the server the data can be organized and saved any way we like. 
+GraphQL:n skeema kuvaa ainoastaan palvelimen ja sitä käyttävien clientien välillä liikkuvan tiedon muodon. Tieto voi olla organisoituna ja talletettuna palvelimeen ihan missä muodossa tahansa.
 
-<!-- Nimestään huolimatta GraphQL:llä ei itseasiassa ole mitään tekemistä tietokantojen kanssa, se ei ota mitään kantaa siihen miten data on tallennettu. GraphQL-periaattella toimivan API:n käyttämä data voi siis olla talletettu relaatiotietokantaan, dokumenttitietokantaan tai muille palvelimille, joita GraphQL-palvelin käyttää vaikkapa REST:in välityksellä.  -->
-Despite of its name, GraphQL does not actually have anything to do with databases. It does not care how the data is saved. 
-The data a GraphQL API uses can be saved into a relational database, document database, or to other servers which GraphQL-server can access with for example REST. 
+Nimestään huolimatta GraphQL:llä ei itseasiassa ole mitään tekemistä tietokantojen kanssa, se ei ota mitään kantaa siihen miten data on tallennettu. GraphQL-periaattella toimivan API:n käyttämä data voi siis olla talletettu relaatiotietokantaan, dokumenttitietokantaan tai muille palvelimille, joita GraphQL-palvelin käyttää vaikkapa REST:in välityksellä. 
 
 ### Apollo server
 
-<!-- Toteuteaan nyt GraphQL-palvelin tämän hetken johtavaa kirjastoa [Apollo -serveriä](https://www.apollographql.com/docs/apollo-server/) käyttäen.  -->
-Lets implement a GraphQL-server with today's leading library [Apollo -server](https://www.apollographql.com/docs/apollo-server/).
+Toteuteaan nyt GraphQL-palvelin tämän hetken johtavaa kirjastoa [Apollo -serveriä](https://www.apollographql.com/docs/apollo-server/) käyttäen. 
 
-<!-- Luodaan uusi npm-projekti komennolla _npm init_ ja asennetaan tarvittavat riippuvuuet -->
-Create a new npm-project with _npm init_ and install the required dependencies.
+Luodaan uusi npm-projekti komennolla _npm init_ ja asennetaan tarvittavat riippuvuuet
 
 ```js
 npm install --save apollo-server graphql
 ```
 
-<!-- Alustava toteutus on seuraavassa -->
-The initial code is as follows: 
+Alustava toteutus on seuraavassa
 
 ```js
 const { ApolloServer, gql } = require('apollo-server')
@@ -349,8 +310,7 @@ server.listen().then(({ url }) => {
 })
 ```
 
-<!-- Toteutuksen ytimessä on _ApolloServer_, joka saa kaksi parametria  -->
-The heart of the code is an _ApolloServer_, which is given two parameters
+Toteutuksen ytimessä on _ApolloServer_, joka saa kaksi parametria 
 
 ```js
 const server = new ApolloServer({
@@ -359,14 +319,11 @@ const server = new ApolloServer({
 })
 ```
 
-<!-- parametreista ensimmäinen _typeDefs_ sisältää sovelluksen käyttämän GraphQL-skeeman.  -->
-The first parameter, _typeDefs_, contains the GraphQL schema. 
+parametreista ensimmäinen _typeDefs_ sisältää sovelluksen käyttämän GraphQL-skeeman. 
 
-<!-- Toinen parametri on olio, joka sisältää palvelimen [resolverit](https://www.apollographql.com/docs/apollo-server/essentials/data.html#resolver-map), eli käytännössä koodin, joka määrittelee <i>miten</i> GraphQL-kyselyihin vastataan. -->
-The second parameter is an object, which contains the [resolvers](https://www.apollographql.com/docs/apollo-server/essentials/data.html#resolver-map) of the server. These are the code, which defines <i>how</i> GraphQL queries are responded to. 
+Toinen parametri on olio, joka sisältää palvelimen [resolverit](https://www.apollographql.com/docs/apollo-server/essentials/data.html#resolver-map), eli käytännössä koodin, joka määrittelee <i>miten</i> GraphQL-kyselyihin vastataan.
 
-<!-- Resolverien koodi on seuraavassa: -->
-The code of the resolvers is the following: 
+Resolverien koodi on seuraavassa:
 
 ```js
 const resolvers = {
@@ -379,8 +336,7 @@ const resolvers = {
 }
 ```
 
-<!-- kuten huomataan, vastaavat resolverit rakenteeltaan skeemassa määriteltyjä kyseilyitä: -->
-As you can see, the resolvers correspond to the queries described in the schema. 
+kuten huomataan, vastaavat resolverit rakenteeltaan skeemassa määriteltyjä kyseilyitä:
 
 ```js
 type Query {
@@ -390,11 +346,9 @@ type Query {
 }
 ```
 
-<!-- eli jokaista skeemassa määriteltyä kyselyä kohti on määritelty oma kentän <i>Query</i> alle tuleva kenttänsä. -->
-So there is a field under <i>Query</i> for every query described in the schema. 
+eli jokaista skeemassa määriteltyä kyselyä kohti on määritelty oma kentän <i>Query</i> alle tuleva kenttänsä.
 
-<!-- Kyselyn  -->
-The query 
+Kyselyn 
 
 ```js
 query {
@@ -402,18 +356,15 @@ query {
 }
 ```
 
-<!-- resolveri on funktio -->
-Has the resolver
+resolveri on funktio
 
 ```js
 () => persons.length
 ```
 
-<!-- eli kyselyyn palautetaan vastauksena henkilöt tallentavan taulukon _persons_ pituus.  -->
-So the response to the query is the length of the array _persons_.
+eli kyselyyn palautetaan vastauksena henkilöt tallentavan taulukon _persons_ pituus. 
 
-<!-- Kaikki luettelossa olevat henkilöt hakevan kyselyn  -->
-The query which fethches all persons
+Kaikki luettelossa olevat henkilöt hakevan kyselyn 
 
 ```js
 query {
@@ -423,8 +374,7 @@ query {
 }
 ```
 
-<!-- resolveri on funktio, joka palauttaa <i>kaikki</i> taulukon _persons_ oliot -->
-has a resolver which returns <i>all</i> objects from the _persons_ array. 
+resolveri on funktio, joka palauttaa <i>kaikki</i> taulukon _persons_ oliot
 
 ```js
 () => persons
@@ -432,39 +382,31 @@ has a resolver which returns <i>all</i> objects from the _persons_ array.
 
 ### GraphQL-playground
 
-<!-- Kun Apollo -serveriä suoritetaan sovelluskehitysmoodissa, käynnistää se osoitteeseen [http://localhost:4000/graphql](http://localhost:4000/graphql) sovelluskehittäjälle erittäin hyödyllisen [GraphQL-playground](https://www.apollographql.com/docs/apollo-server/features/graphql-playground.html) näkymän, joka avulla on mahdollista tehdä kyselyjä palvelimelle. -->
-When Apollo-server is run on development mode, it starts a [GraphQL-playground](https://www.apollographql.com/docs/apollo-server/features/graphql-playground.html) to address [http://localhost:4000/graphql](http://localhost:4000/graphql). This is very useful for a developer, and can be used to make queries to the server. 
+Kun Apollo -serveriä suoritetaan sovelluskehitysmoodissa, käynnistää se osoitteeseen [http://localhost:4000/graphql](http://localhost:4000/graphql) sovelluskehittäjälle erittäin hyödyllisen [GraphQL-playground](https://www.apollographql.com/docs/apollo-server/features/graphql-playground.html) näkymän, joka avulla on mahdollista tehdä kyselyjä palvelimelle.
 
-<!-- Kokeillaan  -->
-Lets try it out
+Kokeillaan 
 
 ![](../images/8/1.png)
 
-<!-- Playgroundin kanssa pitää olla välillä tarkkana. Jos kysely on syntaktisesti virheellinen, on virheilmoitus aika huomaamaton ja kyselyn suoritusnappia painamalla ei tapahdu mitään: -->
-Sometimes the Playground requires you to be quite pedantic. If the syntax of a query is wrong, the error message is quite unnoticeable and nothing happens when you press go. 
+Playgroundin kanssa pitää olla välillä tarkkana. Jos kysely on syntaktisesti virheellinen, on virheilmoitus aika huomaamaton ja kyselyn suoritusnappia painamalla ei tapahdu mitään:
 
 ![](../images/8/2.png)
 
-<!-- Edellisen kyselyn tulos näkyy edelleen playgroundin oikeassa osassa kyselyn virheellisyydestä huolimatta.  -->
-The result from the previous query stays visible on the right side of the playground even when the current query is faulty. 
+Edellisen kyselyn tulos näkyy edelleen playgroundin oikeassa osassa kyselyn virheellisyydestä huolimatta. 
 
-<!-- Osoittamalla oikeaa kohtaa virheelliseltä riviltä saa virheilmoituksen näkyville -->
-By pointing at the right place on the line with the errors, you can see the error message
+Osoittamalla oikeaa kohtaa virheelliseltä riviltä saa virheilmoituksen näkyville
 
 ![](../images/8/3.png)
 
-<!-- Jos Playground vaikuttaa olevan jumissa, niin sivun reloadaaminen yleensä auttaa. -->
-If the playground seems to be stuck, refreshing the page usually helps. 
+Jos Playground vaikuttaa olevan jumissa, niin sivun reloadaaminen yleensä auttaa.
 
-<!-- Klikkaamalla oikean reunan tekstiä <i>schema</i> näyttää Playground palvelimen GraphQL-skeeman. -->
-By clicking the text  <i>schema</i> on the right, the playground shows the GraphQL schema of the server. 
+Klikkaamalla oikean reunan tekstiä <i>schema</i> näyttää Playground palvelimen GraphQL-skeeman.
 
 ![](../images/8/4.png)
 
-### Parameters of a resolver
+### Resolverin parametrit
 
-<!-- Yksittäisen henkilön hakevan kyselyn -->
-The query fetching a single person
+Yksittäisen henkilön hakevan kyselyn
 
 ```js
 query {
@@ -476,26 +418,20 @@ query {
 }
 ```
 
-<!-- resolveri on funktio, joka poikkeaa kahdesta aiemmasta resolverista siinä että se saa <i>kaksi parametria</i>: -->
-has a resolver which differs from the previous ones because it is given <i>two parameters</i>:
+resolveri on funktio, joka poikkeaa kahdesta aiemmasta resolverista siinä että se saa <i>kaksi parametria</i>:
 
 ```js
 (root, args) => persons.find(p => p.name === args.name)
 ```
 
-<!-- Parametreista toinen _args_ sisältää kyselyn parametrit. Resolveri siis palauttaa taulukosta -->
-The second parameter, _args_, contains the parameters of the query. 
-The resolver then returns from the array _persons_ the person whose name is the same as the value of <i>args.name</i>. 
-The resolver does not need the first parameter _root_.
- <!-- _persons_ henkilön, jonka nimi on sama kuin <i>args.name</i> arvo. Ensimmäisenä olevaa parametria _root_ resolveri ei tarvitse. -->
+Parametreista toinen _args_ sisältää kyselyn parametrit. Resolveri siis palauttaa taulukosta
+ _persons_ henkilön, jonka nimi on sama kuin <i>args.name</i> arvo. Ensimmäisenä olevaa parametria _root_ resolveri ei tarvitse.
 
- <!-- Itseasiassa kaikki resolverifunktiot saavat [neljä parametria](https://www.apollographql.com/docs/graphql-tools/resolvers.html#Resolver-function-signature). Javascriptissa parametrit voidaan kuitenkin jättää määrittelemättä, jos niitä ei tarvita. Tulemme käyttämään resolverien ensimmäistä ja kolmatta parametria vielä myöhemmin tässä osassa. -->
- In fact all resolver functions are given [four parameters](https://www.apollographql.com/docs/graphql-tools/resolvers.html#Resolver-function-signature). With JavaScript the parameters don't have to be defined, if they are not needed. We will be using the first and the third parameter of a resolver later in this part. 
+ Itseasiassa kaikki resolverifunktiot saavat [neljä parametria](https://www.apollographql.com/docs/graphql-tools/resolvers.html#Resolver-function-signature). Javascriptissa parametrit voidaan kuitenkin jättää määrittelemättä, jos niitä ei tarvita. Tulemme käyttämään resolverien ensimmäistä ja kolmatta parametria vielä myöhemmin tässä osassa.
 
-### The default resolver
+### Oletusarvoinen resolveri
 
-<!-- Kun teemme kyselyn, esim -->
-When we do a query, for example
+Kun teemme kyselyn, esim
 
 ```js
 query {
@@ -507,16 +443,11 @@ query {
 }
 ```
 
-<!-- osaa palvelin liittää vastaukseen täsmälleen ne kentät, joita kysely pyytää. Miten tämä tapahtuu? -->
-the server knows to send back exactly the fields required by the query. How does that happen?
+osaa palvelin liittää vastaukseen täsmälleen ne kentät, joita kysely pyytää. Miten tämä tapahtuu?
 
-<!-- GraphQL-palvelimen tulee määritellä resolverit <i>jokaiselle</i> skeemassa määritellyn tyypin kentälle. Olemme nyt määritelleet resolverit ainoastaan tyypin <i>Query</i> kentille, eli kaikille sovelluksen tarjoamille kyselyille.  -->
-A GraphQL-server must define resolvers for <i>each</i> field of each  type in the schema. 
-We have so far only defined resolvers for fields of the type <i>Query</i>, so for each query of the application. 
+GraphQL-palvelimen tulee määritellä resolverit <i>jokaiselle</i> skeemassa määritellyn tyypin kentälle. Olemme nyt määritelleet resolverit ainoastaan tyypin <i>Query</i> kentille, eli kaikille sovelluksen tarjoamille kyselyille. 
 
-<!-- Koska skeemassa olevan tyypin <i>Person</i> kentille ei ole määritelty resolvereita, Apollo on määritellyt niille [oletusarvoisen resolverin](https://www.apollographql.com/docs/graphql-tools/resolvers.html#Default-resolver), joka toimii samaan tapaan kuin seuraavassa itse määritelty resolveri: -->
-Because we did not define resolvers for the fields of the type <i>Person</i>, Apollo has defined [default resolvers](https://www.apollographql.com/docs/graphql-tools/resolvers.html#Default-resolver) for them. 
-They work like the one shown below: 
+Koska skeemassa olevan tyypin <i>Person</i> kentille ei ole määritelty resolvereita, Apollo on määritellyt niille [oletusarvoisen resolverin](https://www.apollographql.com/docs/graphql-tools/resolvers.html#Default-resolver), joka toimii samaan tapaan kuin seuraavassa itse määritelty resolveri:
 
 
 ```js
@@ -538,15 +469,11 @@ const resolvers = {
 }
 ```
 
-<!-- Oletusarvoinen resolveri siis palauttaa olion vastaavan kentän arvon. Itse olioon se pääsee käsiksi resolverin ensimmäisen parametrin _root_ kautta.  -->
-The default resolver returns the value of the corresponding field of the object. The object itself can be accessed through the first parameter of the resolver, _root_.
+Oletusarvoinen resolveri siis palauttaa olion vastaavan kentän arvon. Itse olioon se pääsee käsiksi resolverin ensimmäisen parametrin _root_ kautta. 
 
-<!-- Jos oletusarvoisen resolverin toiminnallisuus riittää, ei omaa resolveria tarvitse määritellä. On myös mahdollista määritellä ainoastaan joillekin tyypin yksittäiselle kentille oma resolverinsa ja antaa oletusarvoisen resolverin hoitaa muut kentät. -->
-If the functionality of the default resolver is enough, you don't need to define your own. It is also possible to define resolvers for only some fields of a type, and let the default resolvers handle the rest. 
+Jos oletusarvoisen resolverin toiminnallisuus riittää, ei omaa resolveria tarvitse määritellä. On myös mahdollista määritellä ainoastaan joillekin tyypin yksittäiselle kentille oma resolverinsa ja antaa oletusarvoisen resolverin hoitaa muut kentät.
 
-<!-- Voisimme esimerkiksi määritellä, että kaikkien henkilöiden osoitteeksi tulisi <i>Manhattan New York</i> kovakoodaamalla seuraavat tyypin <i>Person</i> kenttien street ja city resolvereiksi: -->
-We could for example define, that the address of all persons is 
-<i>Manhattan New York</i> by hard coding the following to the resolvers of the street and city fields of the type <i>Person</i>.
+Voisimme esimerkiksi määritellä, että kaikkien henkilöiden osoitteeksi tulisi <i>Manhattan New York</i> kovakoodaamalla seuraavat tyypin <i>Person</i> kenttien street ja city resolvereiksi:
 
 ```js
 Person: {
@@ -555,10 +482,9 @@ Person: {
 }
 ```
 
-### Object within an object
+### Olion sisällä olio
 
-<!-- Muutetaan skeemaa hiukan -->
-Lets modify the scheme a bit
+Muutetaan skeemaa hiukan
 
 ```js
   // highlight-start
@@ -582,11 +508,9 @@ type Query {
 }
 ```
 
-<!-- eli henkilöllä on nyt kenttä, jonka tyyppi on <i>Address</i>, joka koostuu kadusta ja kaupungista.  -->
-so a person now has a field with the type <i>Address</i>, which contains the street and the city. 
+eli henkilöllä on nyt kenttä, jonka tyyppi on <i>Address</i>, joka koostuu kadusta ja kaupungista. 
 
-<!-- Osoitetta tarvitsevat kyselyt muuttuvat muotoon -->
-The queries requiring the address change into
+Osoitetta tarvitsevat kyselyt muuttuvat muotoon
 
 ```js
 query {
@@ -600,8 +524,7 @@ query {
 }
 ```
 
-<!-- vastauksena on henkilö-olio, joka <i>sisältää</i> osoite-olion: -->
-and the response now is an person object, which <i>contains</i> an address object. 
+vastauksena on henkilö-olio, joka <i>sisältää</i> osoite-olion:
 
 ```js
 {
@@ -617,8 +540,7 @@ and the response now is an person object, which <i>contains</i> an address objec
 }
 ```
 
-<!-- Talletetaan henkilöt palvelimella edelleen samassa muodossa kuin aiemmin. -->
-We still save the persons in the server the same way we did before. 
+Talletetaan henkilöt palvelimella edelleen samassa muodossa kuin aiemmin.
 
 ```js
 let persons = [
@@ -633,15 +555,11 @@ let persons = [
 ]
 ```
 
-<!-- Nyt siis palvelimen tallettamat henkilö-oliot eivät ole muodoltaan täysin samanlaisia kuin GraphQL-skeeman määrittelemät tyypin <i>Person</i> -oliot.  -->
-Sp the person-objects saved in the server are not exactly the same as GraphQL type <i>Person</i> objects described in the schema. 
+Nyt siis palvelimen tallettamat henkilö-oliot eivät ole muodoltaan täysin samanlaisia kuin GraphQL-skeeman määrittelemät tyypin <i>Person</i> -oliot. 
 
-<!-- Toisin kuin tyypille <i>Person</i> ei tyypille <i>Address</i> ole määritelty <i>id</i>-kenttää, sillä osoitteita ei ole talletettu palvelimella omaan tietorakenteeseensa. -->
-Contrary to the type <i>Person</i>, the <i>Address</i> type does not have a <i>id</i>-field, because they are not saved into their own data structure in the server. 
+Toisin kuin tyypille <i>Person</i> ei tyypille <i>Address</i> ole määritelty <i>id</i>-kenttää, sillä osoitteita ei ole talletettu palvelimella omaan tietorakenteeseensa.
 
-<!-- Koska taulukkoon talletetuilla olioilla ei ole kenttää <i>address</i> oletusarvoinen resolveri ei enää riitä. Lisätään resolveri tyypin <i>Person</i> kentälle <i>address</i>: -->
-Because the objects saved in the array do not have a field <i>address</i>, the default resolver is not sufficient enough. 
-Lets add a resolver for the field <i>address</i> of type <i>Person</i>: 
+Koska taulukkoon talletetuilla olioilla ei ole kenttää <i>address</i> oletusarvoinen resolveri ei enää riitä. Lisätään resolveri tyypin <i>Person</i> kentälle <i>address</i>:
 
 ```js
 const resolvers = {
@@ -664,11 +582,9 @@ const resolvers = {
 }
 ```
 
-<!-- Eli aina palautettaessa <i>Person</i>-oliota, palautetaan niiden kentät <i>name</i>, <i>phone</i> sekä <i>id</i> käyttäen oletusarvoista resolveria, kenttä <i>address</i> muodostetaan itse määritellyn resolverin avulla. Resolverifunktion parametrina _root_ on käsittelyssä oleva henkilö-olio, eli osoitteen katu ja kaupunki saadaan sen kentistä. -->
-So every time a <i>Person</i> object is returned, the fields <i>name</i>, <i>phone</i> and <i>id</i> are returned using their default resolvers, but the field <i>address</i> is formed by using a self defined resolver. The parameter _root_ of the resolver function is the person-object, so the street and the city of the address can be taken from its fields. 
+Eli aina palautettaessa <i>Person</i>-oliota, palautetaan niiden kentät <i>name</i>, <i>phone</i> sekä <i>id</i> käyttäen oletusarvoista resolveria, kenttä <i>address</i> muodostetaan itse määritellyn resolverin avulla. Resolverifunktion parametrina _root_ on käsittelyssä oleva henkilö-olio, eli osoitteen katu ja kaupunki saadaan sen kentistä.
 
-<!-- Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/graphql-phonebook-backend/tree/part8-1), branchissa <i>part8-1</i>. -->
-The current code of the application can be found from [ github](https://github.com/fullstack-hy2019/graphql-phonebook-backend/tree/part8-1), branch <i>part8-1</i>.
+Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/graphql-phonebook-backend/tree/part8-1), branchissa <i>part8-1</i>.
 
 ### Mutaatio
 
