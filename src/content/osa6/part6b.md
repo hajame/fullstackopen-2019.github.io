@@ -241,7 +241,8 @@ Is there a bug in our code? No. The combined reducer works in such a way that ev
 <!-- ### Filtteröinnin viimeistely -->
 ### Finishing the filters
 
-Viimeistellään nyt sovellus käyttämään yhdistettyä reduceria, eli palautetaan tiedostossa <i>index.js</i> suoritettava renderöinti muotoon
+<!-- Viimeistellään nyt sovellus käyttämään yhdistettyä reduceria, eli palautetaan tiedostossa <i>index.js</i> suoritettava renderöinti muotoon -->
+Let's finish the application so that it uses the combined reducer. We start by changing the rendering of the application and hooking up the store to the application in the <i>index.js</i> file:
 
 ```js
 ReactDOM.render(
@@ -250,11 +251,13 @@ ReactDOM.render(
 )
 ```
 
-Korjataan sitten bugi, joka johtuu siitä, että koodi olettaa storen tilan olevan mustiinpanot tallettava taulukko:
+<!-- Korjataan sitten bugi, joka johtuu siitä, että koodi olettaa storen tilan olevan mustiinpanot tallettava taulukko: -->
+Next, let's fix a bug that is caused by the code expecting the application store to be an array of notes:
 
 ![](../images/6/7.png)
 
-Korjaus on helppo. Viitteen <i>store.getState()</i> sijaan kaikki muistiinpanot sisältävään taulukkoon viitataan <i>store.getState().notes</i>:
+<!-- Korjaus on helppo. Viitteen <i>store.getState()</i> sijaan kaikki muistiinpanot sisältävään taulukkoon viitataan <i>store.getState().notes</i>: -->
+There is an easy fix for this. We simply have to change the reference to the array of notes from <i>store.getState()</i> to <i>store.getState()</i>.notes:
 
 ```js
 const Notes = ({ store }) => {
@@ -272,7 +275,8 @@ const Notes = ({ store }) => {
 }
 ```
 
-Eriytetään näkyvyyden säätelyfiltteri omaksi, tiedostoon sijoitettavaksi <i>src/components/VisibilityFilter.js</i> komponentiksi:
+<!-- Eriytetään näkyvyyden säätelyfiltteri omaksi, tiedostoon sijoitettavaksi <i>src/components/VisibilityFilter.js</i> komponentiksi: -->
+Let's extract the visibility filter into its own <i>src/components/VisibilityFilter.js</i> component:
 
 ```js
 import React from 'react'
@@ -311,9 +315,11 @@ const VisibilityFilter = (props) => {
 export default VisibilityFilter
 ```
 
-Toteutus on suoraviivainen, radiobuttonin klikkaaminen muuttaa storen kentän <i>filter</i> tilaa.
+<!-- Toteutus on suoraviivainen, radiobuttonin klikkaaminen muuttaa storen kentän <i>filter</i> tilaa. -->
+The implementation is rather straightforward. Clicking the different radio buttons changes the state of the store's <i>filter</i> property.
 
-Muutetaan vielä komponentin <i>Notes</i> ottamaan huomioon filtteri
+<!-- Muutetaan vielä komponentin <i>Notes</i> ottamaan huomioon filtteri -->
+Let's change the <i>Notes</i> component to incorporate the filter:
 
 ```js
 const Notes = ({ store }) => {
@@ -344,35 +350,42 @@ const Notes = ({ store }) => {
 }
 ```
 
-Huomaa miten storen tilan kentät on otettu tuttuun tapaan destrukturoimalla apumuuttujiin
+<!-- Huomaa miten storen tilan kentät on otettu tuttuun tapaan destrukturoimalla apumuuttujiin -->
+Notice how the properties of the store are assigned to helper variables with the destructuring syntax:
 
 ```js
 const { notes, filter } = store.getState()
 ```
 
-siis on sama kuin kirjoittaisimme
+<!-- siis on sama kuin kirjoittaisimme -->
+The syntax above is the same as if we were to write:
 
 ```js
 const notes = store.getState().notes
 const filter = store.getState().filter
 ```
 
-Sovelluksen tämänhetkinen koodi on [githubissa](https://github.com/fullstack-hy2019/redux-notes/tree/part6-2) branchissa </i>part6-2</i>.
+<!-- Sovelluksen tämänhetkinen koodi on [githubissa](https://github.com/fullstack-hy2019/redux-notes/tree/part6-2) branchissa </i>part6-2</i>. -->
+You can find the code for our current application in its entirety in the <i>part6-2</i> branch of [this github repository](https://github.com/fullstack-hy2019/redux-notes/tree/part6-2).
 
-Sovelluksessa on vielä pieni kauneusvirhe, vaikka oletusarvosesti filtterin arvo on <i>ALL</i>, eli näytetään kaikki muistiinpanot, ei vastaava radiobutton ole valittuna. Ongelma on luonnollisestikin mahdollista korjata, mutta koska kyseessä on ikävä, mutta harmiton feature, jätämme korjauksen myöhemmäksi.
-
+<!-- Sovelluksessa on vielä pieni kauneusvirhe, vaikka oletusarvosesti filtterin arvo on <i>ALL</i>, eli näytetään kaikki muistiinpanot, ei vastaava radiobutton ole valittuna. Ongelma on luonnollisestikin mahdollista korjata, mutta koska kyseessä on ikävä, mutta harmiton feature, jätämme korjauksen myöhemmäksi. -->
+There is a slight cosmetic flaw in our application. Even though the filter is set to <i>ALL</i> by default, the associated radio button is not selected. Naturally this issue can be fixed, but since this is an unpleasant but ultimately harmless bug we will save the fix for later. 
 
 </div>
 
 <div class="tasks">
 
-### Tehtäviä
+<!-- ### Tehtäviä -->
+### Exercises
 
-Jatketaan tehtävässä 6.3 aloitetun reduxia käyttävän anekdoottisovelluksen parissa.
+<!-- Jatketaan tehtävässä 6.3 aloitetun reduxia käyttävän anekdoottisovelluksen parissa. -->
+Let's continue working on the anecdote application using redux that we started in exercise 6.3. 
 
-#### 6.9 anekdootit, step7
+<!-- #### 6.9 anekdootit, step7 -->
+#### 6.9 Anecdotes, step7
 
-Sovelluksessa on valmiina komponentin <i>Notification</i> runko:
+<!-- Sovelluksessa on valmiina komponentin <i>Notification</i> runko: -->
+The application has a ready-made body for the <i>Notification</i> component:
 
 ```js
 import React from 'react';
