@@ -382,7 +382,7 @@ There is a slight cosmetic flaw in our application. Even though the filter is se
 Let's continue working on the anecdote application using redux that we started in exercise 6.3. 
 
 <!-- #### 6.9 anekdootit, step7 -->
-#### 6.9 Anecdotes, step7
+#### 6.9 Better anecdotes, step7
 
 <!-- Sovelluksessa on valmiina komponentin <i>Notification</i> runko: -->
 The application has a ready-made body for the <i>Notification</i> component:
@@ -406,7 +406,8 @@ const Notification = () => {
 export default Notification
 ```
 
-Laajenna komponenttia siten, että se renderöi redux-storeen talletetun viestin, eli renderöitävä komponentti muuttuu muodoon:
+<!-- Laajenna komponenttia siten, että se renderöi redux-storeen talletetun viestin, eli renderöitävä komponentti muuttuu muodoon: -->
+Extend the component so that it renders the message stored in the redux store, so that the component gets changed to the form:
 
 ```js
 return (
@@ -416,27 +417,36 @@ return (
 )
 ```
 
-Joudut siis muuttamaan/laajentamaan sovelluksen olemassaolevaa reduceria. Tee toiminnallisuutta varten oma reduceri ja siirry käyttämään sovelluksessa yhdistettyä reduceria tämän osan materiaalin tapaan.
+<!-- Joudut siis muuttamaan/laajentamaan sovelluksen olemassaolevaa reduceria. Tee toiminnallisuutta varten oma reduceri ja siirry käyttämään sovelluksessa yhdistettyä reduceria tämän osan materiaalin tapaan. -->
+You will have to make changes to the application's existing reducer. Create a separate reducer for the new functionality and refactor the application so that it uses a combined reducer as shown in this part of the course material.
 
-Tässä vaiheessa sovelluksen ei vielä tarvitse osata käyttää <i>Notification</i> komponenttia järkevällä tavalla, riittää että sovellus toimii ja näyttää <i>notificationReducerin</i> alkuarvoksi asettaman viestin.
+<!-- Tässä vaiheessa sovelluksen ei vielä tarvitse osata käyttää <i>Notification</i> komponenttia järkevällä tavalla, riittää että sovellus toimii ja näyttää <i>notificationReducerin</i> alkuarvoksi asettaman viestin. -->
+The application does not have to use the <i>Notification</i> component in any intelligent way at this point of the exercise. It is enough for the application display the initial value set for the message in the <i>notificationReducer</i>.
 
-#### 6.10 paremmat anekdootit, step8
+<!-- #### 6.10 paremmat anekdootit, step8 -->
+#### 6.10 Better anecdotes, step8
 
-Laajenna sovellusta siten, että se näyttää <i>Notification</i>-komponentin avulla viiden sekunnin ajan kun sovelluksessa äänestetään tai luodaan uusia anekdootteja:
+<!-- Laajenna sovellusta siten, että se näyttää <i>Notification</i>-komponentin avulla viiden sekunnin ajan kun sovelluksessa äänestetään tai luodaan uusia anekdootteja: -->
+Extend the application so that it uses the <i>Notification</i> component to display a message for the duration of five seconds when the user votes for an anecdote or creates a new anecdote:
 
 ![](../images/6/8.png)
 
-Notifikaation asettamista ja poistamista varten kannattaa toteuttaa [action creatorit](https://redux.js.org/basics/actions#action-creators).
+<!-- Notifikaation asettamista ja poistamista varten kannattaa toteuttaa [action creatorit](https://redux.js.org/basics/actions#action-creators). -->
+It's recommended to create separate [action creatorit](https://redux.js.org/basics/actions#action-creators) for setting and removing notifications.
 
-#### 6.11* paremmat anekdootit, step9
+<!-- #### 6.11* paremmat anekdootit, step9 -->
+#### 6.11* Better anecdotes, step9
 
-Toteuta sovellukseen näytettävien muistiinpanojen filtteröiminen
+<!-- Toteuta sovellukseen näytettävien muistiinpanojen filtteröiminen -->
+Implement filtering for the anecdotes that are displayed to the user.
 
 ![](../images/6/9.png)
 
-Säilytä filtterin tila redux storessa, eli käytännössä kannattaa jälleen luoda uusi reduceri ja action creatorit.
+<!-- Säilytä filtterin tila redux storessa, eli käytännössä kannattaa jälleen luoda uusi reduceri ja action creatorit. -->
+Store the state of the filter in the redux store. It is recommended to create a new reducer and action creators for this purpose.
 
-Tee filtterin ruudulla näyttämistä varten komponentti <i>Filter</i>. Voit ottaa sen pohjaksi seuraavan
+<!-- Tee filtterin ruudulla näyttämistä varten komponentti <i>Filter</i>. Voit ottaa sen pohjaksi seuraavan -->
+Create a new <i>Filter</i> component for displaying the filter. You can use the following code as a template for the component:
 
 ```js
 import React from 'react'
@@ -465,9 +475,11 @@ export default Filter
 
 ### Connect
 
-Reduxin käytön ansiosta sovelluksen rakenne alkaa jo olla mukavan modulaarinen. Pystymme kuitenkin vielä parempaan.
+<!-- Reduxin käytön ansiosta sovelluksen rakenne alkaa jo olla mukavan modulaarinen. Pystymme kuitenkin vielä parempaan. -->
+The structure of our current application is quite modular thanks to Redux. Naturally there's still room for improvement.
 
-Eräs tämän hetkisen ratkaisun ikävistä puolista on se, että Redux-store täytyy välittää propseina kaikille sitä tarvitseville komponenteille. <i>App</i> ei itse tarvitse ollenkaan Reduxia, mutta joutuu silti välittämään sen eteenäin lapsikomponenteille: 
+<!-- Eräs tämän hetkisen ratkaisun ikävistä puolista on se, että Redux-store täytyy välittää propseina kaikille sitä tarvitseville komponenteille. <i>App</i> ei itse tarvitse ollenkaan Reduxia, mutta joutuu silti välittämään sen eteenäin lapsikomponenteille:  -->
+One unpleasant aspect of our current implementation is that the Redux store has to be passed via props to all of the components that use it. The <i>App</i> component does not actually need Redux for any other purpose than passing it to its children:
 
 ```js
 const App = (props) => {
@@ -483,18 +495,21 @@ const App = (props) => {
 }
 ```
 
-Otetaan nyt käyttöön
-[React Redux](https://github.com/reactjs/react-redux) -kirjaston määrittelemä funktio [connect](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options), joka on tämän hetken defacto-ratkaisu sille, miten Redux-store saadaan välitettyä React-componenteille.
+<!-- Otetaan nyt käyttöön [React Redux](https://github.com/reactjs/react-redux) -kirjaston määrittelemä funktio [connect](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options), joka on tämän hetken defacto-ratkaisu sille, miten Redux-store saadaan välitettyä React-componenteille. -->
+To get rid of this unpleasantness we will use the [connect](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options) function provided by the [React Redux](https://github.com/reactjs/react-redux) library. This is currently the de facto solution for passing the Redux store to React components.
 
-Connect voi olla aluksi haastava sisäistää, mutta hieman vaivaa kannattaa ehdottomasti nähdä. Tutustutaan nyt connectin käyttöön. 
+<!-- Connect voi olla aluksi haastava sisäistää, mutta hieman vaivaa kannattaa ehdottomasti nähdä. Tutustutaan nyt connectin käyttöön.  -->
+It takes some time to wrap your head around how connect works, but your efforts will be rewarded. Next, let's take a look at how connect is used in practice.
 
 ```js
 npm install --save react-redux
 ```
 
-Edellytyksenä kirjaston tarjoaman _connect_-funktion käytölle on se, että sovellus on määritelty React redux kirjaston tarjoaman [Provider](https://github.com/reactjs/react-redux/blob/master/docs/api.md#provider-store)-komponentin lapsena ja että sovelluksen käyttämä store on annettu Provider-komponentin attribuutiksi <i>store</i>. 
+<!-- Edellytyksenä kirjaston tarjoaman _connect_-funktion käytölle on se, että sovellus on määritelty React redux kirjaston tarjoaman [Provider](https://github.com/reactjs/react-redux/blob/master/docs/api.md#provider-store)-komponentin lapsena ja että sovelluksen käyttämä store on annettu Provider-komponentin attribuutiksi <i>store</i>.  -->
+In order to use the _connect_ function we have to define our application as the child of the [Provider](https://github.com/reactjs/react-redux/blob/master/docs/api.md#provider-store) component that is provided by the React Redux library. Additionally, the <i>Provider</i> component must receive the Redux store of the application as its <i>store</i> attribute.
 
-Eli tiedosto <i>index.js</i> tulee muuttaa seuraavaan muotoon
+<!-- Eli tiedosto <i>index.js</i> tulee muuttaa seuraavaan muotoon -->
+Let's make these changes to the <i>index.js</i> file of our application:
 
 ```js
 import React from 'react'
@@ -521,9 +536,11 @@ ReactDOM.render(
 document.getElementById('root'))
 ```
 
-Tutkitaan ensin komponenttia <i>Notes</i>. Funktiota _connect_ käyttämällä "normaaleista" React-komponenteista saadaan muodostettua komponentteja, joiden <i>propseihin</i> on "mäpätty" eli yhdistetty haluttuja osia storen määrittelemästä tilasta.
+<!-- Tutkitaan ensin komponenttia <i>Notes</i>. Funktiota _connect_ käyttämällä "normaaleista" React-komponenteista saadaan muodostettua komponentteja, joiden <i>propseihin</i> on "mäpätty" eli yhdistetty haluttuja osia storen määrittelemästä tilasta. -->
+Let's start by taking a closer look at the <i>Notes</i> component. The _connect_ function can be used for transforming "regular" React components so that the state of the Redux store can be "mapped" into the component's props.
 
-Muodostetaan ensin komponentista <i>Notes</i> connectin avulla <i>yhdistetty komponentti</i>:
+<!-- Muodostetaan ensin komponentista <i>Notes</i> connectin avulla <i>yhdistetty komponentti</i>: -->
+Let's first use the connect function to transform our <i>Notes</i> component into a <i>connected component</i>:
 
 ```js
 import React from 'react'
@@ -539,11 +556,14 @@ const ConnectedNotes = connect()(Notes) // highlight-line
 export default ConnectedNotes           // highlight-line
 ```
 
-Moduuli eksporttaa nyt alkuperäisen komponentin sijaan <i>yhdistetyn komponentin</i>, joka toimii toistaiseksi täsmälleen alkuperäisen komponentin kaltaisesti.
+<!-- Moduuli eksporttaa nyt alkuperäisen komponentin sijaan <i>yhdistetyn komponentin</i>, joka toimii toistaiseksi täsmälleen alkuperäisen komponentin kaltaisesti. -->
+The module exports the <i>connected component</i> that works exactly like the previous regular component for now.
 
-Komponentti tarvitsee storesta sekä muistiinpanojen listan, että filtterin arvon. Funktion _connect_ ensimmäisenä parametrina voidaan määritellä funktio [mapStateToProps](https://github.com/reactjs/react-redux/blob/master/docs/api.md#arguments), joka liittää joitakin storen tilan perusteella määriteltyjä asioita connectilla muodostetun <i>yhdistetyn komponentin</i> propseiksi.
+<!-- Komponentti tarvitsee storesta sekä muistiinpanojen listan, että filtterin arvon. Funktion _connect_ ensimmäisenä parametrina voidaan määritellä funktio [mapStateToProps](https://github.com/reactjs/react-redux/blob/master/docs/api.md#arguments), joka liittää joitakin storen tilan perusteella määriteltyjä asioita connectilla muodostetun <i>yhdistetyn komponentin</i> propseiksi. -->
+The component needs the list of notes and the value of the filter from the Redux store. The _connect_ function accepts a so-called [mapStateToProps](https://github.com/reactjs/react-redux/blob/master/docs/api.md#arguments) function as its first parameter. The function can be used for defining the props of the <i>connected component</i> that are based on the state of the Redux store.
 
-Jos määritellään:
+<!-- Jos määritellään: -->
+If we define:
 
 ```js
 const Notes = (props) => {
@@ -562,7 +582,8 @@ const ConnectedNotes = connect(mapStateToProps)(Notes)
 export default ConnectedNotes
 ```
 
-on komponentin <i>Notes</i> sisällä mahdollista viitata storen tilaan, esim. muistiinpanoihin suoraan propsin kautta <i>props.notes</i> sen sijaan, että käytettäisiin suoraan propseina saatua storea muodossa <i>props.store.getState().notes</i>. Vastaavasti <i>props.filter</i> viittaa storessa olevaan filter-kentän tilaan.
+<!-- on komponentin <i>Notes</i> sisällä mahdollista viitata storen tilaan, esim. muistiinpanoihin suoraan propsin kautta <i>props.notes</i> sen sijaan, että käytettäisiin suoraan propseina saatua storea muodossa <i>props.store.getState().notes</i>. Vastaavasti <i>props.filter</i> viittaa storessa olevaan filter-kentän tilaan. -->
+The <i>Notes</i> component can access the state of the store directly, e.g. through <i>props.notes</i> that contains the list of notes. Contrast this to the previous <i>props.store.getState().notes</i> implementation that accessed the notes directly from the store. Similarly, <i>props.filter</i> references the value of the filter.
 
 Komponentti muuttuu seuraavasti
 
