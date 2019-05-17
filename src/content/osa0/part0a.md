@@ -17,8 +17,7 @@ Other topics include debugging applications, configuration, managing runtime env
 
 <!-- Osallistujilta edellytetään vahvaa ohjelmointirutiinia, web-ohjelmoinnin ja tietokantojen perustuntemusta, git-versionhallintajärjestelmän peruskäytön hallintaa, kykyä pitkäjänteiseen työskentelyyn sekä valmiutta omatoimiseen tiedonhakuun ja ongelmanratkaisuun.
 Osallistuminen ei kuitenkaan edellytä kurssilla käsiteltävien tekniikoiden tai Javascript-kielen hallintaa. -->
-Participants are expected to have good programming skills, basic knowledge of web-programming and databases and mastery of basic use of the git-version management system. 
-You are also expected have perseverance and ability for indebendent problemsolving and information seeking. 
+Participants are expected to have good programming skills, basic knowledge of web-programming and databases, and to know the basics of working with the Git version-control system. You are also expected to have perseverance and the ability for independent problem solving and information seeking. 
 
 Previous knowledge on JavaScript or other topics of the course is not required. 
 
