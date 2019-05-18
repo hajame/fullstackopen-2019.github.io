@@ -1182,9 +1182,11 @@ const = () => {
 <!-- #### 6.15* paremmat anekdootit, step13 -->
 #### 6.15* Better anecdotes, step13
 
-Välitä komponentille <i>AnecdoteList</i> connectin avulla ainoastaan yksi stateen liittyvä propsi, filtterin tilan perusteella näytettävät anekdootit samaan tapaan kuin materiaalin luvussa [Presentational/Container revisited](/osa6/monta_reduseria_connect#presentational-container-revisited).
+<!-- Välitä komponentille <i>AnecdoteList</i> connectin avulla ainoastaan yksi stateen liittyvä propsi, filtterin tilan perusteella näytettävät anekdootit samaan tapaan kuin materiaalin luvussa [Presentational/Container revisited](/osa6/monta_reduseria_connect#presentational-container-revisited). -->
+Change your application so that the <i>AnecdoteList</i> component only receives a single prop based on the store's state. Construct the filtered list of anecdotes as shown in the [Presentational/Container revisited](/osa6/monta_reduseria_connect#presentational-container-revisited) section in this part of the course material.
 
-Komponentti <i>AnecdoteList</i> siis typistyy suunnilleen seuraavaan muotoon
+<!-- Komponentti <i>AnecdoteList</i> siis typistyy suunnilleen seuraavaan muotoon -->
+As a result, the <i>AnecdoteList</i> component should get simplified into the following form:
 
 ```js
 const AnecdoteList = (props) => {
