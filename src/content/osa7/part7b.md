@@ -122,9 +122,11 @@ import { Table } from 'react-bootstrap'
 <!-- #### Lomake -->
 #### Forms
 
-Parannellaan seuraavaksi näkymän <i>Login</i> kirjautumislomaketta Bootstrapin [lomakkeiden](https://getbootstrap.com/docs/4.1/components/forms/) avulla.
+<!-- Parannellaan seuraavaksi näkymän <i>Login</i> kirjautumislomaketta Bootstrapin [lomakkeiden](https://getbootstrap.com/docs/4.1/components/forms/) avulla. -->
+Let's improve the form in the <i>Login</i> view with the help of Bootstrap [forms](https://getbootstrap.com/docs/4.1/components/forms/).
 
-React bootstrap tarjoaa valmiit [komponentit](https://react-bootstrap.github.io/components/forms/) myös lomakkeiden muodostamiseen (dokumentaatio tosin ei ole paras mahdollinen):
+<!-- React bootstrap tarjoaa valmiit [komponentit](https://react-bootstrap.github.io/components/forms/) myös lomakkeiden muodostamiseen (dokumentaatio tosin ei ole paras mahdollinen): -->
+React Bootstrap provides built-in [components](https://react-bootstrap.github.io/components/forms/) for creating forms (although the documentation for them is slightly lacking):
 
 ```js
 let Login = (props) => {
@@ -152,23 +154,28 @@ let Login = (props) => {
 )}
 ```
 
-Importoitavien komponenttien määrä kasvaa:
+<!-- Importoitavien komponenttien määrä kasvaa: -->
+The number of components we need to import increases:
 
 ```js
 import { Table, Form, Button } from 'react-bootstrap'
 ```
 
-Lomake näyttää parantelun jälkeen seuraavalta:
+<!-- Lomake näyttää parantelun jälkeen seuraavalta: -->
+After switching over to the Bootstrap form, our improved application looks like this:
 
 ![](../images/7/8.png)
 
-#### Notifikaatio
+<!-- #### Notifikaatio -->
+#### Notification
 
-Toteutetaan sovellukseen kirjautumisen jälkeinen <i>notifikaatio</i>:
+<!-- Toteutetaan sovellukseen kirjautumisen jälkeinen <i>notifikaatio</i>: -->
+Now that the login form is in better shape, let's take a look at improving our application's notifications:
 
 ![](../images/7/9.png)
 
-Asetetaan notifikaatio kirjautumisen yhteydessä komponentin <i>App</i> tilan muuttujaan _message_:
+<!-- Asetetaan notifikaatio kirjautumisen yhteydessä komponentin <i>App</i> tilan muuttujaan _message_: -->
+Let's add a message for the notification when a user logs in to the application. We will store it in the _message_ variable in the <i>App</i> component's state:
 
 ```js
 const App = () => {
@@ -192,7 +199,8 @@ const App = () => {
 }
 ```
 
-ja renderöidään viesti Bootstrapin [Alert](https://getbootstrap.com/docs/4.1/components/alerts/)-komponentin avulla. React bootstrap tarjoaa tähän jälleen valmiin [React-komponentin](https://react-bootstrap.github.io/components/alerts/):
+<!-- ja renderöidään viesti Bootstrapin [Alert](https://getbootstrap.com/docs/4.1/components/alerts/)-komponentin avulla. React bootstrap tarjoaa tähän jälleen valmiin [React-komponentin](https://react-bootstrap.github.io/components/alerts/): -->
+We will render the message as a Bootstrap [Alert](https://getbootstrap.com/docs/4.1/components/alerts/) component. Once again, the React Bootstrap library provides us with a matching [React component](https://react-bootstrap.github.io/components/alerts/): 
 
 ```js
 <div className="container">
@@ -209,9 +217,11 @@ ja renderöidään viesti Bootstrapin [Alert](https://getbootstrap.com/docs/4.1/
 )}
 ```
 
-#### Navigaatiorakenne
+<!-- #### Navigaatiorakenne -->
+#### Navigation structure
 
-Muutetaan vielä lopuksi sovelluksen navigaatiomenu käyttämään Bootstrapin [Navbaria](https://getbootstrap.com/docs/4.1/components/navbar/). Tähänkin React bootstrap tarjoaa [valmiit komponentit](https://react-bootstrap.github.io/components/navbar/#navbars-mobile-friendly), dokumentaatio on hieman kryptistä, mutta trial and error johtaa lopulta toimivaan ratkaisuun:
+<!-- Muutetaan vielä lopuksi sovelluksen navigaatiomenu käyttämään Bootstrapin [Navbaria](https://getbootstrap.com/docs/4.1/components/navbar/). Tähänkin React bootstrap tarjoaa [valmiit komponentit](https://react-bootstrap.github.io/components/navbar/#navbars-mobile-friendly), dokumentaatio on hieman kryptistä, mutta trial and error johtaa lopulta toimivaan ratkaisuun: -->
+Lastly, let's alter the application's navigation menu to use Bootstrap's [Navbaria](https://getbootstrap.com/docs/4.1/components/navbar/) component. The React Bootstrap library provides us with [matching built-in components](https://react-bootstrap.github.io/components/navbar/#navbars-mobile-friendly). Through trial and error, we end up with a working solution in spite of the cryptic documentation:
 
 ```js
 <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -238,36 +248,46 @@ Muutetaan vielä lopuksi sovelluksen navigaatiomenu käyttämään Bootstrapin [
 </Navbar>
 ```
 
-Ulkoasu on varsin tyylikäs
+<!-- Ulkoasu on varsin tyylikäs -->
+The resulting layout has a very clean and pleasing appearance:
 
 ![](../images/7/10.png)
 
-Jos selaimen kokoa kaventaa, huomaamme että menu "kollapsoituu" ja sen saa näkyville vain klikkaamalla:
+<!-- Jos selaimen kokoa kaventaa, huomaamme että menu "kollapsoituu" ja sen saa näkyville vain klikkaamalla: -->
+If the viewport of the browser is narrowed, we notice that the menu "collapses" and it can be expanded by clicking the "hamburger" button:
 
 ![](../images/7/11a.png)
 
-Bootstrap ja valtaosa tarjolla olevista UI-frameworkeista tuottavat [responsiivisia](https://en.wikipedia.org/wiki/Responsive_web_design) näkymiä, eli sellaisia jotka renderöityvät vähintään kohtuullisesti monen kokoisilla näytöillä.
+<!-- Bootstrap ja valtaosa tarjolla olevista UI-frameworkeista tuottavat [responsiivisia](https://en.wikipedia.org/wiki/Responsive_web_design) näkymiä, eli sellaisia jotka renderöityvät vähintään kohtuullisesti monen kokoisilla näytöillä. -->
+Bootstrap and a large majority of existing UI frameworks produce [responsive](https://en.wikipedia.org/wiki/Responsive_web_design) designs, meaning that the resulting applications render well on a variety of different screen sizes.
 
-Chromen developer-konsolin avulla on mahdollista simuloida sovelluksen käyttöä erilaisilla mobiilipäätteillä
+<!-- Chromen developer-konsolin avulla on mahdollista simuloida sovelluksen käyttöä erilaisilla mobiilipäätteillä -->
+Chrome developer tools makes it possible to simulate using our application in the browser of different mobile clients:
 
 ![](../images/7/12.png)
 
 
-Esimerkin sovelluksen koodi kokonaisuudessaan [täällä](https://github.com/fullstack-hy2019/misc/blob/master/notes-bootstrap.js)
+<!-- Esimerkin sovelluksen koodi kokonaisuudessaan [täällä](https://github.com/fullstack-hy2019/misc/blob/master/notes-bootstrap.js) -->
+You can find the complete code for the application [here](https://github.com/fullstack-hy2019/misc/blob/master/notes-bootstrap.js).
 
 ### Semantic UI
 
-Olen käyttänyt bootstrapia vuosia, mutta reilu vuosi sitten siirryin [Semantic UI](https://semantic-ui.com/):n käyttäjäksi. Kurssin tehtävien [palautusovellus](https://studies.cs.helsinki.fi/courses) on tehty Semanticilla ja kokemukset ovat olleet rohkaisevia, erityisesti semanticin [React-tuki](https://react.semantic-ui.com) on ensiluokkainen ja dokumentaatiokin huomattavasti parempi kuin bootstrapissa.
+<!-- Olen käyttänyt bootstrapia vuosia, mutta reilu vuosi sitten siirryin [Semantic UI](https://semantic-ui.com/):n käyttäjäksi. Kurssin tehtävien [palautusovellus](https://studies.cs.helsinki.fi/courses) on tehty Semanticilla ja kokemukset ovat olleet rohkaisevia, erityisesti semanticin [React-tuki](https://react.semantic-ui.com) on ensiluokkainen ja dokumentaatiokin huomattavasti parempi kuin bootstrapissa. -->
+I have used Bootstrap for years but approximately a year ago I switched over to using [Semantic UI](https://semantic-ui.com/). The [exercise submission system](https://studies.cs.helsinki.fi/courses) that is used in this course has been made with Semantic and my experience has been reassuring. The [support for React](https://react.semantic-ui.com) is world class and the documentation is leagues above Bootstrap.
 
-Lisätään nyt [React-router](/osa6/#react-router)-sovellukselle edellisen luvun tapaan tyylit semanticilla.
+<!-- Lisätään nyt [React-router](/osa6/#react-router)-sovellukselle edellisen luvun tapaan tyylit semanticilla. -->
+Let's continue working with the [React-router](/osa6/#react-router) example application we just styled with Bootstrap, but this time style it with Semantic UI.
 
-Aloitetaan asentamalla [semantic-ui-react](https://react.semantic-ui.com)-kirjasto:
+<!-- Aloitetaan asentamalla [semantic-ui-react](https://react.semantic-ui.com)-kirjasto: -->
+We will start by installing the [semantic-ui-react](https://react.semantic-ui.com) package:
 
 ```js
 npm install --save semantic-ui-react
 ```
 
-Lisätään sitten sovelluksen tiedostoon <i>public/index.html</i> head-tagin sisään semanticin css-määrittelyt lataava rivi (joka löytyy [tästä](https://react.semantic-ui.com/usage#content-delivery-network-cdn)):
+<!-- Lisätään sitten sovelluksen tiedostoon <i>public/index.html</i> head-tagin sisään semanticin css-määrittelyt lataava rivi (joka löytyy [tästä](https://react.semantic-ui.com/usage#content-delivery-network-cdn)): -->
+
+Then let's add the link to the CSS stylesheet for Semantic UI inside the head tag of the application's <i>public/index.html</i> file (the link can be found [here](https://react.semantic-ui.com/usage#content-delivery-network-cdn)):
 
 ```js
 <head>
@@ -279,13 +299,16 @@ Lisätään sitten sovelluksen tiedostoon <i>public/index.html</i> head-tagin si
 </head>
 ```
 
-Sijoitetaan koko sovelluksen renderöimä sisältö Semanticin komponentin [Container](https://react.semantic-ui.com/elements/container) sisälle.
+<!-- Sijoitetaan koko sovelluksen renderöimä sisältö Semanticin komponentin [Container](https://react.semantic-ui.com/elements/container) sisälle. -->
+We render all of the application's content inside of Semantic's [Container](https://react.semantic-ui.com/elements/container) component.
 
-Semanticin dokumentaatio sisältää jokaisesta komponentista useita esimerkkikoodinpätkiä, joiden avulla komponenttien käytön periaatteet on helppo omaksua:
+<!-- Semanticin dokumentaatio sisältää jokaisesta komponentista useita esimerkkikoodinpätkiä, joiden avulla komponenttien käytön periaatteet on helppo omaksua: -->
+The documentation for Semantic UI contains several code examples for each component that makes it easy to see how each component is used in practice:
 
 ![](../images/7/13.png)
 
-Muutetaan komponentin App uloin <i>div</i>-elementti komponentiksi <i>Container</i>:
+<!-- Muutetaan komponentin App uloin <i>div</i>-elementti komponentiksi <i>Container</i>: -->
+Let's swap the out root <i>div</i> element of App for a <i>Container</i> component:
 
 ```js
 import { Container } from 'semantic-ui-react'
@@ -302,11 +325,13 @@ const App = () => {
 }
 ```
 
-Sivun sisältö ei ole enää reunoissa kiinni:
+<!-- Sivun sisältö ei ole enää reunoissa kiinni: -->
+The content of the application is no longer attached to the edges of the browser:
 
 ![](../images/7/14.png)
 
-Edellisen luvun tapaan, renderöidään muistiinpanot taulukkona, komponentin [Table](https://react.semantic-ui.com/collections/table) avulla. Koodi näyttää seuraavalta
+<!-- Edellisen luvun tapaan, renderöidään muistiinpanot taulukkona, komponentin [Table](https://react.semantic-ui.com/collections/table) avulla. Koodi näyttää seuraavalta -->
+Just like we did with Bootstrap, let's render the notes as a table with Semantic's [Table](https://react.semantic-ui.com/collections/table) component. The resulting code looks like this:
 
 ```js
 import { Table } from 'semantic-ui-react'
@@ -333,13 +358,16 @@ const Notes = (props) => (
   </div>
 ```
 
-Muistiinpanojen lista näyttää seuraavalta:
+<!-- Muistiinpanojen lista näyttää seuraavalta: -->
+After making these changes, the list of notes looks like this:
 
 ![](../images/7/14.png)
 
-#### Lomake
+<!-- #### Lomake -->
+#### Form
 
-Otetaan kirjautumissivulla käyttöön Semanticin [Form](https://react.semantic-ui.com/collections/form)-komponentti:
+<!-- Otetaan kirjautumissivulla käyttöön Semanticin [Form](https://react.semantic-ui.com/collections/form)-komponentti: -->
+Let's use Semantic's [Form](https://react.semantic-ui.com/collections/form) component in the login view of the application:
 
 ```js
 import { Form, Button } from 'semantic-ui-react'
@@ -365,13 +393,16 @@ let Login = (props) => {
 }
 ```
 
-Ulkoasu näyttää seuraavalta:
+<!-- Ulkoasu näyttää seuraavalta: -->
+The appearance of the new login view looks like this:
 
 ![](../images/7/15.png)
 
-#### Notifikaatio
+<!-- #### Notifikaatio -->
+#### Notification
 
-Edellisen luvun tapaan, toteutetaan sovellukseen kirjautumisen jälkeinen <i>notifikaatio</i>:
+<!-- Edellisen luvun tapaan, toteutetaan sovellukseen kirjautumisen jälkeinen <i>notifikaatio</i>: -->
+Just like we did with the Bootstrap version, let's implement a styled <i>notification</i> that is displayed after a user logs in to the application:
 
 ![](../images/7/6.png)
 
