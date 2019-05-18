@@ -979,7 +979,8 @@ The creator of Redux Dan Abramov has created a wonderful tutorial called [Gettin
 
 ### Presentational/Container revisited
 
-Komponentti <i>Notes</i> käyttää apumetodia <i>notesToShow</i>, joka päättelee filtterin perusteella näytettävien muistiinpanojen listan:
+<!-- Komponentti <i>Notes</i> käyttää apumetodia <i>notesToShow</i>, joka päättelee filtterin perusteella näytettävien muistiinpanojen listan: -->
+The <i>Notes</i> component uses the <i>notesToShow</i> helper method to construct the list of notes that are shown based on the selected filter:
 
 ```js
 const Notes = (props) => {
@@ -997,7 +998,8 @@ const Notes = (props) => {
 }
 ```
 
-Komponentin on tarpeetonta sisältää kaikkea tätä logiikkaa. Eriytetään se komponentin ulkopuolelle _connect_-metodin parametrin <i>mapStateToProps</i> yhteyteen:
+<!-- Komponentin on tarpeetonta sisältää kaikkea tätä logiikkaa. Eriytetään se komponentin ulkopuolelle _connect_-metodin parametrin <i>mapStateToProps</i> yhteyteen: -->
+It is unnecessary for the component to contain all of this logic. Let's extract it outside of the component so that it is handled in <i>mapStateToProps</i>:
 
 ```js
 import React from 'react'
@@ -1046,9 +1048,11 @@ export default connect(
 
 ```
 
-<i>mapStateToProps</i> ei siis tällä kertaa mäppää propsiksi suoraan storessa olevaa asiaa, vaan storen tilasta funktion _notesToShow_ avulla muodostetun sopivasti filtteröidyn datan. Uusi versio funktiosta _notesToShow_ siis saa parametriksi koko tilan ja <i>valitsee</i> siitä sopivan osajoukon välitettäväksi komponentille. Tämänkaltaisia funktioita kutsutaan [selektoreiksi](https://medium.com/@pearlmcphee/selectors-react-redux-reselect-9ab984688dd4).
+<!-- <i>mapStateToProps</i> ei siis tällä kertaa mäppää propsiksi suoraan storessa olevaa asiaa, vaan storen tilasta funktion _notesToShow_ avulla muodostetun sopivasti filtteröidyn datan. Uusi versio funktiosta _notesToShow_ siis saa parametriksi koko tilan ja <i>valitsee</i> siitä sopivan osajoukon välitettäväksi komponentille. Tämänkaltaisia funktioita kutsutaan [selektoreiksi](https://medium.com/@pearlmcphee/selectors-react-redux-reselect-9ab984688dd4). -->
+Previously <i>mapStateToProps</i> was simply used for selecting pieces of state from the store, but in this case we are also using the _notesToShow_ function to map the state into the desired filtered list of notes. The new version of _notesToShow_ receives the store's state in its entirety, and <i>selects</i> an appropriate piece of the store that is passed to the component. Functions like this are called [selectors](https://medium.com/@pearlmcphee/selectors-react-redux-reselect-9ab984688dd4).
 
-Uudistettu <i>Notes</i> keskittyy lähes ainoastaan muistiinpanojen renderöimiseen, se on hyvin lähellä sitä minkä sanotaan olevan [presentational](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)-komponentti, joita Dan Abramovin [sanoin](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) kuvaillaan seuraavasti:
+<!-- Uudistettu <i>Notes</i> keskittyy lähes ainoastaan muistiinpanojen renderöimiseen, se on hyvin lähellä sitä minkä sanotaan olevan [presentational](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)-komponentti, joita Dan Abramovin [sanoin](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) kuvaillaan seuraavasti: -->
+Our new <i>Notes</i> component is almost entirely focused on rendering notes and is quite close to being a so-called [presentational component](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0). According to the [description](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) provided by Dan Abramov, presentation components:
 
 - Are concerned with how things look.
 - May contain both presentational and container components inside, and usually have some DOM markup and styles of their own.
@@ -1059,7 +1063,8 @@ Uudistettu <i>Notes</i> keskittyy lähes ainoastaan muistiinpanojen renderöimis
 - Rarely have their own state (when they do, it’s UI state rather than data).
 - Are written as functional components unless they need state, lifecycle hooks, or performance optimizations.
 
-Connect-metodin avulla muodostettu _yhdistetty komponentti_
+<!-- Connect-metodin avulla muodostettu _yhdistetty komponentti_ -->
+The _connected component_ that is created with the _connect_ function:
 
 ```js
 const notesToShow = ({notes, filter}) => {
@@ -1082,7 +1087,8 @@ export default connect(
 )(Notes)
 ```
 
-taas on selkeästi <i>container</i>-komponentti, joita Dan Abramov [luonnehtii](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) seuraavasti:
+<!-- taas on selkeästi <i>container</i>-komponentti, joita Dan Abramov [luonnehtii](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) seuraavasti: -->
+Fits the description of a <i>container</i> component. According to the [description](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) provided by Dan Abramov, container components:
 
 - Are concerned with how things work.
 - May contain both presentational and container components inside but usually don’t have any DOM markup of their own except for some wrapping divs, and never have any styles.
@@ -1091,37 +1097,48 @@ taas on selkeästi <i>container</i>-komponentti, joita Dan Abramov [luonnehtii](
 - Are often stateful, as they tend to serve as data sources.
 - Are usually generated using higher order components such as connect from React Redux, rather than written by hand.
 
-Komponenttien presentational vs. container -jaottelu on eräs hyväksi havaittu tapa strukturoida React-sovelluksia. Jako voi olla toimiva tai sitten ei, kaikki riippuu kontekstista.
+<!-- Komponenttien presentational vs. container -jaottelu on eräs hyväksi havaittu tapa strukturoida React-sovelluksia. Jako voi olla toimiva tai sitten ei, kaikki riippuu kontekstista. -->
+Dividing the application into presentational and container components is one way of structuring React applications that has been deemed beneficial. The division may be a good design choice or it may not, it depends on the context.
 
-Abramov mainitsee jaon [eduiksi](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) muunmuassa seuraavat
+<!-- Abramov mainitsee jaon [eduiksi](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) muunmuassa seuraavat -->
+Abramov attributes the following [benefits](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) to the division:
 
 - Better separation of concerns. You understand your app and your UI better by writing components this way.
 - Better reusability. You can use the same presentational component with completely different state sources, and turn those into separate container components that can be further reused.
 - Presentational components are essentially your app’s “palette”. You can put them on a single page and let the designer tweak all their variations without touching the app’s logic. You can run screenshot regression tests on that page.
 
-Abramov mainitsee termin [high order component](https://reactjs.org/docs/higher-order-components.html). Esim. <i>Notes</i> on normaali komponentti, React-reduxin _connect_ metodi taas on <i>high order komponentti</i>, eli käytännössä funktio, joka haluaa parametrikseen komponentin muuttuakseen "normaaliksi" komponentiksi.
+<!-- Abramov mainitsee termin [high order component](https://reactjs.org/docs/higher-order-components.html). Esim. <i>Notes</i> on normaali komponentti, React-reduxin _connect_ metodi taas on <i>high order komponentti</i>, eli käytännössä funktio, joka haluaa parametrikseen komponentin muuttuakseen "normaaliksi" komponentiksi. -->
+Abramov mentions the term [high order component](https://reactjs.org/docs/higher-order-components.html). The <i>Notes</i> component is an example of a regular component, whereas the <i>connect</i> method provided by React-Redux is an example of a <i>high order component</i>. Essentially, a high order component is a function that accept a "regular" component as its parameter, that then returns a new "regular" component as its return value.
 
-High order componentit eli HOC:t ovatkin yleinen tapa määritellä geneeristä toiminnallisuutta, joka sitten erikoistetaan esim. renderöitymisen määrittelyn suhteen parametrina annettavan komponentin avulla. Kyseessä on funktionaalisen ohjelmoinnin etäisesti olio-ohjelmoinnin perintää muistuttava käsite.
+<!-- High order componentit eli HOC:t ovatkin yleinen tapa määritellä geneeristä toiminnallisuutta, joka sitten erikoistetaan esim. renderöitymisen määrittelyn suhteen parametrina annettavan komponentin avulla. Kyseessä on funktionaalisen ohjelmoinnin etäisesti olio-ohjelmoinnin perintää muistuttava käsite. -->
+High order components, or HOCs, are a way of defining generic functionality that can be applied to components. This is a concept from functional programming that very slightly resembles inheritance in object oriented programming.
 
-HOC:it ovat oikeastaan käsitteen [High Order Function](https://en.wikipedia.org/wiki/Higher-order_function) (HOF) yleistys. HOF:eja ovat sellaiset funkiot, jotka joko ottavat parametrikseen funktioita tai palauttavat funkioita. Olemme oikeastaan käyttäneet HOF:eja läpi kurssin, esim. lähes kaikki taulukoiden käsittelyyn tarkoitetut metodit, kuten _map, filter ja find_ ovat HOF:eja.
+<!-- HOC:it ovat oikeastaan käsitteen [High Order Function](https://en.wikipedia.org/wiki/Higher-order_function) (HOF) yleistys. HOF:eja ovat sellaiset funkiot, jotka joko ottavat parametrikseen funktioita tai palauttavat funkioita. Olemme oikeastaan käyttäneet HOF:eja läpi kurssin, esim. lähes kaikki taulukoiden käsittelyyn tarkoitetut metodit, kuten _map, filter ja find_ ovat HOF:eja. -->
+HOCs are in fact a generalization of the [High Order Function](https://en.wikipedia.org/wiki/Higher-order_function) (HOF) concept. HOFs are functions that either accept functions as parameters or return functions. We have actually been using HOFs throughout the course, e.g. all of the methods used for dealing with arrays like _map, filter and fine_ are HOFs. 
 
-Sovelluksen tämänhetkinen koodi on [githubissa](https://github.com/fullstack-hy2019/redux-notes/tree/part6-4) branchissa <i>part6-4</i>.
-
+<!-- Sovelluksen tämänhetkinen koodi on [githubissa](https://github.com/fullstack-hy2019/redux-notes/tree/part6-4) branchissa <i>part6-4</i>. -->
+You can find the code for our current application in its entirety in the <i>part6-4</i> branch of [this github repository](https://github.com/fullstack-hy2019/redux-notes/tree/part6-4).
 </div>
 
 <div class="tasks">
 
-### Tehtäviä
+<!-- ### Tehtäviä -->
+### Exercises
 
-#### 6.12 paremmat anekdootit, step10
+<!-- #### 6.12 paremmat anekdootit, step10 -->
+#### 6.12 Better anecdotes, step10
 
-Sovelluksessa välitetään <i>redux store</i> tällä hetkellä kaikille komponenteille propseina.
+<!-- Sovelluksessa välitetään <i>redux store</i> tällä hetkellä kaikille komponenteille propseina. -->
+The <i>redux store</i> is currently passed to all of the components through props.
 
-Ota käyttöön kirjasto [react-redux](https://github.com/reactjs/react-redux) ja muuta komponenttia <i>AnecdoteList</i> niin, että se pääsee käsiksi tilaan _connect_-funktion välityksellä. 
+<!-- Ota käyttöön kirjasto [react-redux](https://github.com/reactjs/react-redux) ja muuta komponenttia <i>AnecdoteList</i> niin, että se pääsee käsiksi tilaan _connect_-funktion välityksellä.  -->
+Add the [react-redux](https://github.com/reactjs/react-redux) package to your application, and modify the <i>AnecdoteList</i> so that it accesses the store's state with the help of the _connect_ function.
 
-Anekdoottien äänestyksen ja uusien anekdoottien luomisen **ei tarvitse vielä toimia** tämän tehtävän jälkeen.
+<!-- Anekdoottien äänestyksen ja uusien anekdoottien luomisen **ei tarvitse vielä toimia** tämän tehtävän jälkeen. -->
+Voting for and creating new anecdotes **does not need to work** after this exercise.
 
-Tehtävässäsi tarvitsema <i>mapStateToProps</i> on suunilleen seuraavanlainen
+<!-- Tehtävässäsi tarvitsema <i>mapStateToProps</i> on suunilleen seuraavanlainen -->
+The <i>mapStateToProps</i> function you will need in this exercise is approximately the following:
 
 ```js
 const mapStateToProps = (state) => {
@@ -1134,15 +1151,20 @@ const mapStateToProps = (state) => {
 }
 ```
 
-#### 6.13 paremmat anekdootit, step11
+<!-- #### 6.13 paremmat anekdootit, step11 -->
+#### 6.13 Better anecdotes, step11
 
-Tee sama komponentille  <i>Filter</i> ja <i>AnecdoteForm</i>.
+<!-- Tee sama komponentille  <i>Filter</i> ja <i>AnecdoteForm</i>. -->
+Do the same for the <i>Filter</i> and <i>AnecdoteForm</i> components.
 
-#### 6.14 paremmat anekdootit, step12
+<!-- #### 6.14 paremmat anekdootit, step12 -->
+#### 6.14 Better anecdotes, step12.
 
-Muuta komponenttia <i>AnecdoteList</i> siten, että anekdoottien äänestys taas onnistuu ja muuta myös <i>Notification</i> käyttämään connectia.
+<!-- Muuta komponenttia <i>AnecdoteList</i> siten, että anekdoottien äänestys taas onnistuu ja muuta myös <i>Notification</i> käyttämään connectia. -->
+Change the <i>AnecdoteList</i> component so that the voting for anecdotes works again, and also refactor the <i>Notification</i>component to use connect.
 
-Poista turhaksi staten propseina tapahtuva välittäminen, eli pelkistä <i>App</i> muotoon:
+<!-- Poista turhaksi staten propseina tapahtuva välittäminen, eli pelkistä <i>App</i> muotoon: -->
+Remove the redundant passing of the store's state via props by simplifying the <i>App</i> component into the following form:
 
 ```js
 const = () => {
@@ -1157,7 +1179,8 @@ const = () => {
 }
 ```
 
-#### 6.15* paremmat anekdootit, step13
+<!-- #### 6.15* paremmat anekdootit, step13 -->
+#### 6.15* Better anecdotes, step13
 
 Välitä komponentille <i>AnecdoteList</i> connectin avulla ainoastaan yksi stateen liittyvä propsi, filtterin tilan perusteella näytettävät anekdootit samaan tapaan kuin materiaalin luvussa [Presentational/Container revisited](/osa6/monta_reduseria_connect#presentational-container-revisited).
 
