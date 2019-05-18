@@ -585,7 +585,8 @@ export default ConnectedNotes
 <!-- on komponentin <i>Notes</i> sisällä mahdollista viitata storen tilaan, esim. muistiinpanoihin suoraan propsin kautta <i>props.notes</i> sen sijaan, että käytettäisiin suoraan propseina saatua storea muodossa <i>props.store.getState().notes</i>. Vastaavasti <i>props.filter</i> viittaa storessa olevaan filter-kentän tilaan. -->
 The <i>Notes</i> component can access the state of the store directly, e.g. through <i>props.notes</i> that contains the list of notes. Contrast this to the previous <i>props.store.getState().notes</i> implementation that accessed the notes directly from the store. Similarly, <i>props.filter</i> references the value of the filter.
 
-Komponentti muuttuu seuraavasti
+<!-- Komponentti muuttuu seuraavasti -->
+The component changes in the following way:
 
 ```js
 const Notes = (props) => {  // highlight-line
@@ -615,13 +616,16 @@ const Notes = (props) => {  // highlight-line
 }
 ```
 
-Connect-komennolla ja <i>mapStateToProps</i>-määrittelyllä aikaan saatua tilannetta voidaan visualisoida seuraavasti:
+<!-- Connect-komennolla ja <i>mapStateToProps</i>-määrittelyllä aikaan saatua tilannetta voidaan visualisoida seuraavasti: -->
+The situation that results from using <i>connect</i> with the <i>mapStateToProps</i> function we defined can be visualized like this:
 
 ![](../images/6/24c.png)
 
-eli komponentin <i>Notes</i> sisältä on propsien <i>props.notes</i> ja <i>props.filter</i> kautta "suora pääsy" tarkastelemaan Redux storen sisällä olevaa tilaa.
+<!-- eli komponentin <i>Notes</i> sisältä on propsien <i>props.notes</i> ja <i>props.filter</i> kautta "suora pääsy" tarkastelemaan Redux storen sisällä olevaa tilaa. -->
+The <i>Notes</i> component has "direct access" via <i>props.notes</i> and <i>props.filter</i> for inspecting the state of the Redux store.
 
-<i>Notes</i> viittaa edelleen propsien avulla saamaansa funktioon _dispatch_, jota se käyttää muuttamaan Reduxin tilaa:
+<!-- <i>Notes</i> viittaa edelleen propsien avulla saamaansa funktioon _dispatch_, jota se käyttää muuttamaan Reduxin tilaa: -->
+The <i>Notes</i> component still uses the _dispatch_ function that it receives through its props to modify the state of the Redux store:
 
 ```js
 <Note
@@ -634,9 +638,11 @@ eli komponentin <i>Notes</i> sisältä on propsien <i>props.notes</i> ja <i>prop
 ```
 
 
-Propsia <i>store</i> ei kuitenkaan ole enää olemassa, joten tilan muutos ei tällä hetkellä toimi.
+<!-- Propsia <i>store</i> ei kuitenkaan ole enää olemassa, joten tilan muutos ei tällä hetkellä toimi. -->
+The <i>store</i> prop no longer exists, so altering the state through the function is currently broken.
 
-Connect-funktion toisena parametrina voidaan määritellä [mapDispatchToProps](https://github.com/reactjs/react-redux/blob/master/docs/api.md#arguments) eli joukko <i>action creator</i> -funktioita, jotka välitetään yhdistetylle komponentille propseina. Laajennetaan connectausta seuraavasti
+<!-- Connect-funktion toisena parametrina voidaan määritellä [mapDispatchToProps](https://github.com/reactjs/react-redux/blob/master/docs/api.md#arguments) eli joukko <i>action creator</i> -funktioita, jotka välitetään yhdistetylle komponentille propseina. Laajennetaan connectausta seuraavasti -->
+The second parameter of the _connect_ function can be used for defining [mapDispatchToProps](https://github.com/reactjs/react-redux/blob/master/docs/api.md#arguments) which is a group of <i>action creator</i> functions that are passed to the connected component as props. Let's make the following changes to our existing connect operation:
 
 ```js
 const mapStateToProps = state => {
@@ -666,7 +672,8 @@ const ConnectedNotes = connect(
 )(Notes)
 ```
 
-Nyt komponentti voi dispatchata suoraan action creatorin _toggleImportanceOf_ määrittelemän actionin kutsumalla propsien kautta saamaansa funktiota koodissa:
+<!-- Nyt komponentti voi dispatchata suoraan action creatorin _toggleImportanceOf_ määrittelemän actionin kutsumalla propsien kautta saamaansa funktiota koodissa: -->
+Now the component can directly dispatch the action defined by _toggleImportanceOf_ action creator by calling the function through its props:
 
 ```js
 <Note
@@ -676,29 +683,36 @@ Nyt komponentti voi dispatchata suoraan action creatorin _toggleImportanceOf_ m�
 />
 ```
 
-Eli se sijaan että kutsuttaisiin kutsuttaisiin
+<!-- Eli se sijaan että kutsuttaisiin kutsuttaisiin -->
+This means that instead of dispatching the action like this:
 
 ```js
 props.store.dispatch(toggleImportanceOf(note.id))
 ```
 
-_connect_-metodia käytettäessä actionin dispatchaamiseen riittää
+<!-- _connect_-metodia käytettäessä actionin dispatchaamiseen riittää -->
+When using _connect_ we can simply do this:
 
 ```js
 props.toggleImportanceOf(note.id)
 ```
 
-Storen _dispatch_-funktiota ei enää tarvitse kutsua, sillä _connect_ on muokannut action creatorin _toggleImportanceOf_ sellaiseen muotoon, joka sisältää dispatchauksen.
+<!-- Storen _dispatch_-funktiota ei enää tarvitse kutsua, sillä _connect_ on muokannut action creatorin _toggleImportanceOf_ sellaiseen muotoon, joka sisältää dispatchauksen. -->
+There is no need to call the _dispatch_ function separately since _connect_ has already modified the _toggleImportanceOf_ action creator into a form that contains the dispatch.
 
-_mapDispatchToProps_ lienee aluksi hieman haastava ymmärtää, etenkin sen kohta käsiteltävä [vaihtoehtoinen käyttötapa](/osa6/monta_reduseria_connect#map-dispatch-to-propsin-vaihtoehtoinen-kayttotapa).
+<!-- _mapDispatchToProps_ lienee aluksi hieman haastava ymmärtää, etenkin sen kohta käsiteltävä [vaihtoehtoinen käyttötapa](/osa6/monta_reduseria_connect#map-dispatch-to-propsin-vaihtoehtoinen-kayttotapa). -->
+It can take some to time to wrap your head around how _mapDispatchToProps_ works, especially once we take a look at an [alternative way of using it](/osa6/monta_reduseria_connect#map-dispatch-to-propsin-vaihtoehtoinen-kayttotapa).
 
-Connectin aikaansaamaa tilannetta voidaan havainnollistaa seuraavasti:
+<!-- Connectin aikaansaamaa tilannetta voidaan havainnollistaa seuraavasti: -->
+The resulting situation from using _connect_ can be visualized like this:
 
 ![](../images/6/25b.png)
 
-eli sen lisäksi että <i>Notes</i> pääsee storen tilaan propsien <i>props.notes</i> ja <i>props.filter</i> kautta, se viittaa <i>props.toggleImportanceOf</i>:lla funktioon, jonka avulla storeen saadaan dispatchattua <i>TOGGLE\_IMPORTANCE</i>-tyyppisiä actioneja.
+<!-- eli sen lisäksi että <i>Notes</i> pääsee storen tilaan propsien <i>props.notes</i> ja <i>props.filter</i> kautta, se viittaa <i>props.toggleImportanceOf</i>:lla funktioon, jonka avulla storeen saadaan dispatchattua <i>TOGGLE\_IMPORTANCE</i>-tyyppisiä actioneja. -->
+In addition to accessing the store's state via <i>props.notes</i> and <i>props.filter</i>, the component also references a function that can be used for dispatching <i>TOGGLE\_IMPORTANCE</i>-type actions via its <i>toggleImportanceOf</i> prop.
 
-Connectia käyttämään refaktoroitu komponentti <i>Notes</i> on kokonaisuudessaan seuraava:
+<!-- Connectia käyttämään refaktoroitu komponentti <i>Notes</i> on kokonaisuudessaan seuraava: -->
+The code for the newly refactored <i>Notes</i> component looks like this:
 
 ```js
 import React from 'react'
@@ -748,7 +762,8 @@ export default connect(
 )(Notes)
 ```
 
-Otetaan _connect_ käyttöön myös uuden muistiinpanon luomisessa:
+<!-- Otetaan _connect_ käyttöön myös uuden muistiinpanon luomisessa: -->
+Let's also use _connect_ to create new notes:
 
 ```js
 import React from 'react'
@@ -776,9 +791,11 @@ export default connect(
 )(NewNote)
 ```
 
-Koska komponentti ei tarvitse storen tilasta mitään, on funktion _connect_ ensimmäinen parametri <i>null</i>.
+<!-- Koska komponentti ei tarvitse storen tilasta mitään, on funktion _connect_ ensimmäinen parametri <i>null</i>. -->
+Since the component does not need to access the store's state, we can simply pass <i>null</i> as the first parameter to _connect_. 
 
-Sovelluksen tämänhetkinen koodi on [githubissa](https://github.com/fullstack-hy2019/redux-notes/tree/part6-3) branchissa <i>part6-3</i>.
+<!-- Sovelluksen tämänhetkinen koodi on [githubissa](https://github.com/fullstack-hy2019/redux-notes/tree/part6-3) branchissa <i>part6-3</i>. -->
+You can find the code for our current application in its entirety in the <i>part6-3</i> branch of [this github repository](https://github.com/fullstack-hy2019/redux-notes/tree/part6-3).
 
 ### Huomio propsina välitettyyn action creatoriin viittaamisesta
 
