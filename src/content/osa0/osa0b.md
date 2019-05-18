@@ -6,7 +6,7 @@ letter: b
 
 <div class="content">
 
-Ennen kuin aloitamme ohjelmoinnin, käymme läpi web-sovellusten toimintaperiaatteita tarkastelemalla osoitteessa <https://fullstack-exampleapp.herokuapp.com/> olevaa esimerkkisovellusta. Huom. sovelluksen toinen versio on osoitteessa <https://fullstack-example.now.sh>, voit käyttää kumpaa vaan.
+Ennen kuin aloitamme ohjelmoinnin, käymme läpi web-sovellusten toimintaperiaatteita tarkastelemalla osoitteessa <https://fullstack-exampleapp.herokuapp.com/> olevaa esimerkkisovellusta. Huom. sovelluksen toinen versio on osoitteessa <https://fullstack-example.now.sh>, voit käyttää kumpaa vaan. Osoitteessa herokuapp.com saattaa lakata toimimasta kuukausien viimeisinä päivinä ilmaisen prosessointiajan loppuessa.
 
 Sovelluksen olemassaolon tarkoitus on ainoastaan havainnollistaa kurssin peruskäsitteistöä. Sovellus ei ole missään tapauksessa esimerkki siitä, <i>miten</i> web-sovelluksia kannattaisi kehittää. Päinvastoin se demonstroi eräitä historiallisia web-sovellusten toteutukseen käytettyjä tapoja ja tekniikoita, joiden katsotaan nykyään olevan jopa <i>huonoja käytänteitä</i>.
 
@@ -65,7 +65,7 @@ img-tagin ansiosta selain tekee toisenkin <i>HTTP-pyynnön</i>, jonka avulla se 
 
 eli pyyntö on tehty osoitteeseen <https://fullstack-exampleapp.herokuapp.com/kuva.png> ja se on tyypiltään HTTP GET. Vastaukseen liittyvät headerit kertovat että vastauksen koko on 89350 tavua ja vastauksen [Content-type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) on <i>image/png</i>, eli kyseessä on png-tyyppinen kuva. Tämän tiedon ansiosta selain tietää, miten kuva on piirrettävä HTML-sivulle.
 
-Sivun https://fullstack-exampleapp.herokuapp.com/ avaaminen selaimessa saa siis aikaan allaolevan [sekvenssikaavion](https://github.com/mluukkai/ohjelmistotekniikka-kevat2019/blob/master/web/materiaali.md#sekvenssikaaviot) kuvaaman tapahtumasarjan
+Sivun https://fullstack-exampleapp.herokuapp.com/ avaaminen selaimessa saa siis aikaan allaolevan [sekvenssikaavion](https://github.com/mluukkai/ohjelmistotekniikka-kevat2019/blob/master/web/materiaali.md#sekvenssikaaviot) kuvaaman tapahtumasarjan:
 
 ![](../images/0/7b.png)
 
@@ -293,7 +293,7 @@ html
         input
 </pre>
 
-Sama puumaisuus on nähtävissä konsolin välilehdellä </i>Elements</i>
+Sama puumaisuus on nähtävissä konsolin välilehdellä </i>Elements</i>:
 
 ![](../images/0/14.png)
 
@@ -489,7 +489,7 @@ Muistiinpanoista huolehtivassa sivussa osa sovelluslogiikasta, eli olemassaolevi
 
 Viimeisten vuosien aikana on noussut esiin tyyli tehdä web-sovellukset käyttäen [Single-page application](https://en.wikipedia.org/wiki/Single-page_application) (SPA) -tyyliä, missä sovelluksilla ei enää ole esimerkkisovelluksemme tapaan erillisiä, palvelimen sille lähettämiä sivuja, vaan sovellus koostuu ainoastaan yhdestä palvelimen lähettämästä HTML-sivusta, jonka sisältöä manipuloidaan selaimessa suoritettavalla Javascriptillä.
 
-Sovelluksemme muistiinpanosivu muistuttaa jo hiukan SPA-tyylistä sovellusta, sitä se ei kuitenkaan vielä ole, sillä vaikka muistiinpanojen renderöintilogiikka on toteutettu selaimessa, käyttää sivu vielä perinteistä mekanisimia uusien muistiinpanojen luomiseen, eli se lähettää uuden muistiinpanon tiedot lomakkeen avulla ja palvelin pyytää <i>uudelleenohjauksen</i> avulla selainta lataamaan muistiinpanojen sivun uudelleen.
+Sovelluksemme muistiinpanosivu muistuttaa jo hiukan SPA-tyylistä sovellusta. Sitä se ei kuitenkaan vielä ole, sillä vaikka muistiinpanojen renderöintilogiikka on toteutettu selaimessa, käyttää sivu vielä perinteistä mekanismia uusien muistiinpanojen luomiseen, eli se lähettää uuden muistiinpanon tiedot lomakkeen avulla ja palvelin pyytää <i>uudelleenohjauksen</i> avulla selainta lataamaan muistiinpanojen sivun uudelleen.
 
 Osoitteesta <https://fullstack-exampleapp.herokuapp.com/spa> löytyy sovelluksen single page app -versio.
 
@@ -545,7 +545,7 @@ Komennolla <em>document.getElementById('notes\_form')</em> koodi hakee sivulta l
 
 Tämän jälkeen se luo muistiinpanon, lisää sen muistiinpanojen listalle komennolla <em>notes.push(note)</em>, piirtää ruudun sisällön eli muistiinpanojen listan uudelleen ja lähettää uuden muistiinpanon palvelimelle.
 
-Palvelimelle muistiinpanon lähettävä koodi seuraavassa:
+Palvelimelle muistiinpanon lähettävä koodi on seuraavassa:
 
 ```js
 var sendToServer = function(note) {
@@ -696,6 +696,6 @@ Tee kaavio tilanteesta, missä käyttäjä menee selaimella osoitteeseen <https:
 
 Tee kaavio tilanteesta, missä käyttäjä luo uuden muistiinpanon single page -versiossa.
 
-Tämä oli osan viimeinen tehtävä ja on aika pushata vastaukset githubiin merkata tehdyt tehtävät [palautussovellukseen](https://studies.cs.helsinki.fi/fullstackopen2019/).
+Tämä oli osan viimeinen tehtävä ja on aika pushata vastaukset githubiin sekä merkata tehdyt tehtävät [palautussovellukseen](https://studies.cs.helsinki.fi/fullstackopen2019/).
 
 </div>
