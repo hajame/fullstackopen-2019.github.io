@@ -654,7 +654,7 @@ app.get('/api/notes/:id', (request, response) => {
 
 Kaikissa virheeseen päättyvissä tilanteissa HTTP-pyyntöön vastataan statuskoodilla 404 not found. Konsoliin tulostetaan tarkempi tieto virheestä.
 
-Tapauksessamme on itseasiassa olemassa kaksi erityyppistä virhetilannetta. Toinen vastaa sitä, että yritetään hakea muistiinpanoa virheellisen muotoisella _id_:llä, eli sellasiella mikä ei vastaa mongon id:iden muotoa.
+Tapauksessamme on itseasiassa olemassa kaksi erityyppistä virhetilannetta. Toinen vastaa sitä, että yritetään hakea muistiinpanoa virheellisen muotoisella _id_:llä, eli sellaisella mikä ei vastaa mongon id:iden muotoa.
 
 Jos teemme näin tulostuu konsoliin:
 
@@ -742,7 +742,7 @@ app.get('/api/notes/:id', (request, response, next) => {
       if (note) {
         response.json(note.toJSON())
       } else {
-        response.status(204).end()
+        response.status(404).end()
       }
     })
     .catch(error => next(error))

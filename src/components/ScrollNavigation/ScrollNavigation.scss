@@ -1,14 +1,15 @@
 @import '../common.scss';
 
 .scroll-navigation {
-  font-size: 16px;
-  position: absolute;
-  width: 30%;
-  left: 0;
-  top: 198px;
+  display: none;
 
-  @include to($desktop) {
-    display: none;
+  @include from($desktop) {
+    display: block;
+    font-size: 16px;
+    position: absolute;
+    width: 30%;
+    left: 0;
+    top: 198px;
   }
 
   padding-right: 1rem;
@@ -35,6 +36,7 @@
 .left-navigation-link {
   padding-left: 1.2rem;
   text-indent: -1.2rem;
+  display: block;
 
   &:hover {
     background-color: $black !important;

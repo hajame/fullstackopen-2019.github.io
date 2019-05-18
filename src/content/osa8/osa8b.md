@@ -954,7 +954,7 @@ Sovelluksen kirjastoa react-apollo-hooks käyttävä koodi on kokonaisuudessaan 
 
 ### Tehtäviä
 
-Tehtävissä toteutetaan GraphQL-kirjastolle frontend.
+Tehtävissä toteutetaan edellisen osan tehtävissä tehdylle backendille frontend.
 
 Ota sovelluksesi lähtökohdaksi [tämä projekti](https://github.com/fullstack-hy2019/library-frontend).
 
@@ -974,7 +974,7 @@ Toteuta kirjojen näkymä, eli näytä sivulla kirjoista muut tiedot paitsi genr
 
 #### 8.10: Kirjan lisäys
 
-Toteuta sovellukseen mahdollisuus uusien kirjojen lisäämiseen. Voit tehdä sovellukseen lisäystä varten oman "näkymän", samalla logiikalla kuin kirjailijoiden ja kirjojen näkymät on tehty. Toiminnallisuus voi näyttää seuraavalta:
+Toteuta sovellukseen mahdollisuus uusien kirjojen lisäämiseen.
 
 ![](../images/8/18.png)
 
