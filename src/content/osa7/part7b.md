@@ -18,24 +18,30 @@ One approach to defining styles for an application is to use a ready-made "UI fr
 <!-- Ensimmäinen laajaa kuuluisuutta saanut UI framework oli Twitterin kehittämä [Bootstrap](https://getbootstrap.com/), joka lienee edelleen UI frameworkeista eniten käytetty. Viime aikoina UI frameworkeja on noussut kuin sieniä sateella. Valikoima on niin iso, ettei tässä kannata edes yrittää tehdä tyhjentävää listaa. -->
 One of the first widely popular UI frameworks was the [Bootstrap](https://getbootstrap.com/) toolkit created by Twitter, that may still be the most popular framework. Recently there has been an explosion in the number of new UI frameworks that have entered the arena. In fact, the selection is so vast that there is little hope of creating an exhaustive list of options.
 
-Monet UI-frameworkit sisältävät web-sovellusten käyttöön valmiiksi määriteltyjä teemoja sekä "komponentteja", kuten painikkeita, menuja, taulukkoja. Termi komponentti on edellä kirjotettu hipsuissa sillä kyse ei ole samasta asiasta kuin React-komponentti. Useimmiten UI-frameworkeja käytetään sisällyttämällä sovellukseen frameworkin määrittelemät CSS-tyylitiedostot sekä Javascript-koodi.
+<!-- Monet UI-frameworkit sisältävät web-sovellusten käyttöön valmiiksi määriteltyjä teemoja sekä "komponentteja", kuten painikkeita, menuja, taulukkoja. Termi komponentti on edellä kirjotettu hipsuissa sillä kyse ei ole samasta asiasta kuin React-komponentti. Useimmiten UI-frameworkeja käytetään sisällyttämällä sovellukseen frameworkin määrittelemät CSS-tyylitiedostot sekä Javascript-koodi. -->
+Many UI frameworks provide developers of web applications with ready-made themes and "components" like buttons, menus, and tables. We write components in quotes as in this context we are not talking about React components. Usually UI frameworks are used by including the CSS stylesheets and JavaScript code of the framework with the application.
 
-Monesta UI-frameworkista on tehty React-ystävällisiä versiota, joissa UI-frameworkin avulla määritellyistä "komponenteista" on tehty React-komponentteja. Esim. Bootstrapista on olemassa parikin React-versiota [reactstrap](http://reactstrap.github.io/) ja [react-bootstrap](https://react-bootstrap.github.io/).
+<!-- Monesta UI-frameworkista on tehty React-ystävällisiä versiota, joissa UI-frameworkin avulla määritellyistä "komponenteista" on tehty React-komponentteja. Esim. Bootstrapista on olemassa parikin React-versiota [reactstrap](http://reactstrap.github.io/) ja [react-bootstrap](https://react-bootstrap.github.io/). -->
+There are React-friendly versions available of many UI frameworks, where the framework's "components" have been transformed into React components. There are a few different React versions of Boostrap like [reactstrap](http://reactstrap.github.io/) and [react-bootstrap](https://react-bootstrap.github.io/).
 
-Katsotaan seuraavaksi kahta UI-framworkia bootstrapia ja [semantic ui](https://semantic-ui.com/):ta.
-Lisätään molempien avulla samantapaiset tyylit luvun [React-router](/osa7/react_router) sovellukseen.
+<!-- Katsotaan seuraavaksi kahta UI-framworkia bootstrapia ja [semantic ui](https://semantic-ui.com/):ta. Lisätään molempien avulla samantapaiset tyylit luvun [React-router](/osa7/react_router) sovellukseen. -->
+Next we will take a closer look at two UI frameworks, Bootstrap and [Semantic UI](https://semantic-ui.com/). We will use both frameworks to add similar styles to the application we made in the [React-router](/osa7/react_router) section of the course material.
 
-### react bootstrap
+<!-- ### react bootstrap -->
+### React Bootstrap
 
-Aloitetaan bootstrapista, käytetään kirjastoa [react-bootstrap](https://react-bootstrap.github.io/).
+<!-- Aloitetaan bootstrapista, käytetään kirjastoa [react-bootstrap](https://react-bootstrap.github.io/). -->
+Let's start by taking a look at Bootstrap with the help of the [react-bootstrap](https://react-bootstrap.github.io/) package.
 
-Asennetaan kirjasto suorittamalla komento
+<!-- Asennetaan kirjasto suorittamalla komento -->
+Let's install the package with the command:
 
 ```js
 npm install --save react-bootstrap
 ```
 
-Lisätään sitten sovelluksen tiedostoon <i>public/index.html</i> tagin <i>head</i> sisään bootstrapin css-määrittelyt lataava rivi:
+<!-- Lisätään sitten sovelluksen tiedostoon <i>public/index.html</i> tagin <i>head</i> sisään bootstrapin css-määrittelyt lataava rivi: -->
+Then let's add a link for loading the CSS stylesheet for Bootstrap inside of the <i>head</i> tag in the <i>public/index.html</i> file of the application:
 
 ```js
 <head>
@@ -49,11 +55,13 @@ Lisätään sitten sovelluksen tiedostoon <i>public/index.html</i> tagin <i>head
 </head>
 ```
 
-Kun sovellus ladataan uudelleen, näyttää se jo aavistuksen tyylikkäämmältä:
+<!-- Kun sovellus ladataan uudelleen, näyttää se jo aavistuksen tyylikkäämmältä: -->
+When we reload the application we notice that it already looks a bit more stylish:
 
 ![](../images/7/5.png)
 
-Bootstrapissa koko sivun sisältö renderöidään yleensä [container](https://getbootstrap.com/docs/4.1/layout/overview/#containers):ina, eli käytännössä koko sovelluksen ympäröivä _div_-elementti merkitään luokalla _container_:
+<!-- Bootstrapissa koko sivun sisältö renderöidään yleensä [container](https://getbootstrap.com/docs/4.1/layout/overview/#containers):ina, eli käytännössä koko sovelluksen ympäröivä _div_-elementti merkitään luokalla _container_: -->
+In Bootstrap, all of the content of the application is typically rendered inside of a [container](https://getbootstrap.com/docs/4.1/layout/overview/#containers). In practice this is accomplished by giving the root _div_ element of the application the  _container_ class attribute:
 
 ```js
 const App = () => {
@@ -67,11 +75,13 @@ const App = () => {
 }
 ```
 
-Sovelluksen ulkoasu muuttuu siten, että sisältö ei ole enää yhtä kiinni selaimen reunoissa:
+<!-- Sovelluksen ulkoasu muuttuu siten, että sisältö ei ole enää yhtä kiinni selaimen reunoissa: -->
+We notice that this already has an effect on the appearance of the application. The content is no longer as close to the edges of the browser as it was earlier:
 
 ![](../images/7/6.png)
 
-Muutetaan seuraavaksi komponenttia <i>Notes</i> siten, että se renderöi muistiinpanojen listan [taulukkona](https://getbootstrap.com/docs/4.1/content/tables/). React bootstrap tarjoaa valmiin komponentin [Table](https://react-bootstrap.github.io/components/table/), joten CSS-luokan käyttöön ei ole tarvetta.
+<!-- Muutetaan seuraavaksi komponenttia <i>Notes</i> siten, että se renderöi muistiinpanojen listan [taulukkona](https://getbootstrap.com/docs/4.1/content/tables/). React bootstrap tarjoaa valmiin komponentin [Table](https://react-bootstrap.github.io/components/table/), joten CSS-luokan käyttöön ei ole tarvetta. -->
+Next, let's make some changes to the <i>Notes</i> component so that it renders the list of notes as a [table](https://getbootstrap.com/docs/4.1/content/tables/). React Bootstrap provides a built-in [Table](https://react-bootstrap.github.io/components/table/) component for this purpose, so there is no need to define CSS classes separately.
 
 ```js
 const Notes = (props) => (
@@ -97,17 +107,20 @@ const Notes = (props) => (
 )
 ```
 
-Ulkoasu on varsin tyylikäs:
+<!-- Ulkoasu on varsin tyylikäs: -->
+The appearance of the application is quite stylish:
 
 ![](../images/7/7.png)
 
-Huomaa, että koodissa käytettävät React bootstrapin komponentit täytyy importata, eli koodiin on lisättävä:
+<!-- Huomaa, että koodissa käytettävät React bootstrapin komponentit täytyy importata, eli koodiin on lisättävä: -->
+Notice that the React Bootstrap components have to be imported separately from the library as shown below:
 
 ```js
 import { Table } from 'react-bootstrap'
 ```
 
-#### Lomake
+<!-- #### Lomake -->
+#### Forms
 
 Parannellaan seuraavaksi näkymän <i>Login</i> kirjautumislomaketta Bootstrapin [lomakkeiden](https://getbootstrap.com/docs/4.1/components/forms/) avulla.
 
