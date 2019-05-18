@@ -17,8 +17,7 @@ Other topics include debugging applications, configuration, managing runtime env
 
 <!-- Osallistujilta edellytetään vahvaa ohjelmointirutiinia, web-ohjelmoinnin ja tietokantojen perustuntemusta, git-versionhallintajärjestelmän peruskäytön hallintaa, kykyä pitkäjänteiseen työskentelyyn sekä valmiutta omatoimiseen tiedonhakuun ja ongelmanratkaisuun.
 Osallistuminen ei kuitenkaan edellytä kurssilla käsiteltävien tekniikoiden tai Javascript-kielen hallintaa. -->
-Participants are expected to have good programming skills, basic knowledge of web-programming and databases and mastery of basic use of the git-version management system. 
-You are also expected have perseverance and ability for indebendent problemsolving and information seeking. 
+Participants are expected to have good programming skills, basic knowledge of web-programming and databases, and to know the basics of working with the Git version-control system. You are also expected to have perseverance and the ability for independent problem solving and information seeking. 
 
 Previous knowledge on JavaScript or other topics of the course is not required. 
 
@@ -27,12 +26,12 @@ Previous knowledge on JavaScript or other topics of the course is not required.
 <!-- Kurssimateriaali on tarkoitettu luettavaksi osa kerrallaan "alusta loppuun". Materiaalin seassa on tehtäviä, jotka on sijoiteltu siten, että kunkin tehtävän tekemiseen pitäsi olla riittävät tekniset valmiudet sitä edeltävässä materiaalissa. Voit siis tehdä tehtäviä sitä mukaan kun niitä tulee materiaalissa vastaan. Voi myös olla, että koko osan tehtävät kannattaa tehdä vasta sen jälkeen, kun olet ensin lukenut osan alusta loppuun kertaalleen. Useissa osissa tehtävät ovat samaa ohjelmaa laajentavia pienistä osista koostuvia kokonaisuuksia. Muutamia tehtävien ohjelmia kehitetään eteenpäin useamman osan aikana. -->
 The course material is meant to be read one part at a time, reading each part all the way through before moving on to the next one.
 
-The material contains exercises, which are placed so that the preceeding material provides enough information for solving each exercise. You can do the exercises as you encounter them in the material. It can also be beneficial to read all of the material for a part through once before starting with the exercises. 
+The material contains exercises, which are placed so that the preceding material provides enough information for solving each exercise. You can do the exercises as you encounter them in the material. It can also be beneficial to read all of the material for a part through once before starting with the exercises. 
 
 In many parts of the course, the exercises build one larger application one small part at a time. Some of the exercise applications are developed through multiple parts.
 
 <!-- Materiaali perustuu muutamien osasta osaan vaihtuvien esimerkkiohjelmien asteittaiseen laajentamiseen. Materiaali toiminee parhaiten, jos kirjoitat samalla koodin myös itse ja teet koodiin myös pieniä modifikaatioita. Materiaalin käyttämien ohjelmien koodin eri vaiheiden tilanteita on tallennettu GitHubiin. -->
-The course material is based on incrementally expanding example applications, which change from part to part. It's propably best to follow the coding along, and indebendently do small modifications to the code. The code of the example applications for each step of each part can be found from GitHub. 
+The course material is based on incrementally expanding example applications, which change from part to part. It's probably best to follow the coding along, and independently do small modifications to the code. The code of the example applications for each step of each part can be found from GitHub. 
 
 ### Taking the course
 
@@ -41,7 +40,7 @@ The course contains nine parts, first of which is number 0 for historical reason
 
 <!-- Materiaalissa osasta <i>n</i> osaan <i>n+1</i> eteneminen ei ole mielekästä ennen kuin riittävä osaaminen osan <i>n</i> asioista on saavutettu. Kurssilla sovelletaankin pedagogisin termein <i>tavoiteoppimista</i>, [engl. mastery learning](https://en.wikipedia.org/wiki/Mastery_learning) ja on tarkoitus, että etenet seuraavaan osaan vasta, kun riittävä määrä edellisen osan tehtävistä on tehty. -->
 Proceeding from part <i>n</i> to part <i>n+1</i> is not sensible before good enough know-how of the topics of part <i>n</i>  has been achieved. 
-In pedagogic terms the course utilizes <i>mastery learning</i>, and the intent is for you to proceed to the next part only after doing enough of the exerices of the previous part. 
+In pedagogic terms the course utilizes <i>mastery learning</i>, and the intent is for you to proceed to the next part only after doing enough of the exercises of the previous part. 
 
 <!-- Oletuksena on, että teet kunkin osan tehtävistä <i>ainakin ne</i> jotka eivät ole merkattu tähdellä. Myös tähdellä merkatut tehtävät vaikuttavat arvosteluun, mutta niiden tekemättäjättäminen ei aiheuta liian suuria esteitä seuraavan osan (tähdellä merkkaamattomien) tehtävien tekemiseen. -->
 You are expected to do <i>at least</i> all of the exercises that are not marked with a star. Exercises marked with the star also count towards your final grade, but skipping them does not stop you from doing the compulsory exercises of the next part. 
@@ -55,7 +54,7 @@ Statistics on the time used for exercises which have already been submitted on d
 ### Evaluation criteria
 
 <!-- Kurssi voidaan suorittaa joko 3 tai 5-8 opintopisteen laajuisena. -->
-The course can be taken as a shorter course worth 3 credits, or as the full course worth 5-8 credits debending on the number of submitted exercises.
+The course can be taken as a shorter course worth 3 credits, or as the full course worth 5-8 credits depending on the number of submitted exercises.
 <!-- Laajuus ja arvosana määräytyy kaikkien tehtyjen tehtävien perusteella, myös tähdellä merkityt tehtävät siis vaikuttavat arvosanaan. Kurssilla on myös koe, joka on suoritettava hyväksytysti. Koe ei kuitenkaan vaikuta arvosanaan. -->
 The amount of credits and the grade are determined by the number of submitted exercises, so also the exercises without stars count towards your final grade. There is also a course exam  which must be passed. The exam does not however count towards your grade. 
 
@@ -164,7 +163,7 @@ Full stack practical work worth 1-10 credits will be available through the Open 
 For the practical work, an application is implemented in React and/or Node. Implementing a mobile application in React Native is also possible. 
 
 <!-- Harjoitustyön opintopistemäärä määrittyy käytettyjen työtuntien mukaan, yksi opintopiste vastaa 17.5 tuntia. Työ arvostellaan skaalalla hyväksytty/hylätty. -->
-The number of credits is based on hours of work done. One credit is approccimately 17.5 hours of work. The work  is graded pass/fail.
+The number of credits is based on hours of work done. One credit is approximately 17.5 hours of work. The work  is graded pass/fail.
 
 <!-- Harjoitustyö on mahdollista tehdä myös pari- tai ryhmätyönä. -->
 It is possible to complete the practical work as a pair or a group.
@@ -183,7 +182,7 @@ This means, that the student can if they so choose, sign up for a job interview 
 ### To do before you start
 
 <!-- Tällä kurssilla suositellaan Chrome-selaimen käyttöä, sillä se tarjoaa parhaan välineistön web-sovelluskehitystä ajatellen. -->
-Use of the chrome browser is recommended for this course,  because it provides the best tools for web development.
+Use of the Chrome browser is recommended for this course,  because it provides the best tools for web development.
 
 <!-- Kurssin tehtävät palautetaan GitHubiin, joten Git tulee olla asennettuna ja sitä on syytä osata käyttää. Ohjeita Gitin käyttämiseen löytyy muunmuassa [täältä](https://github.com/mluukkai/ohjelmistotekniikka-kevat2019/blob/master/tehtavat/viikko1.md#gitin-alkeet). -->
 The course exercises are submitted to GitHub, so Git must be installed and one should know how to use it. Instructions for Git can be found i.a [here](https://github.com/mluukkai/ohjelmistotekniikka-kevat2019/blob/master/tehtavat/viikko1.md#gitin-alkeet).

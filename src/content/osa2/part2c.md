@@ -483,22 +483,31 @@ In some cases this way might be fine, but it is still a bit problematic. Instead
 
 However, it is not immediately obvious where among the component's code the command <em>axios.get</em> should be placed.
 
-### Effect-hookit
+<!-- ### Effect-hookit -->
+### Effect-hooks
 
-Olemme jo käyttäneet Reactin version [16.8.0](https://www.npmjs.com/package/react/v/16.8.0) mukanaan tuomia [state hookeja](https://reactjs.org/docs/hooks-state.html) tuomaan funktioina määriteltyihin React-komponentteihin tilan. Versio 16.8.0 tarjoaa kokonaan uutena ominaisuutena myös
-[effect hookit](https://reactjs.org/docs/hooks-effect.html), dokumentaation sanoin
+<!-- Olemme jo käyttäneet Reactin version [16.8.0](https://www.npmjs.com/package/react/v/16.8.0) mukanaan tuomia [state hookeja](https://reactjs.org/docs/hooks-state.html) tuomaan funktioina määriteltyihin React-komponentteihin tilan. Versio 16.8.0 tarjoaa kokonaan uutena ominaisuutena myös -->
+<!-- [effect hookit](https://reactjs.org/docs/hooks-effect.html), dokumentaation sanoin -->
+
+We have already used [state hooks](https://reactjs.org/docs/hooks-state.html), that were introduced along with React version [16.8.0](https://www.npmjs.com/package/react/v/16.8.0), provide state to React components defined as functions. Version 16.8.0 also introduces the [effect hooks](https://reactjs.org/docs/hooks-effect.html) as a new. In the words of the docs
 
 > <i>The Effect Hook lets you perform side effects in function components.</i>
 > <i>Data fetching, setting up a subscription, and manually changing the DOM in React components are all examples of side effects. </i>
 
-Eli effect hookit ovat juuri oikea tapa hakea dataa palvelimelta.
+<!-- Eli effect hookit ovat juuri oikea tapa hakea dataa palvelimelta. -->
 
-Poistetaan nyt datan hakeminen tiedostosta <i>index.js</i>. Komponentille <i>App</i> ei ole enää tarvetta välittää dataa propseina. Eli  <i>index.js</i> pelkistyy seuraavaan muotoon
+Thereby effect hooks are precisely the right tool to use when fetching data from a server.
+
+<!-- Poistetaan nyt datan hakeminen tiedostosta <i>index.js</i>. Komponentille <i>App</i> ei ole enää tarvetta välittää dataa propseina. Eli  <i>index.js</i> pelkistyy seuraavaan muotoon -->
+
+Let's remove the fetching of data from <i>index.js</i>. There is no longer a need to pass data as props to the <i>App</i> component. So <i>index.js</i> gets simplified into
 
 ```js
 ReactDOM.render(<App />, document.getElementById('root'))
 ```
-Komponentti <i>App</i> muuttuu seuraavasti:
+<!-- Komponentti <i>App</i> muuttuu seuraavasti: -->
+
+The <i>App</i> component changes as follows:
 
 ```js
 import React, { useState, useEffect } from 'react' // highlight-line
@@ -529,9 +538,13 @@ const App = () => {
 ```
 
 
-Koodiin on myös lisätty muutama aputulostus, jotka auttavat hahmottamaan miten suoritus etenee.
+<!-- Koodiin on myös lisätty muutama aputulostus, jotka auttavat hahmottamaan miten suoritus etenee. -->
 
-Konsoliin tulostuu
+We have also added a few helpful prints, which clarify the progression of the execution.
+
+<!-- Konsoliin tulostuu -->
+
+This is printed to the console
 
 <pre>
 render 0 notes
@@ -540,10 +553,13 @@ promise fulfilled
 render 3 notes
 </pre>
 
-Ensin siis suoritetaan komponentin määrittelevan funktion runko ja renderöidään komponentti ensimmäistä kertaa. Tässä vaiheessa tulostuu <i>render 0 notes</i> eli dataa ei ole vielä haettu palvelimelta.
+<!-- Ensin siis suoritetaan komponentin määrittelevan funktion runko ja renderöidään komponentti ensimmäistä kertaa. Tässä vaiheessa tulostuu <i>render 0 notes</i> eli dataa ei ole vielä haettu palvelimelta. -->
 
-Efekti, eli funktio 
+First the body of the function defining the component is executed, and the component is rendered for the first time. At this point <i>render 0 notes</i> is printed, meaning data hasn't yet been fetched from the server.
 
+<!-- Efekti, eli funktio  -->
+
+The effect, or function,
 ```js
 () => {
   console.log('effect')
@@ -556,7 +572,9 @@ Efekti, eli funktio
 }
 ```
 
-suoritetaan heti renderöinnin jälkeen. Funktion suoritus saa aikaan sen, että konsoliin tulostuu <i>effect</i> ja että komento <em>axios.get</em> aloittaa datan hakemisen palvelimelta sekä rekisteröi operaatiolle <i>tapahtumankäsittelijäksi</i> funktion
+<!-- suoritetaan heti renderöinnin jälkeen. Funktion suoritus saa aikaan sen, että konsoliin tulostuu <i>effect</i> ja että komento <em>axios.get</em> aloittaa datan hakemisen palvelimelta sekä rekisteröi operaatiolle <i>tapahtumankäsittelijäksi</i> funktion -->
+
+is executed immediately after rendering. The execution of the function results in <i>effect</i> being printed to the console, and the command <em>axios.get</em> initiating the fetching of data from the server as well as registering a function as an <i>event handler</i> for the operation
 
 ```js
 response => {
@@ -565,11 +583,16 @@ response => {
 })
 ```
 
-Siinä vaiheessa kun data saapuu palvelimelta, Javascriptin runtime kutsuu rekisteröityä tapahtumankäsittelijäfunktiota, joka tulostaa konsoliin <i>promise fulfilled</i> sekä tallettaa tilaan palvelimen palauttamat muistiinpanot funktiolla <em>setNotes(response.data)</em>.
+<!-- Siinä vaiheessa kun data saapuu palvelimelta, Javascriptin runtime kutsuu rekisteröityä tapahtumankäsittelijäfunktiota, joka tulostaa konsoliin <i>promise fulfilled</i> sekä tallettaa tilaan palvelimen palauttamat muistiinpanot funktiolla <em>setNotes(response.data)</em>. -->
 
-Kuten aina, tilan päivittävän funktion kutsu aiheuttaa komponentin uudelleen renderöitymisen. Tämän seurauksena konsoliin tulostuu <i>render 3 notes</i> ja palvelimelta haetut muistiinpanot renderöityvät ruudulle.
+When data arrives from the server the Javascript runtime calls the function registered as the event handler, which prints <i>promise fulfilled</i> to the console and stores the notes received from the server into the state using the function <em>setNotes(response.data)</em>.
 
-Tarkastellaan vielä efektihookin määrittelyä kokonaisuudessaan
+<!-- Kuten aina, tilan päivittävän funktion kutsu aiheuttaa komponentin uudelleen renderöitymisen. Tämän seurauksena konsoliin tulostuu <i>render 3 notes</i> ja palvelimelta haetut muistiinpanot renderöityvät ruudulle. -->
+
+As usual, the call to a function updating state triggers the re-rendering of the component. As a result <i>render 3 notes</i> is printed to the console and the notes fetched from the server are rendered to the screen.
+
+<!-- Tarkastellaan vielä efektihookin määrittelyä kokonaisuudessaan -->
+Finally, let's take a look at the definition of the effect hook as a whole
 
 ```js
 useEffect(() => {
@@ -582,7 +605,8 @@ useEffect(() => {
 }, [])
 ```
 
-Kirjotetaan koodi hieman toisella tavalla. 
+<!-- Kirjotetaan koodi hieman toisella tavalla.  -->
+Let's rewrite the code a bit differently.
 
 ```js
 const hook = () => {
@@ -598,19 +622,31 @@ const hook = () => {
 useEffect(hook, [])
 ```
 
-Nyt huomaamme selvemmin, että funktiolle [useEffect](https://reactjs.org/docs/hooks-reference.html#useeffect) annetaan <i>kaksi parametria</i>. Näistä ensimmäinen on funktio, eli itse <i>efekti</i>. Dokumentaation mukaan
+<!-- Nyt huomaamme selvemmin, että funktiolle [useEffect](https://reactjs.org/docs/hooks-reference.html#useeffect) annetaan <i>kaksi parametria</i>. Näistä ensimmäinen on funktio, eli itse <i>efekti</i>. Dokumentaation mukaan -->
+
+Now we can more clearly see that the function [useEffect](https://reactjs.org/docs/hooks-reference.html#useeffect) is actually given <i>two parameters</i>. The first is a function, the <i>effect</i> itself. According to the documentation
 
 > <i>By default, effects run after every completed render, but you can choose to fire it only when certain values have changed.</i>
 
-Eli oletusarvoisesti efekti suoritetaan <i>aina</i> sen jälkeen, kun komponentti renderöidään. Meidän tapauksessamme emme kuitenkaan halua suorittaa efektin kuin ensimmäisen renderöinnin yhteydessä. 
+<!-- Eli oletusarvoisesti efekti suoritetaan <i>aina</i> sen jälkeen, kun komponentti renderöidään. Meidän tapauksessamme emme kuitenkaan halua suorittaa efektin kuin ensimmäisen renderöinnin yhteydessä.  -->
 
-Funktion <em>useEffect</em> toista parametria käytetään [tarkentamaan sitä miten usein efekti suoritetaan](https://reactjs.org/docs/hooks-reference.html#conditionally-firing-an-effect). Jos toisena parametrina on tyhjä taulukko <em>[]</em>, suoritetaan efekti ainoastaan komponentin ensimmäisen renderöinnin aikana.
+So by default the effect is <i>always</i> run after the component has been rendered. In our case, however, we only want to execute the effect along with the first render.
 
-Efektihookien avulla on mahdollisuus tehdä paljon muutakin kuin hakea dataa palvelimelta, tämä riittää kuitenkin meille tässä vaiheessa.
+<!-- Funktion <em>useEffect</em> toista parametria käytetään [tarkentamaan sitä miten usein efekti suoritetaan](https://reactjs.org/docs/hooks-reference.html#conditionally-firing-an-effect). Jos toisena parametrina on tyhjä taulukko <em>[]</em>, suoritetaan efekti ainoastaan komponentin ensimmäisen renderöinnin aikana. -->
 
-Mieti vielä tarkasti äsken läpikäytyä tapahtumasarjaa, eli mitä kaikkea koodista suoritetaan, missä järjetyksessä ja kuinka monta kertaa. Tapahtumien järjestyksen ymmärtäminen on erittäin tärkeää!
+The second parameter of <em>useEffect</em> is used to [specify how often the effect is run](https://reactjs.org/docs/hooks-reference.html#conditionally-firing-an-effect). If the second parameter is an empty array <em>[]</em>, then the effect is only run along with the first render of the component.
 
-Huomaa, että olisimme voineet kirjoittaa efektifunktion koodin myös seuraavasti:
+<!-- Efektihookien avulla on mahdollisuus tehdä paljon muutakin kuin hakea dataa palvelimelta, tämä riittää kuitenkin meille tässä vaiheessa. -->
+
+There are many possible use cases for effect hook other than fetching data from the server. At this moment this is enough for us.
+
+<!-- Mieti vielä tarkasti äsken läpikäytyä tapahtumasarjaa, eli mitä kaikkea koodista suoritetaan, missä järjetyksessä ja kuinka monta kertaa. Tapahtumien järjestyksen ymmärtäminen on erittäin tärkeää! -->
+
+Think back at the sequence of events we just discussed. Which parts of the code is run? In what order? How often? Understanding the order of events is critical!
+
+<!-- Huomaa, että olisimme voineet kirjoittaa efektifunktion koodin myös seuraavasti: -->
+
+Note, that we could have also written the code of the effect function in the following way:
 
 ```js
 useEffect(() => {
@@ -626,7 +662,9 @@ useEffect(() => {
 }, [])
 ```
 
-Muuttujaan <em>eventHandler</em> on sijoitettu viite tapahtumankäsittelijäfunktioon. Axiosin metodin <em>get</em> palauttama promise on talletettu muuttujaan <em>promise</em>. Takaisinkutsun rekisteröinti tapahtuu antamalla promisen then-metodin parametrina muuttuja <em>eventHandler</em>, joka viittaa käsittelijäfunktioon. Useimmiten funktioiden ja promisejen sijoittaminen muuttujiin ei ole tarpeen ja ylempänä käyttämämme kompaktimpi esitystapa riittää:
+<!-- Muuttujaan <em>eventHandler</em> on sijoitettu viite tapahtumankäsittelijäfunktioon. Axiosin metodin <em>get</em> palauttama promise on talletettu muuttujaan <em>promise</em>. Takaisinkutsun rekisteröinti tapahtuu antamalla promisen then-metodin parametrina muuttuja <em>eventHandler</em>, joka viittaa käsittelijäfunktioon. Useimmiten funktioiden ja promisejen sijoittaminen muuttujiin ei ole tarpeen ja ylempänä käyttämämme kompaktimpi esitystapa riittää: -->
+
+The variable <em>eventHandler</em> has been assigned reference to a event handler function. The promise returned by the <em>get</em> method of Axios is stored into the variable <em>promise</em>. The registration of the callback happens by giving <em>eventHandler</em>, referring to the event handler function, as a parameter to the then method of the promise. It isn't usually necessary to assign functions and promises to variables and a more compact way of representing things, which we saw further above, is enough.
 
 ```js
 useEffect(() => {
@@ -640,31 +678,48 @@ useEffect(() => {
 }, [])
 ```
 
-Sovelluksessa on tällä hetkellä vielä se ongelma, että jos lisäämme uusia muisiinpanoja, ne eivät tallennu palvelimelle asti. Eli kun uudelleenlataamme sovelluksen, kaikki lisäykset katoavat. Korjaus asiaan tulee pian.
+<!-- Sovelluksessa on tällä hetkellä vielä se ongelma, että jos lisäämme uusia muisiinpanoja, ne eivät tallennu palvelimelle asti. Eli kun uudelleenlataamme sovelluksen, kaikki lisäykset katoavat. Korjaus asiaan tulee pian. -->
 
-Sovelluksen tämän hetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part2-notes/tree/part2-4), branchissa <i>part2-4</i>.
+We still have a problem in our application. When adding new notes they are not stored on the server.
 
-### Sovelluskehityksen suoritusympäristö
+<!-- Sovelluksen tämän hetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part2-notes/tree/part2-4), branchissa <i>part2-4</i>. -->
 
-Sovelluksemme kokonaisuuden konfiguraatiosta on pikkuhiljaa muodostunut melko monimutkainen. Käydään vielä läpi mitä tapahtuu missäkin. Seuraava diagrammi kuvaa asetelmaa
+The code so far for the application can be found in full on [github](https://github.com/fullstack-hy2019/part2-notes/tree/part2-4) in the branch <i>part2-4</i>.
+
+<!-- ### Sovelluskehityksen suoritusympäristö -->
+### The runtime environment of software development
+
+<!-- Sovelluksemme kokonaisuuden konfiguraatiosta on pikkuhiljaa muodostunut melko monimutkainen. Käydään vielä läpi mitä tapahtuu missäkin. Seuraava diagrammi kuvaa asetelmaa -->
+
+The configuration for the whole of our application has steadily grown to be more complex. Let's review what happens and where. The following image describes the makeup of the application
 
 ![](../images/2/18c.png)
 
-React-sovelluksen muodostavaa Javascript-koodia siis suoritetaan selaimessa. Selain hakee Javascriptin <i>React dev serveriltä</i>, joka on se ohjelma, mikä käynnistyy kun suoritetaan komento <em>npm start</em>. Dev-serveri muokkaa sovelluksen Javascriptin selainta varten sopivaan muotoon, se mm. yhdistelee eri tiedostoissa olevan Javascript-koodin yhdeksi tiedostoksi. Puhumme enemmän dev-serveristä kurssin osassa 7.
+<!-- React-sovelluksen muodostavaa Javascript-koodia siis suoritetaan selaimessa. Selain hakee Javascriptin <i>React dev serveriltä</i>, joka on se ohjelma, mikä käynnistyy kun suoritetaan komento <em>npm start</em>. Dev-serveri muokkaa sovelluksen Javascriptin selainta varten sopivaan muotoon, se mm. yhdistelee eri tiedostoissa olevan Javascript-koodin yhdeksi tiedostoksi. Puhumme enemmän dev-serveristä kurssin osassa 7. -->
 
-JSON-modossa olevan datan selaimessa pyörivä React-sovellus siis hakee koneella portissa 3001 käynnissä olevalta <i>json-serveriltä</i>, joka taas saa JSON-datan tiedostosta <i>db.json</i>.
+The Javascript code making up our React application is run in the browser. The browser gets the Javascript from the <i>React dev server</i>, which is the application that runs after running the command <em>npm start</em>. The dev-server transforms the Javascript into a format understood by the browser. Among other things, it stitches together Javascript from different files into one file. We'll discuss the dev-server in more detail in part 7 of the course.
 
-Kaikki sovelluksen osat ovat näin sovelluskehitysvaiheessa ohjelmoijan koneella eli <i>localhostissa</i>. Tilanne muuttuu sitten kun sovellus viedään internettiin. Teemme näin osassa 3.
+<!-- JSON-modossa olevan datan selaimessa pyörivä React-sovellus siis hakee koneella portissa 3001 käynnissä olevalta <i>json-serveriltä</i>, joka taas saa JSON-datan tiedostosta <i>db.json</i>. -->
+
+The React application running in the browser fetches the JSON formatted data from <i>json-server</i> running on port 3001 on the machine. json-server gets its data from the file <i>db.json</i>.
+
+<!-- Kaikki sovelluksen osat ovat näin sovelluskehitysvaiheessa ohjelmoijan koneella eli <i>localhostissa</i>. Tilanne muuttuu sitten kun sovellus viedään internettiin. Teemme näin osassa 3. -->
+
+At this point in development, all the parts of the application happen to reside on the software developer's machine, otherwise known as localhost. The situation changes when the application is deployed to the internet. We will do this in part 3.
 
 </div>
 
 <div class="tasks">
 
-<h3>Tehtäviä</h3>
+<!-- <h3>Tehtäviä</h3> -->
+<h3>Exercises</h3>
 
-<h4>2.11: puhelinluettelo step6</h4>
+<!-- <h4>2.11: puhelinluettelo step6</h4> -->
+<h4>2.11: The Phonebook Step6</h4>
 
-Jatketaan puhelinluettelon kehittämistä. Talleta sovelluksen alkutila projektin juureen sijoitettavaan tiedostoon <i>db.json</i>:
+<!-- Jatketaan puhelinluettelon kehittämistä. Talleta sovelluksen alkutila projektin juureen sijoitettavaan tiedostoon <i>db.json</i>: -->
+
+We continue developing the phonebook. Store the initial state of the application into the file <i>db.json</i>, which should be placed in the root of the project.
 
 ```json
 {
@@ -693,9 +748,12 @@ Jatketaan puhelinluettelon kehittämistä. Talleta sovelluksen alkutila projekti
 }
 ```
 
-Käynnistä json-server porttiin 3001 ja varmista selaimella osoitteesta <http://localhost:3001/persons>, että palvelin palauttaa henkilölistan.
+<!-- Käynnistä json-server porttiin 3001 ja varmista selaimella osoitteesta <http://localhost:3001/persons>, että palvelin palauttaa henkilölistan. -->
 
-Jos saat virheilmoituksen:
+Start json-server on port 3001 and make sure that the server returns the list of people by going to the address <http://localhost:3001/persons> in the browser.
+
+<!-- Jos saat virheilmoituksen: -->
+If you get the error message:
 
 ```js
 events.js:182
@@ -707,49 +765,79 @@ Error: listen EADDRINUSE 0.0.0.0:3001
     at _exceptionWithHostPort (util.js:1041:20)
 ```
 
-on portti 3001 jo jonkin muun sovelluksen, esim. jo käynnissä olevan json-serverin käytössä. Sulje toinen sovellus tai jos se ei onnistu, vaihda porttia.
+<!-- on portti 3001 jo jonkin muun sovelluksen, esim. jo käynnissä olevan json-serverin käytössä. Sulje toinen sovellus tai jos se ei onnistu, vaihda porttia. -->
 
-Muuta sovellusta siten, että datan alkutila haetaan <i>axios</i>-kirjaston avulla palvelimelta. Hoida datan hakeminen [Effect hookilla](https://reactjs.org/docs/hooks-effect.html)).
+it means that port 3001 is already in use by another application, e.g. in use by an already running json-server. Close the other application, or change the port in case that doesn't work.
 
-<h4>2.12* maiden tiedot, step1</h4>
+<!-- Muuta sovellusta siten, että datan alkutila haetaan <i>axios</i>-kirjaston avulla palvelimelta. Hoida datan hakeminen [Effect hookilla](https://reactjs.org/docs/hooks-effect.html)). -->
 
-Rajapinta [https://restcountries.eu](https://restcountries.eu) tarjoaa paljon eri maihin liittyvää tietoa koneluettavassa muodossa ns. REST-apina.
+Modify the application such that the initial state of the data is fetched from the server using the <i>axios</i>-library. Complete the fetching with an [Effect hook](https://reactjs.org/docs/hooks-effect.html).
 
-Tee sovellus, jonka avulla voit tarkastella eri maiden tietoja. Sovelluksen kannattaa hakea tiedot endpointista [all](https://restcountries.eu/#api-endpoints-all).
+<!-- <h4>2.12* maiden tiedot, step1</h4> -->
+<h4>2.12* Data for countries, step1</h4>
 
-Sovelluksen käyttöliittymä on yksinkertainen. Näytettävä maa haetaan kirjoittamalla hakuehto etsintäkenttään.
+<!-- Rajapinta [https://restcountries.eu](https://restcountries.eu) tarjoaa paljon eri maihin liittyvää tietoa koneluettavassa muodossa ns. REST-apina. -->
 
-Jos ehdon täyttäviä maita on liikaa (yli 10), kehoitetaan tarkentamaan hakuehtoa:
+The API [https://restcountries.eu](https://restcountries.eu) provides a lot data for different countries in a machine readable format, a so-called REST API.
+
+<!-- Tee sovellus, jonka avulla voit tarkastella eri maiden tietoja. Sovelluksen kannattaa hakea tiedot endpointista [all](https://restcountries.eu/#api-endpoints-all). -->
+
+Create an application, using which one can look at data of various countries. The application should probably get the data from the endpoint [all](https://restcountries.eu/#api-endpoints-all).
+
+<!-- Sovelluksen käyttöliittymä on yksinkertainen. Näytettävä maa haetaan kirjoittamalla hakuehto etsintäkenttään. -->
+
+The user interface is very simple. The country to be shown is found by typing a search query into the search field.
+
+<!-- Jos ehdon täyttäviä maita on liikaa (yli 10), kehoitetaan tarkentamaan hakuehtoa: -->
+
+If there are too many (over 10) countries that match the query, then the user is prompted to make their query more specific:
 
 ![](../images/2/19b1.png)
 
-Jos maita on alle kymmenen, mutta yli 1 näytetään hakuehdon täyttävät maat:
+<!-- Jos maita on alle kymmenen, mutta yli 1 näytetään hakuehdon täyttävät maat: -->
+
+If there are fewer than ten countries, but more than one, then all countries matching the query are shown:
 
 ![](../images/2/19b2.png)
 
-Kun ehdon täyttäviä maita on enää yksi, näytetään maan perustiedot, lippu sekä siellä puhutut kielet:
+<!-- Kun ehdon täyttäviä maita on enää yksi, näytetään maan perustiedot, lippu sekä siellä puhutut kielet: -->
+
+When there is only one country matching the query, then the basic data of the country, its flag and the languages spoken in that country are shown:
 
 ![](../images/2/19b3.png)
 
-**Huom:** riittää että sovelluksesi toimii suurimmalle osalle maista. Jotkut maat kuten <i>Sudan</i> voivat tuottaa ongelmia, sillä maan nimi on toisen maan <i>South Sudan</i> osa. Näistä corner caseista ei tarvitse välittää.
+<!-- **Huom:** riittää että sovelluksesi toimii suurimmalle osalle maista. Jotkut maat kuten <i>Sudan</i> voivat tuottaa ongelmia, sillä maan nimi on toisen maan <i>South Sudan</i> osa. Näistä corner caseista ei tarvitse välittää. -->
 
-**VAROITUS** create-react-app tekee projektista automaattisesti git-repositorion, ellei sovellusta luoda jo olemassaolevan repositorion sisälle. Todennäköisesti **et halua** että projektista tulee repositorio, joten suorita projektin juuressa komento _rm -rf .git_.
+**NB**: it is enough that your application works for most of the countries. Some countries, like <i>Sudan</i>, can cause trouble, since the name of the country is part of the name for another country, <i>South Sudan</i>. You need not worry about these corner cases.
 
-<h4>2.13*: maiden tiedot, step2</h4>
+<!-- **VAROITUS** create-react-app tekee projektista automaattisesti git-repositorion, ellei sovellusta luoda jo olemassaolevan repositorion sisälle. Todennäköisesti **et halua** että projektista tulee repositorio, joten suorita projektin juuressa komento _rm -rf .git_. -->
+**WARNING** create-react-app will automatically turn your project into a git-repository unless you create your application inside of an existing git repository. **Most likely you do not want each of your projects to be a separate repository**, so simply run the _rm -rf .git_ command at the root of your application.
 
-**Tässä osassa on vielä paljon tekemistä, joten älä juutu tähän tehtävään!**
+<!-- <h4>2.13*: maiden tiedot, step2</h4> -->
+<h4>2.13*: Data for countries, step2</h4>
 
-Paranna edellisen tehtävän maasovellusta siten, että kun sivulla näkyy useiden maiden nimiä, tulee maan nimen viereen nappi, jota klikkaamalla pääsee suoraan maan näkymään:
+<!-- **Tässä osassa on vielä paljon tekemistä, joten älä juutu tähän tehtävään!** -->
+
+**There is still a lot to do in this part, so don't get stuck on this exercise!**
+
+<!-- Paranna edellisen tehtävän maasovellusta siten, että kun sivulla näkyy useiden maiden nimiä, tulee maan nimen viereen nappi, jota klikkaamalla pääsee suoraan maan näkymään: -->
+
+Improve on the application in the previous exercise, such that when the names of multiple countries are shown on the page there is a button next to the name of the country, which when pressed shows the view for that country:
 
 ![](../images/2/19b4.png)
 
-Tässäkin tehtävässä riittää, että ohjelmasi toimii suurella osalla maita ja maat joiden nimi sisältyy johonkin muuhun maahan, kuten <i>Sudan</i> voit unohtaa. 
+<!-- Tässäkin tehtävässä riittää, että ohjelmasi toimii suurella osalla maita ja maat joiden nimi sisältyy johonkin muuhun maahan, kuten <i>Sudan</i> voit unohtaa.  -->
 
-<h4>2.14*: maiden tiedot, step3</h4>
+In this exercise it is also enough that your application works for most of the countries. Countries whose name appears in the name of another country, like <i>Sudan</i> can be ignored.
 
-**Tässä osassa on vielä paljon tekemistä, joten älä juutu tähän tehtävään!**
+<!-- <h4>2.14*: maiden tiedot, step3</h4> -->
+<h4>2.14*: Data for countries, step3</h4>
 
-Lisää yksittäisen maan näkymään pääkaupungin säätiedotus. Säätiedotuksen tarjoavia palveluita on kymmeniä. Itse käytin [https://www.apixu.com](https://www.apixu.com):ia. 
+**There is still a lot to do in this part, so don't get stuck on this exercise!**
+
+<!-- Lisää yksittäisen maan näkymään pääkaupungin säätiedotus. Säätiedotuksen tarjoavia palveluita on kymmeniä. Itse käytin [https://www.apixu.com](https://www.apixu.com):ia.  -->
+
+Add to the view showing the data of a single country the weather report for the capital of that country. There are dozens of providers for weather data. I used [https://www.apixu.com](https://www.apixu.com).
 
 ![](../images/2/19b5.png)
 
