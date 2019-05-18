@@ -797,9 +797,11 @@ Since the component does not need to access the store's state, we can simply pas
 <!-- Sovelluksen tämänhetkinen koodi on [githubissa](https://github.com/fullstack-hy2019/redux-notes/tree/part6-3) branchissa <i>part6-3</i>. -->
 You can find the code for our current application in its entirety in the <i>part6-3</i> branch of [this github repository](https://github.com/fullstack-hy2019/redux-notes/tree/part6-3).
 
-### Huomio propsina välitettyyn action creatoriin viittaamisesta
+<!-- ### Huomio propsina välitettyyn action creatoriin viittaamisesta -->
+### Referencing action creators passed as props
 
-Tarkastellaan vielä erästä mielenkiintoista seikkaa komponentista <i>NewNote</i>:
+<!-- Tarkastellaan vielä erästä mielenkiintoista seikkaa komponentista <i>NewNote</i>: -->
+Let's direct our attention to one interesting detail in the <i>NewNote</i> component:
 
 ```js
 import React from 'react'
@@ -822,19 +824,25 @@ export default connect(
 )(NewNote)
 ```
 
-Aloittelevalle connectin käyttäjälle aiheuttaa joskus ihmetystä se, että action creatorista <i>createNote</i> on komponentin sisällä käytettävissä <i>kaksi eri versiota</i>.
+<!-- Aloittelevalle connectin käyttäjälle aiheuttaa joskus ihmetystä se, että action creatorista <i>createNote</i> on komponentin sisällä käytettävissä <i>kaksi eri versiota</i>. -->
+Developers who are new to connect may find it puzzling that there are two versions of the <i>createNote</i> action creator in the component.
 
-Funktioon tulee viitata propsien kautta, eli <i>props.createNote</i>, tällöin kyseessä on _connectin_ muotoilema, <i>dispatchauksen sisältävä</i> versio funktiosta.
+<!-- Funktioon tulee viitata propsien kautta, eli <i>props.createNote</i>, tällöin kyseessä on _connectin_ muotoilema, <i>dispatchauksen sisältävä</i> versio funktiosta. -->
+The function must be referenced as <i>props.createNote</i> through the component's props, as this is the version that <i>contains the automatic dispatch</i> added by _connect_.
 
-Moduulissa olevan import-lauseen
+<!-- Moduulissa olevan import-lauseen -->
+Due to the way that the action creator is imported:
 
 ```js
 import { createNote } from './../reducers/noteReducer'
 ```
 
-ansiosta komponentin sisältä on mahdollista viitata funktioon myös suoraan, eli _noteCreation_. Näin ei kuitenkaan tule tehdä, sillä silloin on kyseessä alkuperäinen action creator joka <i>ei sisällä dispatchausta</i>.
+<!-- ansiosta komponentin sisältä on mahdollista viitata funktioon myös suoraan, eli _noteCreation_. Näin ei kuitenkaan tule tehdä, sillä silloin on kyseessä alkuperäinen action creator joka <i>ei sisällä dispatchausta</i>. -->
+The action creator can also be referenced directly by calling _createNote_. You should not do this, since this is the unmodified version of the action creator that does not contain the added automatic dispatch.
 
-Jos tulostamme funktiot koodin sisällä (emme olekaan vielä käyttäneet kurssilla tätä erittäin hyödyllistä debug-kikkaa)
+
+<!-- Jos tulostamme funktiot koodin sisällä (emme olekaan vielä käyttäneet kurssilla tätä erittäin hyödyllistä debug-kikkaa) -->
+If we print the functions to the console from the code (we have not yet looked at this useful debugging trick): 
 
 ```js
 const NewNote = (props) => {
@@ -851,17 +859,22 @@ const NewNote = (props) => {
 }
 ```
 
-näemme eron:
+<!-- näemme eron: -->
+We can see the difference between the two functions:
 
 ![](../images/6/10.png)
 
-Ensimmäinen funktioista siis on normaali <i>action creator</i>, toinen taas connectin muotoilema funktio, joka sisältää storen metodin dispatch-kutsun.
+<!-- Ensimmäinen funktioista siis on normaali <i>action creator</i>, toinen taas connectin muotoilema funktio, joka sisältää storen metodin dispatch-kutsun. -->
+The first function is a regular <i>action creator</i> whereas the second function contains the additional dispatch to the store that was added by connect.
 
-Connect on erittäin kätevä työkalu, mutta abstraktiutensa takia se voi aluksi tuntua hankalalta.
+<!-- Connect on erittäin kätevä työkalu, mutta abstraktiutensa takia se voi aluksi tuntua hankalalta. -->
+Connect is an incredibly useful tool although it may seem difficult at first due to its level of abstraction.
 
-### mapDispatchToPropsin vaihtoehtoinen käyttötapa
+<!-- ### mapDispatchToPropsin vaihtoehtoinen käyttötapa -->
+### Alternative way of using mapDispatchToProps
 
-Määrittelimme siis connectin komponentille <i>NewNote</i> antamat actioneja dispatchaavan funktion seuraavasti:
+<!-- Määrittelimme siis connectin komponentille <i>NewNote</i> antamat actioneja dispatchaavan funktion seuraavasti: -->
+We defined the function for dispatching actions from the connected <i>NewNote</i> component in the following way:
 
 ```js
 const NewNote = () => {
@@ -874,11 +887,14 @@ export default connect(
 )(NewNote)
 ```
 
-Eli määrittelyn ansiosta komponentti dispatchaa uuden muistiinpanon lisäyksen suorittavan actionin suoraan komennolla <code>props.createNote('uusi muistiinpano')</code>.
+<!-- Eli määrittelyn ansiosta komponentti dispatchaa uuden muistiinpanon lisäyksen suorittavan actionin suoraan komennolla <code>props.createNote('uusi muistiinpano')</code>. -->
+The connect expression above enables the component to dispatch actions for creating new notes with the <code>props.createNote('uusi muistiinpano')</code> command.
 
-Parametrin <i>mapDispatchToProps</i> kenttinä ei voi antaa mitä tahansa funktiota, vaan funktion on oltava <i>action creator</i>, eli Redux-actionin palauttava funktio.
+<!-- Parametrin <i>mapDispatchToProps</i> kenttinä ei voi antaa mitä tahansa funktiota, vaan funktion on oltava <i>action creator</i>, eli Redux-actionin palauttava funktio. -->
+The functions passed in <i>mapDispatchToProps</i> must be <i>action creators</i>, that is, functions that return Redux actions.
 
-Kannattaa huomata, että parametri <i>mapDispatchToProps</i> on nyt <i>olio</i>, sillä määrittely
+<!-- Kannattaa huomata, että parametri <i>mapDispatchToProps</i> on nyt <i>olio</i>, sillä määrittely -->
+It is worth noting that the <i>mapDispatchToProps</i> parameter is a <i>JavaScript object</i>, as the definition:
 
 ```js
 {
@@ -886,7 +902,8 @@ Kannattaa huomata, että parametri <i>mapDispatchToProps</i> on nyt <i>olio</i>,
 }
 ```
 
-on lyhempi tapa määritellä olioliteraali
+<!-- on lyhempi tapa määritellä olioliteraali -->
+Is just shorthand for defining the object literal:
 
 ```js
 {
@@ -894,9 +911,11 @@ on lyhempi tapa määritellä olioliteraali
 }
 ```
 
-eli olio, jonka ainoan kentän <i>createNote</i> arvona on funktio <i>createNote</i>.
+<!-- eli olio, jonka ainoan kentän <i>createNote</i> arvona on funktio <i>createNote</i>. -->
+Which is an object that has a single <i>createNote</i> property with the <i>createNote</i> function as its value.
 
-Voimme määritellä saman myös "pitemmän kaavan" kautta, antamalla _connectin_ toisena parametrina seuraavanlaisen <i>funktion</i>:
+<!-- Voimme määritellä saman myös "pitemmän kaavan" kautta, antamalla _connectin_ toisena parametrina seuraavanlaisen <i>funktion</i>: -->
+Alternatively, we could pass the following <i>function</i> definition as the second parameter to _connect_:
 
 ```js
 const NewNote = (props) => {
@@ -919,7 +938,8 @@ export default connect(
 )(NewNote)
 ```
 
-Tässä vaihtoehtoisessa tavassa <i>mapDispatchToProps</i> on funktio, jota _connect_ kutsuu antaen sille parametriksi storen _dispatch_-funktion. Funktion paluuarvona on olio, joka määrittelee joukon funktioita, jotka annetaan connectoitavalle komponentille propsiksi. Esimerkkimme määrittelee propsin <i>createNote</i> olevan funktion
+<!-- Tässä vaihtoehtoisessa tavassa <i>mapDispatchToProps</i> on funktio, jota _connect_ kutsuu antaen sille parametriksi storen _dispatch_-funktion. Funktion paluuarvona on olio, joka määrittelee joukon funktioita, jotka annetaan connectoitavalle komponentille propsiksi. Esimerkkimme määrittelee propsin <i>createNote</i> olevan funktion -->
+In this alternative definition, <i>mapDispatchToProps</i> is a function that _connect_ will invoke by passing it the _dispatch_-function as its parameter. The return value of the function is an object that defines a group of functions that get passed to the connected component as props. Our example defines the function passed as the <i>createNote</i> prop:
 
 ```js
 value => {
@@ -927,9 +947,11 @@ value => {
 }
 ```
 
-eli action creatorilla luodun actionin dispatchaus.
+<!-- eli action creatorilla luodun actionin dispatchaus. -->
+Which simply dispatches the action created with the <i>createNote</i> action creator.
 
-Komponentti siis viittaa funktioon propsin <i>props.createTodo</i> kautta:
+<!-- Komponentti siis viittaa funktioon propsin <i>props.createTodo</i> kautta: -->
+The component then references the function through its props by calling <i>props.createTodo</i>:
 
 ```js
 const NewNote = (props) => {
@@ -949,9 +971,11 @@ const NewNote = (props) => {
 }
 ```
 
-Konsepti on hiukan monimutkainen ja sen selittäminen sanallisesti on haastavaa. Useimmissa tapauksissa onneksi riittää <i>mapDispatchToProps</i>:in yksinkertaisempi muoto. On kuitenkin tilanteita, joissa monimutkaisempi muoto on tarpeen, esim. jos määriteltäessä propseiksi mäpättyjä <i>dispatchattavia actioneja</i> on [viitattava komponentin omiin propseihin](https://github.com/gaearon/redux-devtools/issues/250#issuecomment-186429931).
+<!-- Konsepti on hiukan monimutkainen ja sen selittäminen sanallisesti on haastavaa. Useimmissa tapauksissa onneksi riittää <i>mapDispatchToProps</i>:in yksinkertaisempi muoto. On kuitenkin tilanteita, joissa monimutkaisempi muoto on tarpeen, esim. jos määriteltäessä propseiksi mäpättyjä <i>dispatchattavia actioneja</i> on [viitattava komponentin omiin propseihin](https://github.com/gaearon/redux-devtools/issues/250#issuecomment-186429931). -->
+The concept is quite complex and describing it through text is challenging. In most cases it is sufficient to use the simpler form of <i>mapDispatchToProps</i>. However, there are situations where the more complicated definition is necessary, like if the <i>dispatched actions</i> need to reference [the props of the component](https://github.com/gaearon/redux-devtools/issues/250#issuecomment-186429931).
 
-Egghead.io:sta löytyy Reduxin kehittäjän Dan Abramovin loistava tuoriaali [Getting started with Redux](https://egghead.io/courses/getting-started-with-redux), jonka katsomista voin suositella kaikille. Neljässä viimeisessä videossa käsitellään _connect_-metodia ja nimenomaan sen "hankalampaa" käyttötapaa.
+<!-- Egghead.io:sta löytyy Reduxin kehittäjän Dan Abramovin loistava tuoriaali [Getting started with Redux](https://egghead.io/courses/getting-started-with-redux), jonka katsomista voin suositella kaikille. Neljässä viimeisessä videossa käsitellään _connect_-metodia ja nimenomaan sen "hankalampaa" käyttötapaa. -->
+The creator of Redux Dan Abramov has created a wonderful tutorial called [Getting started with Redux](https://egghead.io/courses/getting-started-with-redux) that you can find on Egghead.io. I highly recommend the tutorial to everyone. The last four videos discuss the _connect_ method, particularly the more "complicated" way of using it.
 
 ### Presentational/Container revisited
 
