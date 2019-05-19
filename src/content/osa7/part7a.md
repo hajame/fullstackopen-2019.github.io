@@ -512,7 +512,8 @@ We define an element common for modern web apps called <i>footer</i>, which defi
 </div>
 <div class="tasks">
 
-### Tehtäviä
+<!-- ### Tehtäviä -->
+### Exercises
 
 <!-- Jatketaan anekdoottien parissa. Ota seuraaviin tehtäviin pohjaksi repositoriossa <https://github.com/fullstack-hy2019/routed-anecdotes> oleva reduxiton anekdoottisovellus. -->
 
