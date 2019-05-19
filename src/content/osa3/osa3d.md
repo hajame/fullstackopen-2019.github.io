@@ -146,29 +146,15 @@ Esimerkkimme tapauksessa promisejen ketjutuksesta ei ole suurta hyötyä. Tilann
 
 ### Tietokantaa käyttävän version vieminen tuotantoon
 
-Sovelluksen pitäisi toimia tuotannossa, eli Herokussa lähes sellaisenaan. Frontendin muutosten takia on tehtävä siitä uusi tuotantoversio ja kopioitava se backendiin. Toinen muutos on se, että <i>emme halua</i> Herokussa olevan version käyttävän tiedostossa <i>.env</i> määriteltyjä ympäristömuuttujia. Tämän takia tiedoston <i>index.js</i> alussa oleva rivi
+Sovelluksen pitäisi toimia tuotannossa, eli Herokussa lähes sellaisenaan. Frontendin muutosten takia on tehtävä siitä uusi tuotantoversio ja kopioitava se backendiin. 
 
-```js
-require('dotenv').config()
-```
-
-on muutettava muotoon
-
-```js
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
-```
-
-Nyt dotenvissä olevat ympäristömuuttujat otetaan käyttöön ainoastaan silloin kun sovellus ei ole <i>production</i>- eli tuotantomoodissa (kuten esim. Herokussa).
-
-Tietokantaurlin kertovan ympäristömuuttujan arvo asetetaan Herokuun komennolla _heroku config:set_
+Huomaa, että vaikka määrittelimme sovelluskehitystä varten ympäristömuuttujille arvot tiedostossa <i>.env</i>, tietokantaurlin kertovan ympäristömuuttujan arvo asetetaan Herokuun komentorivillä komennolla _heroku config:set_
 
 ```bash
 heroku config:set MONGODB_URI=mongodb+srv://fullstack:secred@cluster0-ostce.mongodb.net/note-app?retryWrites=true
 ```
 
-Sovelluksen pitäisi toimia muutosten jälkeen. Aina kaikki ei kuitenkaan mene suunnitelmien mukaan. Jos ongelmia ilmenee, <i>heroku logs</i> auttaa. Oma sovellukseni ei toiminut muutoksen jälkeen. Loki kertoi seuraavaa
+Sovelluksen pitäisi nyt toimia. Aina kaikki ei kuitenkaan mene suunnitelmien mukaan. Jos ongelmia ilmenee, <i>heroku logs</i> auttaa. Oma sovellukseni ei toiminut muutoksen jälkeen. Loki kertoi seuraavaa
 
 ![](../images/3/51a.png)
 
@@ -184,7 +170,7 @@ Sovelluksen tämän hetkinen koodi on kokonaisuudessaan [githubissa](https://git
 
 #### 3.19: puhelinluettelo ja tietokanta, step7
 
-Toteuta sovelluksellesi validaatio, joka huolehtii, että backendiin voi lisätä yhdelle nimelle ainoastaan yhden numeron. Frontendin nykyisestä versiosta ei duplikaatteja voi luoda, mutta suoraan Postmanilla tai VS Coden REST clientillä se onnistuu.
+Toteuta sovelluksellesi validaatio, joka huolehtii, että backendiin ei voi lisätä nimeä joka on jo puhelinluettelossa. Frontendin nykyisestä versiosta ei duplikaatteja voi luoda, mutta suoraan Postmanilla tai VS Coden REST clientillä se onnistuu.
 
 Mongoose ei tarjoa tilanteeseen sopivaa valmista validaattoria. Käytä npm:llä asennettavaa pakettia
 [mongoose-unique-validator](https://github.com/blakehaswell/mongoose-unique-validator#readme).

@@ -704,7 +704,7 @@ const App = () => {
         {store.getState().map(note =>
           <li
             key={note.id} 
-            onClick={() => toggleImportance(note.id)}
+            onClick={toggleImportance(note.id)}
           >
             {note.content} <strong>{note.important ? 'tärkeä' : ''}</strong>
           </li>
@@ -1021,11 +1021,11 @@ const App = (props) => {
 
 Yksittäisen muistiinpanon renderöinnistä huolehtiva <i>Note</i> on erittäin yksinkertainen, eikä ole tietoinen siitä, että sen propsina saama tapahtumankäsittelijä dispatchaa actionin. Tälläisiä komponentteja kutsutaan Reactin terminologiassa [presentational](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)-komponenteiksi.
 
-<i>NoteList</i> taas on sellainen mitä kutsutaan [container](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)-komponenteiksi, se sisältää sovelluslogiikkaa, eli määrittelee mitä <i>Note</i>-komponenttien tapahtumankäsittelijät tekevät ja koordinoi <i>presentational</i>-komponenttien, eli <i>Notejen</i> konfigurointia.
+<i>Notes</i> taas on sellainen mitä kutsutaan [container](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)-komponenteiksi, se sisältää sovelluslogiikkaa, eli määrittelee mitä <i>Note</i>-komponenttien tapahtumankäsittelijät tekevät ja koordinoi <i>presentational</i>-komponenttien, eli <i>Notejen</i> konfigurointia.
 
 Palaamme presentational/container-jakoon tarkemmin myöhemmin tässä osassa.
 
-<i>storen</i> välittäminen sitä tarvitseviin komponentteihin propsien avulla on melko ikävää. Vaikka <i>App</i> ei itse tarvitse storea, sen on otettava store vastaan, pystyäkseen välittämään sen edelleen komponenteille <i>NoteForm</i> ja <i>NoteList</i>. Tähän on kuitenkin tulossa parannus hetken päästä.
+<i>storen</i> välittäminen sitä tarvitseviin komponentteihin propsien avulla on melko ikävää. Vaikka <i>App</i> ei itse tarvitse storea, sen on otettava store vastaan, pystyäkseen välittämään sen edelleen komponenteille <i>NewNote</i> ja <i>Notes</i>. Tähän on kuitenkin tulossa parannus hetken päästä.
 
 Redux-sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/redux-notes/tree/part6-1), branchissa <i>part6-1</i>.
 

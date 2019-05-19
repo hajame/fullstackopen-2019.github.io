@@ -8,6 +8,7 @@ import { Image } from '../Image/Image';
 import { Link } from 'gatsby';
 import { PropTypes } from 'prop-types';
 import React from 'react';
+import snakeCase from 'lodash/fp/snakeCase';
 
 const partners = [
   {
@@ -40,83 +41,49 @@ const partners = [
   },
 ];
 
+/* All logos must be in SVG format */
 const inChallenge = [
-  {
-    name: 'tivia.png',
-    alt: 'Tivia',
-  },
-  {
-    name: 'relex.svg',
-    alt: 'Relex',
-  },
-  {
-    name: 'smartly.svg',
-    alt: 'Smartly.io',
-  },
-  {
-    name: 'eficode.svg',
-    alt: 'Eficode',
-  },
-  {
-    name: 'sympa.svg',
-    alt: 'Sympa',
-  },
-  {
-    name: 'cinia.svg',
-    alt: 'Cinia',
-  },
-  {
-    name: 'appgyver.svg',
-    alt: 'AppGyver',
-  },
-  {
-    name: 'codento.svg',
-    alt: 'Codento',
-  },
-  {
-    name: 'taito.svg',
-    alt: 'Taito united',
-  },
-  {
-    name: 'emblica.svg',
-    alt: 'Emblica',
-  },
-  {
-    name: 'kodan.png',
-    alt: 'Kodan',
-  },
-  {
-    name: 'upcloud.png',
-    alt: 'UpCloud',
-  },
-  {
-    name: 'perfektio.png',
-    alt: 'Perfektio',
-  },
-  {
-    name: 'blok.png',
-    alt: 'Blok',
-  },
-  {
-    name: 'gworks.png',
-    alt: 'G-Works',
-  },
-  {
-    name: 'webscale.png',
-    alt: 'Webscale',
-  },
-  {
-    name: 'siili.png',
-    alt: 'Siili',
-  },
-  {
-    name: 'fmi.svg',
-    alt: 'Ilmatieteenlaitos',
-  },
-  {
-    name: 'futurice.png',
-    alt: 'Futurice',
-  },
+  'Tivia',
+  'Relex',
+  'Smartly.io',
+  'Eficode',
+  'Sympa',
+  'Cinia',
+  'AppGyver',
+  'Codento',
+  'Taito united',
+  'Emblica',
+  'Kodan',
+  'UpCloud',
+  'Perfektio',
+  'Blok',
+  'G-Works',
+  'Webscale',
+  'Siili',
+  'Ilmatieteenlaitos',
+  'Futurice',
+  'Visma',
+  'Platonic Partnership',
+  'Omnia',
+  'Tietotalo',
+  'Circles',
+  'Nordcloud',
+  'Wunderdog',
+  'Gofore',
+  'Nortal Oy',
+  'NurseBuddy',
+  'Wolt',
+  'Pori',
+  'Motley',
+  'Bonsky Digital',
+  'Plan Brothers',
+  'Integrify',
+  'Rentle',
+  'Compile',
+  'Telia',
+  'Umbrella Interactive',
+  'Tabella',
+  'Nextup',
 ];
 
 export const CompaniesBanner = ({ isFrontPage }) => (
@@ -150,25 +117,31 @@ export const CompaniesBanner = ({ isFrontPage }) => (
         ))}
       </Element>
 
-      <BodyText
-        centered
-        className="col-4 spacing push-right-3 challenge-title"
-        text="Full stack -haasteessa mukana"
-      />
-      <Element flex className="col-9 flex-fix-aligning space-between--mobile">
-        {inChallenge.map(
-          company =>
-            company.name !== '' && (
+      {!isFrontPage && (
+        <>
+          <BodyText
+            centered
+            className="col-4 spacing push-right-3 challenge-title"
+            text="Full stack -haasteessa mukana"
+          />
+          <Element
+            flex
+            className="col-9 flex-fix-aligning space-between--mobile"
+          >
+            {inChallenge.map(company => (
               <Image
-                key={company.name}
+                key={company}
                 contain
-                src={require(`../../images/company_logos/${company.name}`)}
-                alt={company.alt}
+                src={require(`../../images/company_logos/${snakeCase(
+                  company
+                )}.svg`)}
+                alt={company}
                 className={`company__logo push-right-1 col-3--mobile col-3--tablet`}
               />
-            )
-        )}
-      </Element>
+            ))}
+          </Element>
+        </>
+      )}
 
       {isFrontPage && (
         <Element flex spaceAround className="col-10 spacing">

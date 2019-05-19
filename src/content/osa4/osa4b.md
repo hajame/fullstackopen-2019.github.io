@@ -16,15 +16,7 @@ Koska sovelluksemme backend on koodiltaan kuitenkin suhteellisen yksinkertainen,
 
 Edellisen osan luvussa [Tietokantaa käyttävän version vieminen tuotantoon](/osa3/validointi_ja_es_lint#tietokantaa-kayttavan-version-vieminen-tuotantoon) mainitsimme, että kun sovellusta suoritetaan Herokussa, on se <i>production</i>-moodissa.
 
-Noden konventiona on määritellä projektin suoritusmoodi ympäristömuuttujan <i>NODE\_ENV</i> avulla. Lataammekin sovelluksen nykyisessä versiossa tiedostossa <i>.env</i> määritellyt ympäristömuuttujat ainoastaan jos sovellus <i>ei ole</i> production moodissa:
-
-```js
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
-```
-
-Yleinen käytäntö on määritellä sovelluksille omat moodinsa myös sovelluskehitykseen ja testaukseen.
+Noden konventiona on määritellä projektin suoritusmoodi ympäristömuuttujan <i>NODE\_ENV</i> avulla. Yleinen käytäntö on määritellä sovelluksille omat moodinsa tuotantokäyttöön,  sovelluskehitykseen ja testaukseen.
 
 Määritellään nyt tiedostossa <i>package.json</i>, että testejä suoritettaessa sovelluksen <i>NODE\_ENV</i> saa arvokseen <i>test</i>:
 
@@ -75,9 +67,7 @@ Testaukseen kannattaisikin käyttää verkossa olevan jaetun tietokannan sijaan 
 Muutetaan konfiguraatiot suorittavaa moduulia seuraavasti:
 
 ```js
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
+require('dotenv').config()
 
 let port = process.env.PORT
 let mongoUrl = process.env.MONGODB_URI
@@ -204,7 +194,7 @@ eli Supertest huolehtii testattavan sovelluksen käynnistämisestä sisäisesti 
 Tehdään pari testiä lisää:
 
 ```js
-test('there are five notes', async () => {
+test('there are three notes', async () => {
   const response = await api.get('/api/notes')
 
   expect(response.body.length).toBe(3)
@@ -222,11 +212,11 @@ Molemmat testit sijoittavat pyynnön vastauksen muuttujaan _response_ ja toisin 
 Async/await-kikan hyödyt tulevat nyt selkeästi esiin. Normaalisti tarvitsisimme asynkronisten pyyntöjen vastauksiin käsille pääsemiseen promiseja ja takaisinkutsuja, mutta nyt kaikki menee mukavasti:
 
 ```js
-const res = await api.get('/api/notes')
+const response = await api.get('/api/notes')
 
 // tänne tullaan vasta kun edellinen komento eli HTTP-pyyntö on suoritettu
 // muuttujassa res on nyt HTTP-pyynnön tulos
-expect(res.body.length).toBe(3)
+expect(response.body.length).toBe(3)
 ```
 
 ### Loggeri
@@ -327,10 +317,12 @@ const Note = require('../models/note')
 const initialNotes = [
   {
     content: 'HTML on helppoa',
+    date: '2019-01-01T00:00:00.000+00:00',
     important: false,
   },
   {
     content: 'HTTP-protokollan tärkeimmät metodit ovat GET ja POST',
+    date: '2019-01-01T00:00:00.000+00:00',
     important: true,
   },
 ]
@@ -372,7 +364,7 @@ Huomaa jälkimmäisen testin ekspektaatio. Komennolla <code>response.body.map(r 
 
 ### Testien suorittaminen yksitellen
 
-Komento _npm test_ suorittaa projektin kaikki testit. Kun olemme vasta tekemässä testejä, on useimmiten järkevämpää suorittaa kerrallaan ainoastaan yhtä tai muutamaa testiä. Jest tarjoaa tähän muutamia vaihtoehtoja. Eräs näistä on komennon [only](https://jestjs.io/docs/en/api#testonlyname-fn-timeout) käyttö. Jos testit on kirjoitettu useaan tiedotoon, ei menetelmä ole kovin hyvä.
+Komento _npm test_ suorittaa projektin kaikki testit. Kun olemme vasta tekemässä testejä, on useimmiten järkevämpää suorittaa kerrallaan ainoastaan yhtä tai muutamaa testiä. Jest tarjoaa tähän muutamia vaihtoehtoja. Eräs näistä on komennon [only](https://jestjs.io/docs/en/api#testonlyname-fn-timeout) käyttö. Jos testit on kirjoitettu useaan tiedostoon, ei menetelmä ole kovin hyvä.
 
 Parempi vaihtoehto on käyttää jestiä suoraan, ilman npm:ää. Tällöin on mahdollista määritellä tarkasti mitä testejä jest suorittaa. Seuraava komento suorittaa ainoastaan tiedostossa <i>tests/note_api.test.js</i> olevat testit
 
@@ -937,7 +929,7 @@ module.exports = {
 
 #### 4.9*: blogilistan testit, step2
 
-Tee testi, joka varmistaa että palautettujen blogeien identifioivan kentän tulee olla nimeltään <i>id</i>,  oletusarvoisestihan tietokantaan talletettujen olioiden tunnistekenttä on <i>_id</i>. Olion kentän olemassaolon tarkastaminen onnistuu jestin matcherillä [toBeDefined](https://jestjs.io/docs/en/expect#tobedefined)
+Tee testi, joka varmistaa että palautettujen blogien identifioivan kentän tulee olla nimeltään <i>id</i>,  oletusarvoisestihan tietokantaan talletettujen olioiden tunnistekenttä on <i>_id</i>. Olion kentän olemassaolon tarkastaminen onnistuu jestin matcherillä [toBeDefined](https://jestjs.io/docs/en/expect#tobedefined)
 
 Muuta koodia siten, että testi menee läpi. Osassa 3 käsitelty [toJSON](osa3/tietojen_tallettaminen_mongo_db_tietokantaan#tietokantaa-kayttava-backend) on sopiva paikka parametrin <i>id</i> määrittelyyn. 
 
@@ -963,7 +955,7 @@ Laajenna toteutusta siten, että testit menevät läpi.
 
 <div class="content">
 
-### Testien refaktorintia
+### Testien refaktorointia
 
 Testit ovat tällä hetkellä osittain epätäydelliset, esim. reittejä <i>GET /api/notes/:id</i> ja <i>DELETE /api/notes/:id</i> ei tällä hetkellä testata epävalidien id:iden osalta. Myös testien organisoinnissa on hieman toivomisen varaa, sillä kaikki on kirjoitettu suoraan testifunktion "päätasolle", parempaan luettavuuteen pääsisimme eritellessä loogisesti toisiinsa liittyvät testit <i>describe</i>-lohkoihin.
 
@@ -978,7 +970,7 @@ const api = supertest(app)
 
 const Note = require('../models/note')
 
-describe('when there is initially some notes saved', async () => {
+describe('when there is initially some notes saved', () => {
   beforeEach(async () => {
     await Note.deleteMany({})
 
@@ -1010,7 +1002,7 @@ describe('when there is initially some notes saved', async () => {
     )
   })
 
-  describe('viewing a specifin note', async () => {
+  describe('viewing a specifin note', () => {
 
     test('succeeds with a valid id', async () => {
       const notesAtStart = await helper.notesInDb()
@@ -1035,7 +1027,7 @@ describe('when there is initially some notes saved', async () => {
         .expect(404)
     })
 
-    test('fails with statuscode 400 id is invalid invalid', async () => {
+    test('fails with statuscode 400 id is invalid', async () => {
       const invalidId = '5a3d5da59070081a82a3445'
 
       await api
@@ -1044,7 +1036,7 @@ describe('when there is initially some notes saved', async () => {
     })
   })
 
-  describe('addition of a new note', async () => {
+  describe('addition of a new note', () => {
     test('succeeds with valid data', async () => {
       const newNote = {
         content: 'async/await yksinkertaistaa asynkronisten funktioiden kutsua',
@@ -1067,7 +1059,7 @@ describe('when there is initially some notes saved', async () => {
       )
     })
 
-    test('fails with status code 400 if data invaild', async () => {
+    test('fails with status code 400 if data invalid', async () => {
       const newNote = {
         important: true
       }
@@ -1083,7 +1075,7 @@ describe('when there is initially some notes saved', async () => {
     })
   })
 
-  describe('deletion of a note', async () => {
+  describe('deletion of a note', () => {
     test('succeeds with status code 200 if id is valid', async () => {
       const notesAtStart = await helper.notesInDb()
       const noteToDelete = notesAtStart[0]

@@ -33,7 +33,7 @@ addNote = event => {
   event.preventDefault()
   const noteObject = {
     content: newNote,
-    date: new Date(),
+    date: new Date().toISOString(),
     important: Math.random() > 0.5,
   }
 
@@ -72,7 +72,7 @@ addNote = event => {
   event.preventDefault()
   const noteObject = {
     content: newNote,
-    date: new Date(),
+    date: new Date().toISOString(),
     important: Math.random() > 0.5,
   }
 
@@ -473,7 +473,7 @@ Promisejen ymmärtäminen on erittäin keskeistä modernissa Javascript-sovellus
 
 Muistiinpanopalvelut määrittelevä moduuli siis eksporttaa olion, jonka kenttinä <i>getAll</i>, <i>create</i> ja <i>update</i> ovat muistiinpanojen käsittelyyn tarkoitetut funktiot. 
 
-Moduulin määrittelu tapahtui seuraavasti:
+Moduulin määrittely tapahtui seuraavasti:
 
 ```js
 import axios from 'axios'

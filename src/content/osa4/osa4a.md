@@ -49,9 +49,7 @@ server.listen(config.PORT, () => {
 Ympäristömuuttujien käsittely on eriytetty moduulin <i>utils/config.js</i> vastuulle:
 
 ```js
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
+require('dotenv').config()
 
 let PORT = process.env.PORT
 let MONGODB_URI = process.env.MONGODB_URI
@@ -192,7 +190,7 @@ const notesRouter = require('./controllers/notes')
 const middleware = require('./utils/middleware')
 const mongoose = require('mongoose')
 
-console.log('commecting to', config.MONGODB_URI)
+console.log('connecting to', config.MONGODB_URI)
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
   .then(() => {
@@ -422,7 +420,7 @@ Koska testejä on tarkoitus suorittaa ainoastaan sovellusta kehitettäessä, ase
 npm install --save-dev jest
 ```
 
-määritellään <i>npm skripti _test</i> suorittamaan testaus jestillä ja raportoimaan testien suorituksesta <i>verbose</i>-tyylillä:
+määritellään npm-skripti <i>test</i> suorittamaan testaus jestillä ja raportoimaan testien suorituksesta <i>verbose</i>-tyylillä:
 
 ```bash
 {
@@ -530,7 +528,7 @@ test('palindrom of react', () => {
 })
 ```
 
-seurauksena on seuraava virheilmotus
+seurauksena on seuraava virheilmoitus
 
 ![](../images/4/2.png)
 
