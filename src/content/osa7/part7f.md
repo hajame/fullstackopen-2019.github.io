@@ -6,51 +6,67 @@ letter: f
 
 <div class="content">
 
-Kurssin seitsemännessä osassa on luvun [React router](/osa7/react_router) kolmen tehtävän lisäksi 17 tehtävää, joissa jatketaan osissa 4 ja 5 tehtyä Bloglist-sovellusta.  Osa seuraavassa olevista tehtävistä on toisistaan riippumattomia "featureita", eli tehtäviä ei tarvitse tehdä järjestyksessä, voit jättää osan aivan hyvin toteuttamatta.
+<!-- Kurssin seitsemännessä osassa on luvun [React router](/osa7/react_router) kolmen tehtävän lisäksi 17 tehtävää, joissa jatketaan osissa 4 ja 5 tehtyä Bloglist-sovellusta.  Osa seuraavassa olevista tehtävistä on toisistaan riippumattomia "featureita", eli tehtäviä ei tarvitse tehdä järjestyksessä, voit jättää osan aivan hyvin toteuttamatta. -->
+In addition to the three exercises in the [React router](/osa7/react_router) section of this seventh part of the course material, there are 17 exercises that continue our work on the Bloglist application that we worked on in parts four and five of the course material. Some of the following exercises are "features" that are independent of one another, meaning that there is no need to finish the exercises in any particular order. You are free to skip over a part of the exercises if you wish to do so.
 
-Voit ottaa pohjaksi oman sovelluksesi sijaan myös mallivastauksen koodin.
+<!-- Voit ottaa pohjaksi oman sovelluksesi sijaan myös mallivastauksen koodin. -->
+If you do not want to use your own Bloglist application, you are free to use the code from the model solution as a starting point for these exercises. 
 
-Useimmat tämän osan tehtävistä vaativat olemassaolevan koodin refaktoroimista. Tämä on tilanne käytännössä aina sovelluksia laajennettaessa, eli vaikka refaktorointi voi olla hankalaa ja ikävääkin, on kyseessä oleellinen taito.
+<!-- Useimmat tämän osan tehtävistä vaativat olemassaolevan koodin refaktoroimista. Tämä on tilanne käytännössä aina sovelluksia laajennettaessa, eli vaikka refaktorointi voi olla hankalaa ja ikävääkin, on kyseessä oleellinen taito. -->
+Many of the exercises in this part of the course material will require the refactoring of existing code. This is a common reality of extending existing applications, meaning that refactoring is an important and necessary skill even if it may feel difficult and unpleasant at times.
 
-Hyvä neuvo niin refaktorointiin kuin uudenkin koodin kirjoittamiseen on <i>pienissä askelissa eteneminen</i>, koodia ei kannata hajottaa totaalisesti refaktorointia tehdessä pitkäksi aikaa, se on käytännössä varma resepti hermojen menettämiseen.
+<!-- Hyvä neuvo niin refaktorointiin kuin uudenkin koodin kirjoittamiseen on <i>pienissä askelissa eteneminen</i>, koodia ei kannata hajottaa totaalisesti refaktorointia tehdessä pitkäksi aikaa, se on käytännössä varma resepti hermojen menettämiseen. -->
+One good piece of advice for both refactoring and writing new code is to take <i> baby steps</i>. Losing your sanity is almost guaranteed if you leave the application in a completely broken state for long periods of time while refactoring.
 
 </div>
 
 <div class="tasks">
 
-### Tehtäviä
+<!-- ### Tehtäviä -->
+### Exercises
 
 #### 7.4: redux, step1
 
-Siirry käyttämään React-komponenttien tilan sijaan Reduxia sovelluksen tilan hallintaan.
+<!-- Siirry käyttämään React-komponenttien tilan sijaan Reduxia sovelluksen tilan hallintaan. -->
+Refactor the application from using internal React component state to using Redux for the application's state management.
 
-Muuta tässä tehtävässä notifikaatio käyttämään Reduxia.
+<!-- Muuta tässä tehtävässä notifikaatio käyttämään Reduxia. -->
+Additionally, change the application's notifications to use Redux at this point of the exercise set.
 
 #### 7.5 redux, step2
 
-Siirrä blogien tietojen talletus Reduxiin.
+<!-- Siirrä blogien tietojen talletus Reduxiin. -->
+Store the information about blog posts in the Redux store.
 
-Kirjautumisen ja uuden blogin luomisen lomakkeiden tilaa voit halutessasi hallita edelleen Reactin tilan avulla. 
+<!-- Kirjautumisen ja uuden blogin luomisen lomakkeiden tilaa voit halutessasi hallita edelleen Reactin tilan avulla.  -->
+You are free to manage the state for logging in and creating new blog posts by using the internal state of React components.
 
-Tämä ja seuraava osa ovat kohtuullisen työläitä, mutta erittäin opettavaisia.
+<!-- Tämä ja seuraava osa ovat kohtuullisen työläitä, mutta erittäin opettavaisia. -->
+This and the next exercise are quite laborious but incredibly educational.
 
 #### 7.6 redux, step3
 
-Siirrä myös kirjautuneen käyttäjän tietojen talletus Reduxiin.
+<!-- Siirrä myös kirjautuneen käyttäjän tietojen talletus Reduxiin. -->
+Store the information about the signed in user in the Redux store.
 
-#### 7.7 käyttäjien näkymä
+<!-- #### 7.7 käyttäjien näkymä -->
+#### 7.7 Users view
 
-Tee sovellukseen näkymä, joka näyttää kaikkiin käyttäjiin liittyvät perustietot:
+<!-- Tee sovellukseen näkymä, joka näyttää kaikkiin käyttäjiin liittyvät perustietot: -->
+Implement a view to the application that displays all of the basic information related to users:
 
 ![](../images/7/41.png)
 
-#### 7.8 yksittäisen käyttäjän näkymä
+<!-- #### 7.8 yksittäisen käyttäjän näkymä -->
+#### 7.8 Individual user view
 
-Tee sovellukseen yksittäisen käyttäjän näkymä, jolta selviää mm. käyttäjän lisäämät blogit
+<!-- Tee sovellukseen yksittäisen käyttäjän näkymä, jolta selviää mm. käyttäjän lisäämät blogit -->
+Implement a view for individual users, that displays all of the blog posts added by that user:
 
 ![](../images/7/44.png)
 
-Näkymään päästään klikkaamalla nimeä kaikkien käyttäjien näkymästä
+<!-- Näkymään päästään klikkaamalla nimeä kaikkien käyttäjien näkymästä -->
+You can access the view by clicking the name of the user in the view that lists all users.
 
 ![](../images/7/43.png)
 
