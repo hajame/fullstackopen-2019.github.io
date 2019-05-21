@@ -104,7 +104,8 @@ Let's install webpack with the command:
 npm install --save-dev webpack webpack-cli
 ```
 
-Webpackin toiminta konfiguroidaan tiedostoon <i>webpack.config.js</i>, laitetaan sen alustavaksi sisällöksi seuraava
+<!-- Webpackin toiminta konfiguroidaan tiedostoon <i>webpack.config.js</i>, laitetaan sen alustavaksi sisällöksi seuraava -->
+We define the functionality of webpack in the <i>webpack.config.js</i> file, which we initialize with the following content:
 
 ```js
 const path = require('path')
@@ -119,7 +120,8 @@ const config = {
 module.exports = config
 ```
 
-Määritellään sitten npm-skripti <i>build</i> jonka avulla bundlaus suoritetaan
+<!-- Määritellään sitten npm-skripti <i>build</i> jonka avulla bundlaus suoritetaan -->
+We will then define a new npm script called <i>build</i> that will execute the bundling with webpack:
 
 ```js
 // ...
@@ -129,7 +131,8 @@ Määritellään sitten npm-skripti <i>build</i> jonka avulla bundlaus suoriteta
 // ...
 ```
 
-Lisätään hieman koodia tiedostoon <i>src/index.js</i>:
+<!-- Lisätään hieman koodia tiedostoon <i>src/index.js</i>: -->
+Let's add some more code to the <i>src/index.js</i> file:
 
 ```js
 const hello = name => {
@@ -137,13 +140,16 @@ const hello = name => {
 };
 ```
 
-Kun nyt suoritamme komennon _npm run build_ webpack bundlaa koodin. Tuloksena on hakemistoon <i>build</i> sijoitettava tiedosto <i>main.js</i>:
+<!-- Kun nyt suoritamme komennon _npm run build_ webpack bundlaa koodin. Tuloksena on hakemistoon <i>build</i> sijoitettava tiedosto <i>main.js</i>: -->
+When we execute the _npm run build_ command our application code will be bundled by webpack. The operation will produce a new <i>main.js</i> file that is added under the <i>build</i> directory:
 
 ![](../images/7/19.png)
 
-Tiedostossa on paljon erikoisen näköistä tavaraa. Lopussa on mukana myös kirjoittamamme koodi.
+<!-- Tiedostossa on paljon erikoisen näköistä tavaraa. Lopussa on mukana myös kirjoittamamme koodi. -->
+The file contains a lot of stuff that looks quite interesting. We can also see the code we wrote earlier at the end of the file.
 
-Lisätään hakemistoon <i>src</i> tiedosto <i>App.js</i> ja sille sisältö
+<!-- Lisätään hakemistoon <i>src</i> tiedosto <i>App.js</i> ja sille sisältö -->
+Let's add a <i>App.js</i> file under the <i>src</i> directory with the following content:
 
 ```js
 const App = () => {
@@ -153,7 +159,8 @@ const App = () => {
 export default App
 ```
 
-Importataan ja käytetään modulia <i>App</i> tiedostossa <i>index.js</i>
+<!-- Importataan ja käytetään modulia <i>App</i> tiedostossa <i>index.js</i> -->
+Let's import and use the <i>App</i> module in the <i>index.js</i> file:
 
 ```js
 import App from './App';
@@ -165,11 +172,13 @@ const hello = name => {
 App()
 ```
 
-Kun nyt suoritamme bundlauksen komennolla _npm run build_ huomaamme webpackin havainneen molemmat tiedostot:
+<!-- Kun nyt suoritamme bundlauksen komennolla _npm run build_ huomaamme webpackin havainneen molemmat tiedostot: -->
+When we bundle the application again with the _npm run build_ command, we notice that webpack has acknowledged both files:
 
 ![](../images/7/20.png)
 
-Kirjoittamamme koodi löytyy erittäin kryptisesti muotoiltuna bundlen lopusta:
+<!-- Kirjoittamamme koodi löytyy erittäin kryptisesti muotoiltuna bundlen lopusta: -->
+Our application code can be found at the end of the bundle file in a rather obscure format:
 
 ```js
 /***/ "./src/App.js":
@@ -197,9 +206,11 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _App
 /***/ })
 ```
 
-### Konfiguraatiotiedosto
+<!-- ### Konfiguraatiotiedosto -->
+### Configuration file
 
-Katsotaan nyt tarkemmin konfiguraation <i>webpack.config.js</i> tämänhetkistä sisältöä:
+<!-- Katsotaan nyt tarkemmin konfiguraation <i>webpack.config.js</i> tämänhetkistä sisältöä: -->
+Let's take a closer at the contents of our current <i>webpack.config.js</i> file:
 
 ```js
 const path = require('path')
@@ -214,21 +225,27 @@ const config = {
 module.exports = config
 ```
 
-Konfiguraatio on Javascriptia ja tapahtuu eksporttaamalla määrittelyt sisältävä olio Noden moduulisyntaksilla.
+<!-- Konfiguraatio on Javascriptia ja tapahtuu eksporttaamalla määrittelyt sisältävä olio Noden moduulisyntaksilla. -->
+The configuration file has been written in JavaScript and the configuration object is exported by using Node's module syntax. 
 
-Tämän hetkinen minimaalinen määrittely on aika ilmeinen, kenttä [entry](https://webpack.js.org/concepts/#entry) kertoo sen tiedoston, mistä bundlaus aloitetaan.
+<!-- Tämän hetkinen minimaalinen määrittely on aika ilmeinen, kenttä [entry](https://webpack.js.org/concepts/#entry) kertoo sen tiedoston, mistä bundlaus aloitetaan. -->
+Our minimal configuration definition almost explains itself. The [entry](https://webpack.js.org/concepts/#entry) property of the configuration object specifies the file that will serve as the entry point for bundling the application.
 
-Kenttä [output](https://webpack.js.org/concepts/#output) taas kertoo minne muodostettu bundle sijoitetaan. Kohdehakemisto täytyy määritellä <i>absoluuttisena polkuna</i>, se taas onnistuu helposti [path.resolve](https://nodejs.org/docs/latest-v8.x/api/path.html#path_path_resolve_paths)-metodilla. [\_\_dirname](https://nodejs.org/docs/latest/api/globals.html#globals_dirname) on Noden globaali muuttuja, joka viittaa nykyiseen hakemistoon.
+<!-- Kenttä [output](https://webpack.js.org/concepts/#output) taas kertoo minne muodostettu bundle sijoitetaan. Kohdehakemisto täytyy määritellä <i>absoluuttisena polkuna</i>, se taas onnistuu helposti [path.resolve](https://nodejs.org/docs/latest-v8.x/api/path.html#path_path_resolve_paths)-metodilla. [\_\_dirname](https://nodejs.org/docs/latest/api/globals.html#globals_dirname) on Noden globaali muuttuja, joka viittaa nykyiseen hakemistoon. -->
+The [output](https://webpack.js.org/concepts/#output) property defines the location where the bundled code will be stored. The target directory must be defined as an <i>absolute path</i> which is easy to create with the [path.resolve](https://nodejs.org/docs/latest-v8.x/api/path.html#path_path_resolve_paths) method. We also use [\_\_dirname](https://nodejs.org/docs/latest/api/globals.html#globals_dirname) which is a global variable in Node that stores the path to the current directory.
 
-### Reactin bundlaaminen
+<!-- ### Reactin bundlaaminen -->
+### Bundling React
 
-Muutetaan sitten sovellus minimalistiseksi React-sovellukseksi. Asennetaan tarvittavat kirjastot
+<!-- Muutetaan sitten sovellus minimalistiseksi React-sovellukseksi. Asennetaan tarvittavat kirjastot -->
+Next, let's transform our application into a minimal React application. Let's install the required libraries:
 
 ```js
 npm install --save react react-dom
 ```
 
-Liitetään tavanomaiset loitsut tiedostoon <i>index.js</i>
+<!-- Liitetään tavanomaiset loitsut tiedostoon <i>index.js</i> -->
+And let's turn our application into a React application by adding the familiar definitions in the <i>index.js</i> file:
 
 ```js
 import React from 'react'
@@ -238,7 +255,8 @@ import App from './App'
 ReactDOM.render(<App />, document.getElementById('root'))
 ```
 
-ja muutetaan <i>App.js</i> muotoon
+<!-- ja muutetaan <i>App.js</i> muotoon -->
+We will also make the following changes to the <i>App.js</i> file:
 
 ```js
 import React from 'react'
@@ -250,7 +268,8 @@ const App = () => (
 export default App
 ```
 
-Tarvitsemme sovellukselle myös "pääsivuna" toimivan tiedoston <i>build/index.html</i> joka lataa <i>script</i>-tagin avulla bundlatun Javascriptin:
+<!-- Tarvitsemme sovellukselle myös "pääsivuna" toimivan tiedoston <i>build/index.html</i> joka lataa <i>script</i>-tagin avulla bundlatun Javascriptin: -->
+We still need the <i>build/index.html</i> file  that will serve as the "main page" of our application that will load our bundled JavaScript code with a <i>script</i> tag:
 
 ```html
 <!DOCTYPE html>
@@ -266,13 +285,16 @@ Tarvitsemme sovellukselle myös "pääsivuna" toimivan tiedoston <i>build/index.
 </html>
 ```
 
-Kun bundlaamme sovelluksen, törmäämme kuitenkin ongelmaan
+<!-- Kun bundlaamme sovelluksen, törmäämme kuitenkin ongelmaan -->
+When we bundle our application, we run into the following problem:
 
 ![](../images/7/21.png)
 
-### Loaderit
+<!-- ### Loaderit -->
+### Loaders
 
-Webpack mainitsee että saatamme tarvita <i>loaderin</i> tiedoston <i>App.js</i> käsittelyyn. Webpack ymmärtää itse vain Javascriptia ja vaikka se saattaa meiltä matkan varrella olla unohtunutkin, käytämme Reactia ohjelmoidessamme [JSX](https://facebook.github.io/jsx/):ää näkymien renderöintiin, eli esim. seuraava
+<!-- Webpack mainitsee että saatamme tarvita <i>loaderin</i> tiedoston <i>App.js</i> käsittelyyn. Webpack ymmärtää itse vain Javascriptia ja vaikka se saattaa meiltä matkan varrella olla unohtunutkin, käytämme Reactia ohjelmoidessamme [JSX](https://facebook.github.io/jsx/):ää näkymien renderöintiin, eli esim. seuraava -->
+The error message from webpack states that we may need an appropriate <i>loader</i> to bundle the <i>App.js</i> file correctly. By default, webpack only knows how to deal with plain JavaScript. Although we may have become unaware of it, we are actually using [JSX](https://facebook.github.io/jsx/) for rendering our views in React. To illustrate this, the following code is not regular JavaScript:
 
 ```js
 const App = () => (
@@ -280,11 +302,14 @@ const App = () => (
 )
 ```
 
-ei ole "normaalia" Javascriptia, vaan JSX:n tarjoama syntaktinen oikotie määritellä <i>div</i>-tagiä vastaava React-elementti.
+<!-- ei ole "normaalia" Javascriptia, vaan JSX:n tarjoama syntaktinen oikotie määritellä <i>div</i>-tagiä vastaava React-elementti. -->
+The syntax used above comes from JSX and it provides us with an alternative way of defining a React element for an html <i>div</i> tag.
 
-[Loaderien](https://webpack.js.org/concepts/loaders/) avulla on mahdollista kertoa webpackille miten tiedostot tulee käsitellä ennen niiden bundlausta.
+<!-- [Loaderien](https://webpack.js.org/concepts/loaders/) avulla on mahdollista kertoa webpackille miten tiedostot tulee käsitellä ennen niiden bundlausta. -->
+We can use [loaders](https://webpack.js.org/concepts/loaders/) to inform webpack of the files that need to be processed before they are bundled.
 
-Määritellään projektiimme Reactin käyttämän JSX:n normaaliksi Javascriptiksi muuntava loaderi:
+<!-- Määritellään projektiimme Reactin käyttämän JSX:n normaaliksi Javascriptiksi muuntava loaderi: -->
+Let's configure a loader to our application that transforms the JSX syntax into regular JavaScript:
 
 ```js
 const config = {
