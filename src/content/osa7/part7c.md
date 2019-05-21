@@ -6,16 +6,20 @@ letter: c
 
 <div class="content">
 
-React oli aiemmin jossain määrin kuuluisa siitä, että sovelluskehityksen edellyttämien työkalujen konfigurointi on ollut hyvin hankalaa. Kiitos [create-react-app](https://github.com/facebookincubator/create-react-app):in, sovelluskehitys Reactilla on kuitenkin nykyään tuskatonta, parempaa työskentelyflowta on tuskin ollut koskaan Javascriptillä tehtävässä selainpuolen sovelluskehityksessä.
+<!-- React oli aiemmin jossain määrin kuuluisa siitä, että sovelluskehityksen edellyttämien työkalujen konfigurointi on ollut hyvin hankalaa. Kiitos [create-react-app](https://github.com/facebookincubator/create-react-app):in, sovelluskehitys Reactilla on kuitenkin nykyään tuskatonta, parempaa työskentelyflowta on tuskin ollut koskaan Javascriptillä tehtävässä selainpuolen sovelluskehityksessä. -->
+Developing with React was notorious for requiring tools that were very difficult to configure. These days, getting started with React development is almost painless thanks to [create-react-app](https://github.com/facebookincubator/create-react-app). A better development workflow has probably never existed for browser-side JavaScript development.
 
-Emme voi kuitenkaan turvautua ikuisesti create-react-app:in magiaan ja nyt onkin aika selvittää mitä kaikkea taustalla on. Avainasemassa React-sovelluksen toimintakuntoon saattamisessa on [webpack](https://webpack.js.org/)-niminen työkalu.
+<!-- Emme voi kuitenkaan turvautua ikuisesti create-react-app:in magiaan ja nyt onkin aika selvittää mitä kaikkea taustalla on. Avainasemassa React-sovelluksen toimintakuntoon saattamisessa on [webpack](https://webpack.js.org/)-niminen työkalu. -->
+We can not rely on the black magic of create-react-app forever and it's time for us to take a look under the hood. One of the key players in making React applications functional is a tool called [webpack](https://webpack.js.org/).
 
-### bundlaus
+<!-- ### bundlaus -->
+### Bundling
 
-Olemme toteuttaneet sovelluksia jakamalla koodin moduuleihin, joita on <i>importattu</i> niitä tarvitseviin paikkoihin. Vaikka ES6-moduulit ovatkin Javascript-standardissa määriteltyjä, ei mikään selain vielä osaa käsitellä moduuleihin jaettua koodia.
+<!-- Olemme toteuttaneet sovelluksia jakamalla koodin moduuleihin, joita on <i>importattu</i> niitä tarvitseviin paikkoihin. Vaikka ES6-moduulit ovatkin Javascript-standardissa määriteltyjä, ei mikään selain vielä osaa käsitellä moduuleihin jaettua koodia. -->
+We have implemented our applications by dividing our code into separate modules that have been <i>imported</i> to places that require them. Even though ES6 modules are defined in the ECMAScript standard, no browser actually knows how to handle code that is divided into modules.
 
-Selainta varten moduuleissa oleva koodi <i>bundlataan</i>, eli siitä muodostetaan yksittäinen, kaiken koodin sisältävä tiedosto.
-Kun veimme Reactilla toteutetun frontendin tuotantoon osan 3 luvussa [Frontendin tuotantoversio](/osa3/sovellus_internetiin#frontendin-tuotantoversio), suoritimme bundlauksen komennolla _npm run build_. Konepellin alla kyseinen npm-skripti suorittaa bundlauksen webpackia hyväksi käyttäen. Tuloksena on joukko hakemistoon <i>build</i> sijoitettavia tiedostoja:
+<!-- Selainta varten moduuleissa oleva koodi <i>bundlataan</i>, eli siitä muodostetaan yksittäinen, kaiken koodin sisältävä tiedosto. Kun veimme Reactilla toteutetun frontendin tuotantoon osan 3 luvussa [Frontendin tuotantoversio](/osa3/sovellus_internetiin#frontendin-tuotantoversio), suoritimme bundlauksen komennolla _npm run build_. Konepellin alla kyseinen npm-skripti suorittaa bundlauksen webpackia hyväksi käyttäen. Tuloksena on joukko hakemistoon <i>build</i> sijoitettavia tiedostoja: -->
+For this reason, code that is divided into modules must be <i>bundled</i> for browsers, meaning that all of the source code files are transformed into a single file that contains all of the application code. When we deployed our React frontend to production in [part 3](/osa3/sovellus_internetiin#frontendin-tuotantoversio), we performed the bundling of our application with the _npm run build_ command. Under the hood, the npm script bundles the source code using webpack which produces the following collection of files in the <i>build</i> directory:
 
 <pre>
 ├── asset-manifest.json
@@ -37,7 +41,8 @@ Kun veimme Reactilla toteutetun frontendin tuotantoon osan 3 luvussa [Frontendin
         └── runtime~main.229c360f.js.map
 </pre>
 
-Hakemiston juuressa oleva sovelluksen "päätiedosto" <i>index.html</i> lataa <i>script</i>-tagin avulla bundlatun Javascript-tiedoston (jos ollaan tarkkoja, on bundlattuja Javascript-tiedostoja kaksi kappaletta):
+<!-- Hakemiston juuressa oleva sovelluksen "päätiedosto" <i>index.html</i> lataa <i>script</i>-tagin avulla bundlatun Javascript-tiedoston (jos ollaan tarkkoja, on bundlattuja Javascript-tiedostoja kaksi kappaletta): -->
+The <i>index.html</i> file located at the root of the build directory is the "main file" of the application, that loads the bundled JavaScript file with a <i>script</i> tag (in fact there are two bundled JavaScript files):
 
 ```html
 <!doctype html><html lang="en">
@@ -53,17 +58,23 @@ Hakemiston juuressa oleva sovelluksen "päätiedosto" <i>index.html</i> lataa <i
 </html>
 ```
 
-Kuten esimerkistä näemme, create-react-app:illa tehdyssä sovelluksessa bundlataan Javascriptin lisäksi sovelluksen CSS-määrittelyt tiedostoon <i>/static/css/main.f9a47af2.chunk.css</i>
+<!-- Kuten esimerkistä näemme, create-react-app:illa tehdyssä sovelluksessa bundlataan Javascriptin lisäksi sovelluksen CSS-määrittelyt tiedostoon <i>/static/css/main.f9a47af2.chunk.css</i> -->
+As we can see from the example application that was created with create-react-app, the build script also bundles the application's CSS files into a single <i>/static/css/main.f9a47af2.chunk.css</i> file.
 
-Käytännössä bundlaus tapahtuu siten, että sovelluksen Javascriptille määritellään alkupiste, usein tiedosto <i>index.js</i>, ja bundlauksen yhteydessä webpack ottaa mukaan kaiken koodin mitä alkupiste importtaa, sekä importattujen koodien importtaamat koodit, jne.
+<!-- Käytännössä bundlaus tapahtuu siten, että sovelluksen Javascriptille määritellään alkupiste, usein tiedosto <i>index.js</i>, ja bundlauksen yhteydessä webpack ottaa mukaan kaiken koodin mitä alkupiste importtaa, sekä importattujen koodien importtaamat koodit, jne. -->
+In practice, bundling is done so that we define an entry point for the application, which typically is the <i>index.js</i> file. When webpack bundles the code, it includes all of the code that the entry point imports, and the code that its imports import, and so on.
 
-Koska osa importeista on kirjastoja, kuten React, Redux ja Axios, bundlattuun Javascript-tiedostoon tulee myös kaikkien näiden sisältö.
+<!-- Koska osa importeista on kirjastoja, kuten React, Redux ja Axios, bundlattuun Javascript-tiedostoon tulee myös kaikkien näiden sisältö. -->
+Since part of imported files are packages like React, Redux, and Axios; the bundled JavaScript file will also contain the contents of each of these libraries.
 
-> Vanha tapa jakaa sovelluksen koodi moneen tiedostoon perustui siihen, että <i>index.html</i> latasi kaikki sovelluksen tarvitsemat erilliset Javascript-tiedostot script-tagien avulla. Tämä on kuitenkin tehotonta, sillä jokaisen tiedoston lataaminen aiheuttaa pienen overheadin ja nykyään pääosin suositaankin koodin bundlaamista yksittäiseksi tiedostoksi.
+<!-- > Vanha tapa jakaa sovelluksen koodi moneen tiedostoon perustui siihen, että <i>index.html</i> latasi kaikki sovelluksen tarvitsemat erilliset Javascript-tiedostot script-tagien avulla. Tämä on kuitenkin tehotonta, sillä jokaisen tiedoston lataaminen aiheuttaa pienen overheadin ja nykyään pääosin suositaankin koodin bundlaamista yksittäiseksi tiedostoksi. -->
+> The old way of dividing the application's code into multiple files was based on the fact that the <i>index.html</i> file loaded all of the separate JavaScript files of the application with the help of script tags. This resulted in  decreased performance, since the loading of each separate file results in some overhead. For this reason, these days the preferred method is to bundle the code into a single file.
 
-Tehdään nyt React-projektille sopiva webpack-konfiguraatio kokonaan käsin.
+<!-- Tehdään nyt React-projektille sopiva webpack-konfiguraatio kokonaan käsin. -->
+Next, we will create a suitable webpack configuration for a React application by hand from scratch.
 
-Luodaan projektia varten hakemisto ja sen sisälle seuraavat hakemistot (<i>build</i> ja <i>src</i>) sekä seuraavat tiedostot:
+<!-- Luodaan projektia varten hakemisto ja sen sisälle seuraavat hakemistot (<i>build</i> ja <i>src</i>) sekä seuraavat tiedostot: -->
+Let's create a new directory for the project with the following subdirectories (<i>build</i> and <i>src</i>) and files:
 
 <pre>
 ├── build
@@ -73,7 +84,8 @@ Luodaan projektia varten hakemisto ja sen sisälle seuraavat hakemistot (<i>buil
 └── webpack.config.js
 </pre>
 
-Tiedoston <i>package.json</i> sisältö voi olla esim. seuraava:
+<!-- Tiedoston <i>package.json</i> sisältö voi olla esim. seuraava: -->
+The contents of the <i>package.json</i> file can e.g. be the following:
 
 ```json
 {
@@ -85,13 +97,15 @@ Tiedoston <i>package.json</i> sisältö voi olla esim. seuraava:
 }
 ```
 
-Asennetaan webpack komennolla
+<!-- Asennetaan webpack komennolla -->
+Let's install webpack with the command:
 
 ```js
 npm install --save-dev webpack webpack-cli
 ```
 
-Webpackin toiminta konfiguroidaan tiedostoon <i>webpack.config.js</i>, laitetaan sen alustavaksi sisällöksi seuraava
+<!-- Webpackin toiminta konfiguroidaan tiedostoon <i>webpack.config.js</i>, laitetaan sen alustavaksi sisällöksi seuraava -->
+We define the functionality of webpack in the <i>webpack.config.js</i> file, which we initialize with the following content:
 
 ```js
 const path = require('path')
@@ -106,7 +120,8 @@ const config = {
 module.exports = config
 ```
 
-Määritellään sitten npm-skripti <i>build</i> jonka avulla bundlaus suoritetaan
+<!-- Määritellään sitten npm-skripti <i>build</i> jonka avulla bundlaus suoritetaan -->
+We will then define a new npm script called <i>build</i> that will execute the bundling with webpack:
 
 ```js
 // ...
@@ -116,7 +131,8 @@ Määritellään sitten npm-skripti <i>build</i> jonka avulla bundlaus suoriteta
 // ...
 ```
 
-Lisätään hieman koodia tiedostoon <i>src/index.js</i>:
+<!-- Lisätään hieman koodia tiedostoon <i>src/index.js</i>: -->
+Let's add some more code to the <i>src/index.js</i> file:
 
 ```js
 const hello = name => {
@@ -124,13 +140,16 @@ const hello = name => {
 };
 ```
 
-Kun nyt suoritamme komennon _npm run build_ webpack bundlaa koodin. Tuloksena on hakemistoon <i>build</i> sijoitettava tiedosto <i>main.js</i>:
+<!-- Kun nyt suoritamme komennon _npm run build_ webpack bundlaa koodin. Tuloksena on hakemistoon <i>build</i> sijoitettava tiedosto <i>main.js</i>: -->
+When we execute the _npm run build_ command our application code will be bundled by webpack. The operation will produce a new <i>main.js</i> file that is added under the <i>build</i> directory:
 
 ![](../images/7/19.png)
 
-Tiedostossa on paljon erikoisen näköistä tavaraa. Lopussa on mukana myös kirjoittamamme koodi.
+<!-- Tiedostossa on paljon erikoisen näköistä tavaraa. Lopussa on mukana myös kirjoittamamme koodi. -->
+The file contains a lot of stuff that looks quite interesting. We can also see the code we wrote earlier at the end of the file.
 
-Lisätään hakemistoon <i>src</i> tiedosto <i>App.js</i> ja sille sisältö
+<!-- Lisätään hakemistoon <i>src</i> tiedosto <i>App.js</i> ja sille sisältö -->
+Let's add a <i>App.js</i> file under the <i>src</i> directory with the following content:
 
 ```js
 const App = () => {
@@ -140,7 +159,8 @@ const App = () => {
 export default App
 ```
 
-Importataan ja käytetään modulia <i>App</i> tiedostossa <i>index.js</i>
+<!-- Importataan ja käytetään modulia <i>App</i> tiedostossa <i>index.js</i> -->
+Let's import and use the <i>App</i> module in the <i>index.js</i> file:
 
 ```js
 import App from './App';
@@ -152,11 +172,13 @@ const hello = name => {
 App()
 ```
 
-Kun nyt suoritamme bundlauksen komennolla _npm run build_ huomaamme webpackin havainneen molemmat tiedostot:
+<!-- Kun nyt suoritamme bundlauksen komennolla _npm run build_ huomaamme webpackin havainneen molemmat tiedostot: -->
+When we bundle the application again with the _npm run build_ command, we notice that webpack has acknowledged both files:
 
 ![](../images/7/20.png)
 
-Kirjoittamamme koodi löytyy erittäin kryptisesti muotoiltuna bundlen lopusta:
+<!-- Kirjoittamamme koodi löytyy erittäin kryptisesti muotoiltuna bundlen lopusta: -->
+Our application code can be found at the end of the bundle file in a rather obscure format:
 
 ```js
 /***/ "./src/App.js":
@@ -184,9 +206,11 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _App
 /***/ })
 ```
 
-### Konfiguraatiotiedosto
+<!-- ### Konfiguraatiotiedosto -->
+### Configuration file
 
-Katsotaan nyt tarkemmin konfiguraation <i>webpack.config.js</i> tämänhetkistä sisältöä:
+<!-- Katsotaan nyt tarkemmin konfiguraation <i>webpack.config.js</i> tämänhetkistä sisältöä: -->
+Let's take a closer at the contents of our current <i>webpack.config.js</i> file:
 
 ```js
 const path = require('path')
@@ -201,21 +225,27 @@ const config = {
 module.exports = config
 ```
 
-Konfiguraatio on Javascriptia ja tapahtuu eksporttaamalla määrittelyt sisältävä olio Noden moduulisyntaksilla.
+<!-- Konfiguraatio on Javascriptia ja tapahtuu eksporttaamalla määrittelyt sisältävä olio Noden moduulisyntaksilla. -->
+The configuration file has been written in JavaScript and the configuration object is exported by using Node's module syntax. 
 
-Tämän hetkinen minimaalinen määrittely on aika ilmeinen, kenttä [entry](https://webpack.js.org/concepts/#entry) kertoo sen tiedoston, mistä bundlaus aloitetaan.
+<!-- Tämän hetkinen minimaalinen määrittely on aika ilmeinen, kenttä [entry](https://webpack.js.org/concepts/#entry) kertoo sen tiedoston, mistä bundlaus aloitetaan. -->
+Our minimal configuration definition almost explains itself. The [entry](https://webpack.js.org/concepts/#entry) property of the configuration object specifies the file that will serve as the entry point for bundling the application.
 
-Kenttä [output](https://webpack.js.org/concepts/#output) taas kertoo minne muodostettu bundle sijoitetaan. Kohdehakemisto täytyy määritellä <i>absoluuttisena polkuna</i>, se taas onnistuu helposti [path.resolve](https://nodejs.org/docs/latest-v8.x/api/path.html#path_path_resolve_paths)-metodilla. [\_\_dirname](https://nodejs.org/docs/latest/api/globals.html#globals_dirname) on Noden globaali muuttuja, joka viittaa nykyiseen hakemistoon.
+<!-- Kenttä [output](https://webpack.js.org/concepts/#output) taas kertoo minne muodostettu bundle sijoitetaan. Kohdehakemisto täytyy määritellä <i>absoluuttisena polkuna</i>, se taas onnistuu helposti [path.resolve](https://nodejs.org/docs/latest-v8.x/api/path.html#path_path_resolve_paths)-metodilla. [\_\_dirname](https://nodejs.org/docs/latest/api/globals.html#globals_dirname) on Noden globaali muuttuja, joka viittaa nykyiseen hakemistoon. -->
+The [output](https://webpack.js.org/concepts/#output) property defines the location where the bundled code will be stored. The target directory must be defined as an <i>absolute path</i> which is easy to create with the [path.resolve](https://nodejs.org/docs/latest-v8.x/api/path.html#path_path_resolve_paths) method. We also use [\_\_dirname](https://nodejs.org/docs/latest/api/globals.html#globals_dirname) which is a global variable in Node that stores the path to the current directory.
 
-### Reactin bundlaaminen
+<!-- ### Reactin bundlaaminen -->
+### Bundling React
 
-Muutetaan sitten sovellus minimalistiseksi React-sovellukseksi. Asennetaan tarvittavat kirjastot
+<!-- Muutetaan sitten sovellus minimalistiseksi React-sovellukseksi. Asennetaan tarvittavat kirjastot -->
+Next, let's transform our application into a minimal React application. Let's install the required libraries:
 
 ```js
 npm install --save react react-dom
 ```
 
-Liitetään tavanomaiset loitsut tiedostoon <i>index.js</i>
+<!-- Liitetään tavanomaiset loitsut tiedostoon <i>index.js</i> -->
+And let's turn our application into a React application by adding the familiar definitions in the <i>index.js</i> file:
 
 ```js
 import React from 'react'
@@ -225,7 +255,8 @@ import App from './App'
 ReactDOM.render(<App />, document.getElementById('root'))
 ```
 
-ja muutetaan <i>App.js</i> muotoon
+<!-- ja muutetaan <i>App.js</i> muotoon -->
+We will also make the following changes to the <i>App.js</i> file:
 
 ```js
 import React from 'react'
@@ -237,7 +268,8 @@ const App = () => (
 export default App
 ```
 
-Tarvitsemme sovellukselle myös "pääsivuna" toimivan tiedoston <i>build/index.html</i> joka lataa <i>script</i>-tagin avulla bundlatun Javascriptin:
+<!-- Tarvitsemme sovellukselle myös "pääsivuna" toimivan tiedoston <i>build/index.html</i> joka lataa <i>script</i>-tagin avulla bundlatun Javascriptin: -->
+We still need the <i>build/index.html</i> file  that will serve as the "main page" of our application that will load our bundled JavaScript code with a <i>script</i> tag:
 
 ```html
 <!DOCTYPE html>
@@ -253,13 +285,16 @@ Tarvitsemme sovellukselle myös "pääsivuna" toimivan tiedoston <i>build/index.
 </html>
 ```
 
-Kun bundlaamme sovelluksen, törmäämme kuitenkin ongelmaan
+<!-- Kun bundlaamme sovelluksen, törmäämme kuitenkin ongelmaan -->
+When we bundle our application, we run into the following problem:
 
 ![](../images/7/21.png)
 
-### Loaderit
+<!-- ### Loaderit -->
+### Loaders
 
-Webpack mainitsee että saatamme tarvita <i>loaderin</i> tiedoston <i>App.js</i> käsittelyyn. Webpack ymmärtää itse vain Javascriptia ja vaikka se saattaa meiltä matkan varrella olla unohtunutkin, käytämme Reactia ohjelmoidessamme [JSX](https://facebook.github.io/jsx/):ää näkymien renderöintiin, eli esim. seuraava
+<!-- Webpack mainitsee että saatamme tarvita <i>loaderin</i> tiedoston <i>App.js</i> käsittelyyn. Webpack ymmärtää itse vain Javascriptia ja vaikka se saattaa meiltä matkan varrella olla unohtunutkin, käytämme Reactia ohjelmoidessamme [JSX](https://facebook.github.io/jsx/):ää näkymien renderöintiin, eli esim. seuraava -->
+The error message from webpack states that we may need an appropriate <i>loader</i> to bundle the <i>App.js</i> file correctly. By default, webpack only knows how to deal with plain JavaScript. Although we may have become unaware of it, we are actually using [JSX](https://facebook.github.io/jsx/) for rendering our views in React. To illustrate this, the following code is not regular JavaScript:
 
 ```js
 const App = () => (
@@ -267,11 +302,14 @@ const App = () => (
 )
 ```
 
-ei ole "normaalia" Javascriptia, vaan JSX:n tarjoama syntaktinen oikotie määritellä <i>div</i>-tagiä vastaava React-elementti.
+<!-- ei ole "normaalia" Javascriptia, vaan JSX:n tarjoama syntaktinen oikotie määritellä <i>div</i>-tagiä vastaava React-elementti. -->
+The syntax used above comes from JSX and it provides us with an alternative way of defining a React element for an html <i>div</i> tag.
 
-[Loaderien](https://webpack.js.org/concepts/loaders/) avulla on mahdollista kertoa webpackille miten tiedostot tulee käsitellä ennen niiden bundlausta.
+<!-- [Loaderien](https://webpack.js.org/concepts/loaders/) avulla on mahdollista kertoa webpackille miten tiedostot tulee käsitellä ennen niiden bundlausta. -->
+We can use [loaders](https://webpack.js.org/concepts/loaders/) to inform webpack of the files that need to be processed before they are bundled.
 
-Määritellään projektiimme Reactin käyttämän JSX:n normaaliksi Javascriptiksi muuntava loaderi:
+<!-- Määritellään projektiimme Reactin käyttämän JSX:n normaaliksi Javascriptiksi muuntava loaderi: -->
+Let's configure a loader to our application that transforms the JSX syntax into regular JavaScript:
 
 ```js
 const config = {
