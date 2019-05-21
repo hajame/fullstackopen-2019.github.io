@@ -310,7 +310,9 @@ When the backend and frontend are running we can start Cypress using the command
 npm run cypress:open
 ```
 
-Sovellukselle tulee hakemisto <i>cypress</i> jonka alihakemistoon <i>integrations</i> on tarkoitus sijoittaa testit. Cypress luo valmiiksi joukon esimerkkitestejä, poistetaan ne ja luodaan ensimmäinen oma testi tiedostoon <i>note_app_spec.js</i>:
+<!-- Sovellukselle tulee hakemisto <i>cypress</i> jonka alihakemistoon <i>integrations</i> on tarkoitus sijoittaa testit. Cypress luo valmiiksi joukon esimerkkitestejä, poistetaan ne ja luodaan ensimmäinen oma testi tiedostoon <i>note_app_spec.js</i>: -->
+
+In the project there will appear a directory called <i>cypress</i>, in which there is a subdirectory <i>integrations</i> where the tests are to be placed. Cypress generates a set of example test. Lets remove them and create our first test into the file <i>note_app_spec.js</i>:
 
 ```js
 describe('Note ', function() {
@@ -321,13 +323,19 @@ describe('Note ', function() {
 })
 ```
 
-Testin suoritus avaa selaimen ja näyttää miten sovellus käyttäytyy testin edetessä:
+<!-- Testin suoritus avaa selaimen ja näyttää miten sovellus käyttäytyy testin edetessä: -->
+
+The execution of the test opens the browser and displays how the application behaves as the test progresses:
 
 ![](../images/7/37a.png)
 
-Testi näyttää rakenteen puolesta melko tutulta. <i>describe</i>-lohkoja käytetään samaan tapaan kuin Jestissä ryhmittelemään yksittäisiä testitapauksia, jotka on määritelty <i>it</i>-metodin avulla. Nämä osat Cypress on lainannut sisäisesti käyttämältään [Mocha](https://mochajs.org/)-testikirjastolta. Mocha oli testikirjastojen vanha hallitsija, se on edelleen suosittu, mutta Jest on mennyt selvästi edelle. [visit](https://docs.cypress.io/api/commands/visit.html#Syntax) ja[contains](https://docs.cypress.io/api/commands/contains.html#Syntax) taas ovat Cypressin komentoja, joiden merkitys on aika ilmeinen.
+<!-- Testi näyttää rakenteen puolesta melko tutulta. <i>describe</i>-lohkoja käytetään samaan tapaan kuin Jestissä ryhmittelemään yksittäisiä testitapauksia, jotka on määritelty <i>it</i>-metodin avulla. Nämä osat Cypress on lainannut sisäisesti käyttämältään [Mocha](https://mochajs.org/)-testikirjastolta. Mocha oli testikirjastojen vanha hallitsija, se on edelleen suosittu, mutta Jest on mennyt selvästi edelle. [visit](https://docs.cypress.io/api/commands/visit.html#Syntax) ja[contains](https://docs.cypress.io/api/commands/contains.html#Syntax) taas ovat Cypressin komentoja, joiden merkitys on aika ilmeinen. -->
 
-Olisimme voineet määritellä testin myös käyttäen nuolifunktioita
+When it comes to the structure of the test it seems quite familiar. <i>describe</i>-blocks are used, just like with Jest, to group individual test cases having been defined using the <i>it</i>-method. These parts have been borrowed from the [Mocha](https://mochajs.org/) testing library, which Cypress uses internally. Mocha was the previous ruler of testing libraries and is still very popular, but Jest has clearly gotten ahead. On the other hand, [visit](https://docs.cypress.io/api/commands/visit.html#Syntax) and [contains](https://docs.cypress.io/api/commands/contains.html#Syntax) are Cypress commands, both of which have a fairly clear purpose.
+
+<!-- Olisimme voineet määritellä testin myös käyttäen nuolifunktioita -->
+
+We could have also defined the test using arrow functions
 
 ```js
 describe('Note app', () => { // highlight-line
@@ -338,9 +346,13 @@ describe('Note app', () => { // highlight-line
 })
 ```
 
-Mochan dokumentaatio kuitenkin [suosittelee](https://mochajs.org/#arrow-functions) että nuolifunktioita ei käytetä, ne saattavat aiheuttaa ongelmia joissain tilanteissa.
+<!-- Mochan dokumentaatio kuitenkin [suosittelee](https://mochajs.org/#arrow-functions) että nuolifunktioita ei käytetä, ne saattavat aiheuttaa ongelmia joissain tilanteissa. -->
 
-Jos contains ei löydä sivulta etsimäänsä tekstiä, testi ei mene läpi. Eli jos lisäämme seuraavan testin
+However, the documentation for Mocha [recommends](https://mochajs.org/#arrow-functions) not to use arrow functions, since they might cause issues in some cases.
+
+<!-- Jos contains ei löydä sivulta etsimäänsä tekstiä, testi ei mene läpi. Eli jos lisäämme seuraavan testin -->
+
+The test doesn't pass if contains cannot find the text it is looking for on the page. So if we add the following test
 
 ```js
 describe('Note app', function() {
@@ -358,11 +370,15 @@ describe('Note app', function() {
 })
 ```
 
-havaitsee Cypress ongelman
+<!-- havaitsee Cypress ongelman -->
+
+Cypress will detect the problem
 
 ![](../images/7/38.png)
 
-Laajennetaan testiä siten, että testi yrittää kirjautua sovellukseen. Aloitetaan kirjautumislomakkeen avaamisella.
+<!-- Laajennetaan testiä siten, että testi yrittää kirjautua sovellukseen. Aloitetaan kirjautumislomakkeen avaamisella. -->
+
+Lets expand the test such that the test tries to log into the application. We begin by opening the login form.
 
 ```js
 describe('Note app',  function() {
@@ -376,9 +392,13 @@ describe('Note app',  function() {
 })
 ```
 
-Testi hakee ensin napin sen sisällön perusteella ja klikaa nappia komennolla [click](https://docs.cypress.io/api/commands/click.html#Syntax).
+<!-- Testi hakee ensin napin sen sisällön perusteella ja klikaa nappia komennolla [click](https://docs.cypress.io/api/commands/click.html#Syntax). -->
 
-Koska molemmat testit aloittavat samalla tavalla, eli avaamalla sivun <i>http://localhost:3000</i>, kannattaa yhteinen osa eristää ennen jokaista testiä suoritettavaan <i>beforeEach</i>-lohkoon:
+The test first gets the button based on its content and clicks the button with the command [click](https://docs.cypress.io/api/commands/click.html#Syntax).
+
+<!-- Koska molemmat testit aloittavat samalla tavalla, eli avaamalla sivun <i>http://localhost:3000</i>, kannattaa yhteinen osa eristää ennen jokaista testiä suoritettavaan <i>beforeEach</i>-lohkoon: -->
+
+Because both tests start in the same way, by opening the page <i>http://localhost:3000</i>, it is advisable to separate the common part into the <i>beforeEach</i>-block, which is run before each test:
 
 ```js
 describe('Note app', function() {
@@ -399,11 +419,17 @@ describe('Note app', function() {
 })
 ```
 
-Ilmoittautumislomake sisältää kaksi <i>input</i>-kenttää, joihin testin tulisi kirjoittaa.
+<!-- Ilmoittautumislomake sisältää kaksi <i>input</i>-kenttää, joihin testin tulisi kirjoittaa. -->
 
-Komento [get](https://docs.cypress.io/api/commands/get.html#Syntax) mahdollistaa elementtien etsimisen CSS-selektorien avulla.
+The registration form contains two <i>input</i>-fields into which the tests need to input data.
 
-Voimme hakea lomakkeen ensimmäisen ja viimeisen input-kentän ja kirjoittaa niihin komennolla [type](https://docs.cypress.io/api/commands/type.html#Syntax) seuraavasti:
+<!-- Komento [get](https://docs.cypress.io/api/commands/get.html#Syntax) mahdollistaa elementtien etsimisen CSS-selektorien avulla. -->
+
+The command [get](https://docs.cypress.io/api/commands/get.html#Syntax) enables the searching of elements using CSS-selectors.
+
+<!-- Voimme hakea lomakkeen ensimmäisen ja viimeisen input-kentän ja kirjoittaa niihin komennolla [type](https://docs.cypress.io/api/commands/type.html#Syntax) seuraavasti: -->
+
+We can get the first and last input-fields of the form and write text into them using the command [type](https://docs.cypress.io/api/commands/type.html#Syntax) as follows:
 
 ```js
 it('user can login', function() {
@@ -419,9 +445,13 @@ it('user can login', function() {
 })
 ```
 
-Testi toimii mutta on kuitenkin sikäli ongelmallinen, että jos sovellukseen tulee jossain vaiheessa lisää input-kenttiä testi saattaa hajota, sillä se luottaa tarvitsemiensa kenttien olevan ensimmäisenä ja viimeisenä.
+<!-- Testi toimii mutta on kuitenkin sikäli ongelmallinen, että jos sovellukseen tulee jossain vaiheessa lisää input-kenttiä testi saattaa hajota, sillä se luottaa tarvitsemiensa kenttien olevan ensimmäisenä ja viimeisenä. -->
 
-Parempi (mutta ei kuitenkaan dokumentaation mukaan täysin [optimaali](https://docs.cypress.io/guides/references/best-practices.html#Selecting-Elements)) ratkaisu on määritellä kentille yksilöivät <i>id</i>-attribuutit ja hakea kentät testeissä niiden perusteella. Eli laajennetaan kirjautumislomaketta seuraavasti
+The test works but is problematic because if we add more input-fields to the application the test might break, since it expects the required fields to be the first and the last field.
+
+<!-- Parempi (mutta ei kuitenkaan dokumentaation mukaan täysin [optimaali](https://docs.cypress.io/guides/references/best-practices.html#Selecting-Elements)) ratkaisu on määritellä kentille yksilöivät <i>id</i>-attribuutit ja hakea kentät testeissä niiden perusteella. Eli laajennetaan kirjautumislomaketta seuraavasti -->
+
+A better (but not [optimal](https://docs.cypress.io/guides/references/best-practices.html#Selecting-Elements) according to the documentation) solution would be to define uniquely identifiable <i>id</i>-attributes for the fields and get the field based on that info in the tests. So we expand the login form as follows
 
 ```js
 const LoginForm = ({ ... }) => {
@@ -453,7 +483,9 @@ const LoginForm = ({ ... }) => {
 }
 ```
 
-Testi muuttuu muotoon
+<!-- Testi muuttuu muotoon -->
+
+The test changes like so
 
 ```js
 describe('Note app',  function() {
@@ -472,7 +504,9 @@ describe('Note app',  function() {
 })
 ```
 
-Luodaan vielä testi, joka lisää sovellukseen uuden muistiinpanon:
+<!-- Luodaan vielä testi, joka lisää sovellukseen uuden muistiinpanon: -->
+
+We create another test which adds a new note to the application:
 
 ```js
 describe('Note app', function() {
@@ -508,26 +542,38 @@ describe('Note app', function() {
 })
 ```
 
-Koska kaksi testeistä luottaa siihen että käyttäjä on kirjautunut, on niiden yhteinen osa jälleen eriytetty <i>beforeEach</i> osaan. Testi luottaa siihen, että uutta muistiinpanoa luotaessa sivulla on ainoastaan yksi input-kenttä, eli se hakee kentän seuraavasti
+<!-- Koska kaksi testeistä luottaa siihen että käyttäjä on kirjautunut, on niiden yhteinen osa jälleen eriytetty <i>beforeEach</i> osaan. Testi luottaa siihen, että uutta muistiinpanoa luotaessa sivulla on ainoastaan yksi input-kenttä, eli se hakee kentän seuraavasti -->
+
+Because two of the tests expect a user to be logged in, their common part has again been separated into the <i>beforeEach</i>-block. The test expects there only being one input-field when creating a new note so it gets the field as follows:
 
 ```js
 cy.get('input')
 ```
 
-jos kenttiä on useampia, testi hajoaa
+<!-- jos kenttiä on useampia, testi hajoaa -->
+
+the test breaks if there are multiple fields
 
 ![](../images/7/39.png)
 
-Tämän takia olisi jälleen parempi lisätä lomakkeen kentälle <i>id</i> ja hakea kenttä testissä id:n perusteella.
+<!-- Tämän takia olisi jälleen parempi lisätä lomakkeen kentälle <i>id</i> ja hakea kenttä testissä id:n perusteella. -->
 
-### Tietokannan tilan kontrollointi
+For that reason it would have been better to add an <i>id</i> for the input-field in the form and get the field based on the id in the test.
 
-Jos testatessa on tarvetta muokata tietokantaa, muuttuu tilanne heti haastavammaksi. Ideaalitilanteessa testauksen tulee aina lähteä liikkeelle samasta alkutilasta, jotta testeistä saadaan luotettavia ja helposti toistettavia.
+<!-- ### Tietokannan tilan kontrollointi -->
+### Controlling the state of the database
 
-Yleinen ratkaisu on nollata tietokanta ja mahdollisesti alustaa se sopivasti aina ennen testien suorittamista. E2E-testauksessa lisähaasteen luo se, että testeistä ei ole mahdollista päästä suoraan käsiksi tietokantaan.
+<!-- Jos testatessa on tarvetta muokata tietokantaa, muuttuu tilanne heti haastavammaksi. Ideaalitilanteessa testauksen tulee aina lähteä liikkeelle samasta alkutilasta, jotta testeistä saadaan luotettavia ja helposti toistettavia. -->
 
+If there is a need to modify the database during the tests, the situation gets a bit more tricky. In an ideal situation the testing should always start from the same initial state, so that the tests are reliable and easily repeatable.
 
-Ratkaistaan ongelma luomalla backendiin testejä varten API endpoint, jonka avulla testit voivat tarvittaessa nollata kannan. Tehdään testejä varten oma <i>router</i>
+<!-- Yleinen ratkaisu on nollata tietokanta ja mahdollisesti alustaa se sopivasti aina ennen testien suorittamista. E2E-testauksessa lisähaasteen luo se, että testeistä ei ole mahdollista päästä suoraan käsiksi tietokantaan. -->
+
+A common solution is to reset the database and possibly initialize it appropriately before running the tests. In E2E-testing there is the additional challenge of not having direct access to the database.
+
+<!-- Ratkaistaan ongelma luomalla backendiin testejä varten API endpoint, jonka avulla testit voivat tarvittaessa nollata kannan. Tehdään testejä varten oma <i>router</i> -->
+
+This problem can be solved by creating an API endpoint in the backend for the tests, using which the tests can reset the database if necessary. We make a <i>router</i> for the tests
 
 ```js
 const router = require('express').Router()
@@ -544,7 +590,9 @@ router.post('/reset', async (request, response) => {
 module.exports = router
 ```
 
-ja lisätään se backendiin ainoastaan <i>jos sovellusta suoritetaan test-moodissa</i>:
+<!-- ja lisätään se backendiin ainoastaan <i>jos sovellusta suoritetaan test-moodissa</i>: -->
+
+and we use it in backend only <i>if the application is run in test-mode</i>: 
 
 ```js
 // ...
@@ -566,11 +614,17 @@ app.use(middleware.errorHandler)
 module.exports = app
 ```
 
-eli lisäyksen jälkeen HTTP POST -operaatio backendin endpointiin <i>/api/testing/reset</i> tyhjentää tietokannan.
+<!-- eli lisäyksen jälkeen HTTP POST -operaatio backendin endpointiin <i>/api/testing/reset</i> tyhjentää tietokannan. -->
 
-Backendin testejä varten muokattu koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part7-1), branchissä <i>part7-1</i>.
+so after the modification a HTTP POST request to the backend endpoint <i>/api/testing/reset</i> empties the database.
 
-Tällä hetkellä sovelluksen käyttöliittymän ei ole mahdollista luoda käyttäjiä järjestelmään. Testien alustuksessa on siis suoraan luotava testikäyttäjä backendiin.
+<!-- Backendin testejä varten muokattu koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part7-1), branchissä <i>part7-1</i>. -->
+
+The code for the modified backend can be found in full on [github](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part7-1), in the branch <i>part7-1</i>.
+
+<!-- Tällä hetkellä sovelluksen käyttöliittymän ei ole mahdollista luoda käyttäjiä järjestelmään. Testien alustuksessa on siis suoraan luotava testikäyttäjä backendiin. -->
+
+Right now the user interface of the application has no ability to add users to the system. Therefore we need to directly create a test-user to the backend when initializing the tests.
 
 ```js
 describe('Note app', function() {
@@ -591,7 +645,9 @@ describe('Note app', function() {
 })
 ```
 
-Testi tekee alustuksen aikana HTTP-pyyntöjä backendiin komennolla [request](https://docs.cypress.io/api/commands/request.html). Siirretään aiemmin tehty uuden muistiinpanon testi uuteen testipohjaan:
+<!-- Testi tekee alustuksen aikana HTTP-pyyntöjä backendiin komennolla [request](https://docs.cypress.io/api/commands/request.html). Siirretään aiemmin tehty uuden muistiinpanon testi uuteen testipohjaan: -->
+
+During the initialization the test makes HTTP requests to the backend using the command [request](https://docs.cypress.io/api/commands/request.html). We move the previously created test for the creation of a note to a new test base:
 
 ```js
 describe('Note app', function() {
@@ -626,9 +682,13 @@ describe('Note app', function() {
 })
 ```
 
-Toisin kuin aiemmin, nyt testaus alkaa aina samasta tilasta, eli tietokannassa on yksi käyttäjä ja ei yhtään muistinpanoa.
+<!-- Toisin kuin aiemmin, nyt testaus alkaa aina samasta tilasta, eli tietokannassa on yksi käyttäjä ja ei yhtään muistinpanoa. -->
 
-Tehdään vielä testi, joka tarkastaa että muistiinpanojen tärkeyttä voi muuttaa.  Muutetaan ensin sovelluksen frontendia siten, että uusi muistiinpano on oletusarvoisesti epätärkeä, eli kenttä <i>important</i> saa arvon <i>false</i>:
+Unlike before, now the testing always starts from an identical state: one user in the database and no notes.
+
+<!-- Tehdään vielä testi, joka tarkastaa että muistiinpanojen tärkeyttä voi muuttaa.  Muutetaan ensin sovelluksen frontendia siten, että uusi muistiinpano on oletusarvoisesti epätärkeä, eli kenttä <i>important</i> saa arvon <i>false</i>: -->
+
+Lets add one more test which makes sure the importance of notes can be changed. First we modify the frontend of the application so that a new note is unimportant by default, in other words the field <i>important</i> gets the value <i>false</i>: 
 
 ```js
 const App = () => {
@@ -652,7 +712,9 @@ const App = () => {
 }
 ```
 
-On useita eri tapoja testata asia. Seuraavassa etsitään ensin muistiinpano ja klikataan sen nappia <i>make important</i>. Tämän jälkeen tarkistetaan että muistiinpano sisältää napin <i>make not important</i>.
+<!-- On useita eri tapoja testata asia. Seuraavassa etsitään ensin muistiinpano ja klikataan sen nappia <i>make important</i>. Tämän jälkeen tarkistetaan että muistiinpano sisältää napin <i>make not important</i>. -->
+
+There are several ways to test the case. In the following we first find the note and click its button <i>make important</i>. Then we make sure that the note contains the button <i>make not important</i>.
 
 ```js
 describe('Note app', function() {
@@ -684,22 +746,33 @@ describe('Note app', function() {
 })
 ```
 
-Testit ja frontendin koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019part2-notes/tree/part7-1), branchissa <i>part7-1</i>.
+<!-- Testit ja frontendin koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019part2-notes/tree/part7-1), branchissa <i>part7-1</i>. -->
 
-Cypress tarjoaa melko hyvät mahdollisuudet testien [debuggaamiseen](https://docs.cypress.io/guides/getting-started/writing-your-first-test.html#Debugging). Testin kunkin vaiheen aikaista sovelluksen DOM:in tilaa on erittäin helppo tarkastella:
+The tests and the code for the frontend can be found in full on [github](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part7-1), in the branch <i>part7-1</i>.
+
+<!-- Cypress tarjoaa melko hyvät mahdollisuudet testien [debuggaamiseen](https://docs.cypress.io/guides/getting-started/writing-your-first-test.html#Debugging). Testin kunkin vaiheen aikaista sovelluksen DOM:in tilaa on erittäin helppo tarkastella: -->
+
+Cypress provides fairly good ways of [debugging](https://docs.cypress.io/guides/getting-started/writing-your-first-test.html#Debugging) the tests. It is very easy to inspect the state of the DOM for each step of the execution.
 
 ![](../images/7/39.png)
 
-Itselläni ei ole kovin paljoa kokemusta Cypressistä. Se kuitenkin jo tässä vaiheessa vaikuttaa ylivoimaisesti parhaalta E2E-testauskirjastolta mihin olen törmännyt. Muilta kuulemani kommentitkin ovat olleet pääasiassa erittäin positiivisia.
+<!-- Itselläni ei ole kovin paljoa kokemusta Cypressistä. Se kuitenkin jo tässä vaiheessa vaikuttaa ylivoimaisesti parhaalta E2E-testauskirjastolta mihin olen törmännyt. Muilta kuulemani kommentitkin ovat olleet pääasiassa erittäin positiivisia. -->
 
-Cypressin dokumentaatio on poikkeuksellisen hyvä. Suosittelenkin lämpimästi Cypressin kokeilemista!
+I don't have much experience with Cypress myself. However, it already seems like the overall best E2E testing library I have come across. Comments I've heard from other people have also mainly been very positive.
+
+<!-- Cypressin dokumentaatio on poikkeuksellisen hyvä. Suosittelenkin lämpimästi Cypressin kokeilemista! -->
+
+The documentation for Cypress is exceptionally good. I strongly recommend trying Cypress!
 
 </div>
 
 <div class="tasks">
 
-### Tehtäviä
+<!-- ### Tehtäviä -->
+### Exercises
 
-End to end -testaukseen liittyvät tehtävät ovat osan lopun [blogilistaa laajentavassa tehtäväsarjassa](/osa7/tehtavia_blogilistan_laajennus).
+<!-- End to end -testaukseen liittyvät tehtävät ovat osan lopun [blogilistaa laajentavassa tehtäväsarjassa](/osa7/tehtavia_blogilistan_laajennus). -->
+
+The exercises relating to End to end -testing are part of the [exercise series expanding on the bloglist application](/osa7/tehtavia_blogilistan_laajennus) at the end of this part. 
 
 </div>
