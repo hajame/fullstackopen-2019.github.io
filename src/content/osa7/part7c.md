@@ -407,11 +407,14 @@ The process of transforming code from one form of JavaScript to another is calle
 <!-- Edellisen luvun konfiguraation avulla siis <i>transpiloimme</i> JSX:ää sisältävän Javascriptin normaaliksi Javascriptiksi tämän hetken johtavan työkalun [babelin](https://babeljs.io/) avulla. -->
 By using the configuration from the previous section we are <i>transpiling</i> the code containing JSX into regular JavaScript with the help of [babel](https://babeljs.io/) which is currently the most popular tool for the job.
 
-Kuten osassa 1 jo mainittiin, läheskään kaikki selaimet eivät vielä osaa Javascriptin uusimpien versioiden ES6:n ja ES7:n ominaisuuksia ja tämän takia koodi yleensä transpiloidaan käyttämään vanhempaa Javascript-syntaksia ES5:ttä.
+<!-- Kuten osassa 1 jo mainittiin, läheskään kaikki selaimet eivät vielä osaa Javascriptin uusimpien versioiden ES6:n ja ES7:n ominaisuuksia ja tämän takia koodi yleensä transpiloidaan käyttämään vanhempaa Javascript-syntaksia ES5:ttä. -->
+As mentioned in part 1, most browsers do not support the latest features that were introduced in ES6 and ES7, and for this reason the code is usually transpiled to a version of JavaScript that implements the ES5 standard.
 
-Babelin suorittama transpilointiprosessi määritellään <i>pluginien</i> avulla. Käytännössä useimmiten käytetään valmiita [presetejä](https://babeljs.io/docs/plugins/), eli useamman sopivan pluginin joukkoja.
+<!-- Babelin suorittama transpilointiprosessi määritellään <i>pluginien</i> avulla. Käytännössä useimmiten käytetään valmiita [presetejä](https://babeljs.io/docs/plugins/), eli useamman sopivan pluginin joukkoja. -->
+The transpilation process that is executed by Babel is defined with <i>plugins</i>. In practice, most developers use ready-made [presets](https://babeljs.io/docs/plugins/) that are groups of pre-configured plugins.
 
-Tällä hetkellä sovelluksemme transpiloinnissa käytetään presetiä [@babel/preset-react](https://babeljs.io/docs/plugins/preset-react/):
+<!-- Tällä hetkellä sovelluksemme transpiloinnissa käytetään presetiä [@babel/preset-react](https://babeljs.io/docs/plugins/preset-react/): -->
+Currently we are using the [@babel/preset-react](https://babeljs.io/docs/plugins/preset-react/) preset for transpiling the source code of our application:
 
 ```js
 {
@@ -423,7 +426,8 @@ Tällä hetkellä sovelluksemme transpiloinnissa käytetään presetiä [@babel/
 }
 ```
 
-Otetaan käyttöön preset [@babel/preset-env](https://babeljs.io/docs/plugins/preset-env/), joka sisältää kaiken hyödyllisen, minkä avulla uusimman standardin mukainen koodi saadaan transpiloitua ES5-standardin mukaiseksi koodiksi:
+<!-- Otetaan käyttöön preset [@babel/preset-env](https://babeljs.io/docs/plugins/preset-env/), joka sisältää kaiken hyödyllisen, minkä avulla uusimman standardin mukainen koodi saadaan transpiloitua ES5-standardin mukaiseksi koodiksi: -->
+Let's add the [@babel/preset-env](https://babeljs.io/docs/plugins/preset-env/) plugin that contains everything needed to take code using all of the latest features and transpile it to code that is compatible with the ES5 standard:
 
 ```js
 {
@@ -435,13 +439,15 @@ Otetaan käyttöön preset [@babel/preset-env](https://babeljs.io/docs/plugins/p
 }
 ```
 
-Preset asennetaan komennolla
+<!-- Preset asennetaan komennolla -->
+Let's install the preset with the command:
 
 ```js
 npm install @babel/preset-env --save-dev
 ```
 
-Kun nyt transpiloimme koodin, muuttuu se vanhan koulukunnan Javascriptiksi. Komponentin <i>App</i> määrittely näyttää seuraavalta:
+<!-- Kun nyt transpiloimme koodin, muuttuu se vanhan koulukunnan Javascriptiksi. Komponentin <i>App</i> määrittely näyttää seuraavalta: -->
+When we transpile the code it gets transformed into old-school JavaScript. The definition of the transformed <i>App</i> component looks like this:
 
 ```js
 var App = function App() {
@@ -449,11 +455,13 @@ var App = function App() {
 };
 ```
 
-Muuttujan määrittely tapahtuu avainsanan _var_ avulla, sillä ES5 ei tunne avainsanaa _const_. Myöskään nuolifunktiot eivät ole käytössä, joten funktiomäärittely käyttää avainsanaa _function_.
+<!-- Muuttujan määrittely tapahtuu avainsanan _var_ avulla, sillä ES5 ei tunne avainsanaa _const_. Myöskään nuolifunktiot eivät ole käytössä, joten funktiomäärittely käyttää avainsanaa _function_. -->
+As we can see, variables are declared with the _var_ keyword as ES5 JavaScript does not understand the _const_ keyword. Arrow functions are also not used, which is why the function definition used the _function_ keyword.
 
 ### CSS
 
-Lisätään sovellukseemme hieman CSS:ää. Tehdään tiedosto <i>src/index.css</i>
+<!-- Lisätään sovellukseemme hieman CSS:ää. Tehdään tiedosto <i>src/index.css</i> -->
+Let's add some CSS to our application. Let's create a new <i>src/index.css</i> file:
 
 ```css
 .container {
@@ -462,7 +470,8 @@ Lisätään sovellukseemme hieman CSS:ää. Tehdään tiedosto <i>src/index.css<
 }
 ```
 
-Määritellään tyyli käytettäväksi komponentissa <i>App</i>
+<!-- Määritellään tyyli käytettäväksi komponentissa <i>App</i> -->
+Then let's use the style in the <i>App</i> component:
 
 ```js
 const App = () => (
@@ -472,17 +481,20 @@ const App = () => (
 )
 ```
 
-ja importataan se tiedostossa <i>index.js</i>
+<!-- ja importataan se tiedostossa <i>index.js</i> -->
+And we import the style in the <i>index.js</i> file:
 
 ```js
 import './index.css'
 ```
 
-Transpilointi hajoaa
+<!-- Transpilointi hajoaa -->
+This will cause the transpilation process to break:
 
 ![](../images/7/23.png)
 
-CSS:ää varten onkin otettava käyttöön [css](https://webpack.js.org/loaders/css-loader/)- ja [style](https://webpack.js.org/loaders/style-loader/)-loaderit:
+<!-- CSS:ää varten onkin otettava käyttöön [css](https://webpack.js.org/loaders/css-loader/)- ja [style](https://webpack.js.org/loaders/style-loader/)-loaderit: -->
+When using CSS, we have to use [css](https://webpack.js.org/loaders/css-loader/) and [style](https://webpack.js.org/loaders/style-loader/) loaders:
 
 ```js
 {
@@ -504,31 +516,39 @@ CSS:ää varten onkin otettava käyttöön [css](https://webpack.js.org/loaders/
 }
 ```
 
-[css-loaderin](https://webpack.js.org/loaders/css-loader/) tehtävänä on ladata <i>CSS</i>-tiedostot, ja [style-loader](https://webpack.js.org/loaders/style-loader/) generoi koodiin CSS:t sisältävän <i>style</i>-elementin.
+<!-- [css-loaderin](https://webpack.js.org/loaders/css-loader/) tehtävänä on ladata <i>CSS</i>-tiedostot, ja [style-loader](https://webpack.js.org/loaders/style-loader/) generoi koodiin CSS:t sisältävän <i>style</i>-elementin. -->
+The job of the [css loader](https://webpack.js.org/loaders/css-loader/) is to load the <i>CSS</i> files and the job of the [style loader](https://webpack.js.org/loaders/style-loader/) is to generate and inject a <i>style</i> element that contains all of the styles of the application.
 
-Näin konfiguroituna CSS-määrittelyt sisällytetään sovelluksen Javascriptin sisältävään tiedostoon <i>main.js</i>. Sovelluksen päätiedostossa <i>index.html</i> ei siis ole tarvetta erikseen ladata CSS:ää.
+<!-- Näin konfiguroituna CSS-määrittelyt sisällytetään sovelluksen Javascriptin sisältävään tiedostoon <i>main.js</i>. Sovelluksen päätiedostossa <i>index.html</i> ei siis ole tarvetta erikseen ladata CSS:ää. -->
+With this configuration the CSS definitions are included in the <i>main.js</i> file of the application. For this reason there is no need to separately import the <i>CSS</i> styles in the main <i>index.html</i> file of the application.
 
-CSS voidaan tarpeen vaatiessa myös generoida omaan tiedostoonsa esim. [mini-css-extract-pluginin](https://github.com/webpack-contrib/mini-css-extract-plugin) avulla.
+<!-- CSS voidaan tarpeen vaatiessa myös generoida omaan tiedostoonsa esim. [mini-css-extract-pluginin](https://github.com/webpack-contrib/mini-css-extract-plugin) avulla. -->
+If needed, the application's CSS can also be generated into its own separate file by using the [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin).
 
-Kun loaderit asennetaan
+<!-- Kun loaderit asennetaan -->
+When we install the loaders:
 
 ```js
 npm install style-loader css-loader --save-dev
 ```
 
-bundlaus toimii taas ja sovellus saa uudet tyylit.
+<!-- bundlaus toimii taas ja sovellus saa uudet tyylit. -->
+The bundling will succeed once again and the application gets new styles. 
 
 ### Webpack-dev-server
 
-Sovelluskehitys onnistuu jo, mutta development workflow on suorastaan hirveä (alkaa jo muistuttaa Javalla tapahtuvaa sovelluskehitystä...), muutosten jälkeen koodin on bundlattava ja selain uudelleenladattava jos haluamme testata koodia.
+<!-- Sovelluskehitys onnistuu jo, mutta development workflow on suorastaan hirveä (alkaa jo muistuttaa Javalla tapahtuvaa sovelluskehitystä...), muutosten jälkeen koodin on bundlattava ja selain uudelleenladattava jos haluamme testata koodia. -->
+The current configuration makes it possible to develop our application but the workflow is awful (to the point where it resembles the development workflow with Java). Every time we make a change to the code we have to bundle it and refresh the browser in order to test the code.
 
-Ratkaisun tarjoaa [webpack-dev-server](https://webpack.js.org/guides/development/#using-webpack-dev-server). Asennetaan se komennolla
+<!-- Ratkaisun tarjoaa [webpack-dev-server](https://webpack.js.org/guides/development/#using-webpack-dev-server). Asennetaan se komennolla -->
+The [webpack-dev-server](https://webpack.js.org/guides/development/#using-webpack-dev-server) offers a solution to our problems. Let's install it with the command:
 
 ```js
 npm install --save-dev webpack-dev-server
 ```
 
-Määritellään dev-serverin käynnistävä npm-skripti:
+<!-- Määritellään dev-serverin käynnistävä npm-skripti: -->
+Let's define an npm script for starting the dev-server:
 
 ```js
 {
@@ -541,7 +561,8 @@ Määritellään dev-serverin käynnistävä npm-skripti:
 }
 ```
 
-Lisätään tiedostoon <i>webpack.config.js</i> kenttä <i>devServer</i>
+<!-- Lisätään tiedostoon <i>webpack.config.js</i> kenttä <i>devServer</i> -->
+Let's also add a new <i>devServer</i> property to the configuration object in the <i>webpack.config.js</i> file:
 
 ```js
 const config = {
@@ -561,11 +582,14 @@ const config = {
 };
 ```
 
-Komento _npm start_ käynnistää nyt dev-serverin porttiin, eli sovelluskehitys tapahtuu avaamalla tuttuun tapaan selain osoitteeseen <http://localhost:3000>. Kun teemme koodiin muutoksia, reloadaa selain automaattisesti itsensä.
+<!-- Komento _npm start_ käynnistää nyt dev-serverin porttiin, eli sovelluskehitys tapahtuu avaamalla tuttuun tapaan selain osoitteeseen <http://localhost:3000>. Kun teemme koodiin muutoksia, reloadaa selain automaattisesti itsensä. -->
+The _npm start_ command will now start the dev-server at the port 3000, meaning that our application will be available by visiting <http://localhost:3000> in the browser. When we make changes to the code, the browser will automatically refresh the page.
 
-Päivitysprosessi on nopea, dev-serveriä käytettäessä webpack ei bundlaa koodia normaaliin tapaan tiedostoksi <i>main.js</i>, bundlauksen tuotos on olemassa ainoastaan keskusmuistissa.
+<!-- Päivitysprosessi on nopea, dev-serveriä käytettäessä webpack ei bundlaa koodia normaaliin tapaan tiedostoksi <i>main.js</i>, bundlauksen tuotos on olemassa ainoastaan keskusmuistissa. -->
+The process for updating the code is fast. When we use the dev-server, the code is not bundled the usual way into the <i>main.js</i> file. The result of the bundling exists only in memory.
 
-Laajennetaan koodia muuttamalla komponentin <i>App</i> määrittelyä seuraavasti:
+<!-- Laajennetaan koodia muuttamalla komponentin <i>App</i> määrittelyä seuraavasti: -->
+Let's extend the code by changing the definition of the <i>App</i> component as shown below:
 
 ```js
 import React, {useState} from 'react'
@@ -584,15 +608,19 @@ const App = () => {
 export default App
 ```
 
-Kannattaa huomata, että virheviestit eivät renderöidy selaimeen kuten create-react-app:illa tehdyissä sovelluksissa, eli on seurattava tarkasti konsolia:
+<!-- Kannattaa huomata, että virheviestit eivät renderöidy selaimeen kuten create-react-app:illa tehdyissä sovelluksissa, eli on seurattava tarkasti konsolia: -->
+It's worth noticing that the error messages don't show up the same way as they did with our applications that were made using create-react-app. For this reason we have to pay more attention to the console:
 
 ![](../images/7/24.png)
 
-Sovellus toimii hyvin ja kehitys on melko sujuvaa.
+<!-- Sovellus toimii hyvin ja kehitys on melko sujuvaa. -->
+The application works nicely and the development workflow is quite smooth.
 
-### Sourcemappaus
+<!-- ### Sourcemappaus -->
+### Source maps
 
-Erotetaan napin klikkauksenkäsittelijä omaksi funktioksi ja talletetaan tilaan <i>values</i> aiemmat laskurin arvot:
+<!-- Erotetaan napin klikkauksenkäsittelijä omaksi funktioksi ja talletetaan tilaan <i>values</i> aiemmat laskurin arvot: -->
+Let's extract the click handler into its own function and store the previous value of the counter into its own <i>values</i> state:
 
 ```js
 const App = () => {
@@ -613,18 +641,21 @@ const App = () => {
 }
 ```
 
-Sovellus ei enää toimi, ja konsoli kertoo virheestä
+<!-- Sovellus ei enää toimi, ja konsoli kertoo virheestä -->
+The application no longer works and the console will display the following error:
 
 ![](../images/7/25.png)
 
-Tiedämme tietenkin nyt että virhe on metodissa onClick, mutta jos olisi kyse suuremmasta sovelluksesta, on virheilmoitus sikäli hyvin ikävä, että sen ilmoittama paikka:
+<!-- Tiedämme tietenkin nyt että virhe on metodissa onClick, mutta jos olisi kyse suuremmasta sovelluksesta, on virheilmoitus sikäli hyvin ikävä, että sen ilmoittama paikka: -->
+We know that the error is in the onClick method, but if the application was any larger the error message would be quite difficult to track down:
 
 <pre>
 App.js:27 Uncaught TypeError: Cannot read property 'concat' of undefined
     at handleClick (App.js:27)
 </pre>
 
-ei vastaa alkuperäisen koodin virheen sijaintia. Jos klikkaamme virheilmoitusta, huomaamme, että näytettävä koodi on jotain ihan muuta kuin kirjoittamamme koodi:
+<!-- ei vastaa alkuperäisen koodin virheen sijaintia. Jos klikkaamme virheilmoitusta, huomaamme, että näytettävä koodi on jotain ihan muuta kuin kirjoittamamme koodi: -->
+The location of the error indicated in the message does not match the actual location of the error in our source code. If we click the error message, we notice that the displayed source code does not resemble our application code:
 
 ![](../images/7/26.png)
 
