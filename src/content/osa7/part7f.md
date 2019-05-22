@@ -66,19 +66,23 @@ Implement a view for individual users, that displays all of the blog posts added
 ![](../images/7/44.png)
 
 <!-- Näkymään päästään klikkaamalla nimeä kaikkien käyttäjien näkymästä -->
-You can access the view by clicking the name of the user in the view that lists all users.
+You can access the view by clicking the name of the user in the view that lists all users:
 
 ![](../images/7/43.png)
 
-<i>**Huom1:**</i> jos sovelluksesi käyttää tilanhallintaan Reduxia, saattaa tässä tehtävässä olla hyödyksi käyttää funktion _mapStateToProps_ toista parametria [ownPropsia](https://react-redux.js.org/api/connect#mapstatetoprops-state-ownprops-object), joka on dokumentaation hienoisesta kryptisyydestä huolimatta aika [helppokäyttöinen](https://stackoverflow.com/questions/41198842/what-is-the-use-of-the-ownprops-arg-in-mapstatetoprops-and-mapdispatchtoprops).
+<!-- <i>**Huom1:**</i> jos sovelluksesi käyttää tilanhallintaan Reduxia, saattaa tässä tehtävässä olla hyödyksi käyttää funktion _mapStateToProps_ toista parametria [ownPropsia](https://react-redux.js.org/api/connect#mapstatetoprops-state-ownprops-object), joka on dokumentaation hienoisesta kryptisyydestä huolimatta aika [helppokäyttöinen](https://stackoverflow.com/questions/41198842/what-is-the-use-of-the-ownprops-arg-in-mapstatetoprops-and-mapdispatchtoprops). -->
+<i>**NB1:**</i> if your application uses Redux for state management, it may be beneficial to use the second [ownProps](https://react-redux.js.org/api/connect#mapstatetoprops-state-ownprops-object) parameter of _mapStateToProps_. It is quite [simple to use](https://stackoverflow.com/questions/41198842/what-is-the-use-of-the-ownprops-arg-in-mapstatetoprops-and-mapdispatchtoprops) despite the slightly obscure documentation.
 
-<i>**Huom2:**</i> törmäät tätä tehtävää tehdessäsi lähes varmasti seuraavaan virheeseen
+<!-- <i>**Huom2:**</i> törmäät tätä tehtävää tehdessäsi lähes varmasti seuraavaan virheeseen -->
+<i>**NB2:**</i> you will almost certainly stumble across the following error message during this exercise:
 
 ![](../images/7/42a.png)
 
-vika ilmenee jos uudelleenlataat sivun ollessasi yksittäisen käyttäjän sivulla. 
+<!-- vika ilmenee jos uudelleenlataat sivun ollessasi yksittäisen käyttäjän sivulla.  -->
+The error message will occur if you refresh the page for an individual user.
 
-Vian syynä on se, että jos mennään suoraan jonkin käyttäjän sivulle, eivät käyttäjien tiedot ole vielä ehtineet palvelimelta React-sovellukseen. Ongelman voi kiertää ehdollisella renderöinnillä esim. seuraavasti:
+<!-- Vian syynä on se, että jos mennään suoraan jonkin käyttäjän sivulle, eivät käyttäjien tiedot ole vielä ehtineet palvelimelta React-sovellukseen. Ongelman voi kiertää ehdollisella renderöinnillä esim. seuraavasti: -->
+The cause of the issue is that when we navigate directly to the page of an individual user, the React application has not yet received the data from the backend. One solution for fixing the problem is to use conditional rendering:
 
 ```js
 const User = (props) => {
@@ -99,77 +103,107 @@ const User = (props) => {
 }
 ```
 
-#### 7.9 blogin näkymä
+<!-- #### 7.9 blogin näkymä -->
+#### 7.9 Blog view
 
-Toteuta sovellukseen oma näkymä yksittäisille blogeille. Näkymä voi näyttää seuraavalta
-
+<!-- Toteuta sovellukseen oma näkymä yksittäisille blogeille. Näkymä voi näyttää seuraavalta -->
+Implement a separate view for blog posts. You can model the layout of your view after the following example:
+.
 ![](../images/7/45.png)
 
-Näkymään päästään klikkaamalla blogin nimeä kaikkien blogien näkymästä
+<!-- Näkymään päästään klikkaamalla blogin nimeä kaikkien blogien näkymästä -->
+Users should be able to access the view by clicking the name of the blog post in the view that lists of all of the blog posts.
 
 ![](../images/7/46.png)
 
-Tämän tehtävän jälkeen tehtävässä 5.6 toteutettua toiminnallisuutta ei enää tarvita, eli kaikkien blogien näkymässä yksittäisten blogien detaljien ei enää tarvitse avautua klikattaessa.
+<!-- Tämän tehtävän jälkeen tehtävässä 5.6 toteutettua toiminnallisuutta ei enää tarvita, eli kaikkien blogien näkymässä yksittäisten blogien detaljien ei enää tarvitse avautua klikattaessa. -->
+After you're done with this exercise, the functionality that was implemented in exercise 5.6 is no longer necessary. Clicking a blog post no longer needs to expand the item in the list and display the details of the blog post.
 
-#### 7.10 navigointi
+<!-- #### 7.10 navigointi -->
+#### 7.10 Navigation
 
-Tee sovellukseen navigaatiomenu
+<!-- Tee sovellukseen navigaatiomenu -->
+Implement a navigation menu for the application:
 
 ![](../images/7/47.png)
 
-#### 7.11 kommentit, step1
+<!-- #### 7.11 kommentit, step1 -->
+#### 7.11 comments, step1
 
-Tee sovellukseen mahdollisuus blogien kommentointiin:
+<!-- Tee sovellukseen mahdollisuus blogien kommentointiin: -->
+Implement the functionality for commenting on blog posts:
 
 ![](../images/7/48.png)
 
-Kommentit ovat anonyymejä, eli ne eivät liity järjestelmän käyttäjiin.
+<!-- Kommentit ovat anonyymejä, eli ne eivät liity järjestelmän käyttäjiin. -->
+Comments should be anonymous, meaning that they are not associated to the user who left the comment.
 
-Tässä tehtävässä riittää, että frontend osaa näyttää blogilla olevat backendin kautta lisätyt kommentit.
+<!-- Tässä tehtävässä riittää, että frontend osaa näyttää blogilla olevat backendin kautta lisätyt kommentit. -->
+In this exercise it is enough for the frontend to only display the comments that the application receives from the backend.
 
-Sopiva rajapinta kommentin luomiseen on osoitteeseen <i>api/blogs/:id/comments</i> tapahtuva HTTP POST -pyyntö.
+<!-- Sopiva rajapinta kommentin luomiseen on osoitteeseen <i>api/blogs/:id/comments</i> tapahtuva HTTP POST -pyyntö. -->
+An appropriate mechanism for adding comments to a blog post would be an HTTP POST request to the <i>api/blogs/:id/comments</i> endpoint.
 
-#### 7.12 kommentit, step2
+<!-- #### 7.12 kommentit, step2 -->
+#### 7.12 comments, step2
 
-Laajenna sovellusta siten, että kommentointi onnistuu frontendista käsin:
+<!-- Laajenna sovellusta siten, että kommentointi onnistuu frontendista käsin: -->
+Extend your application so that users can add comments to blog posts from the frontend:
 
 ![](../images/7/49.png)
 
-#### 7.13 tyylit, step1
+<!-- #### 7.13 tyylit, step1 -->
+#### 7.13 Styles, step1
 
-Tee sovelluksesi ulkoasusta tyylikkäämpi jotain kurssilla esiteltyä tapaa käyttäen
+<!-- Tee sovelluksesi ulkoasusta tyylikkäämpi jotain kurssilla esiteltyä tapaa käyttäen -->
+Improve the appearance of your application by applying one of the methods shown in the course material.
 
-#### 7.14 tyylit, step2
+<!-- #### 7.14 tyylit, step2 -->
+#### 7.14 Styles, step2
 
-Jos käytät tyylien lisäämiseen noin tunnin aikaa, merkkaa myös tämä tehtävä tehdyksi.
+<!-- Jos käytät tyylien lisäämiseen noin tunnin aikaa, merkkaa myös tämä tehtävä tehdyksi. -->
+You can mark this exercise as finished if you use an hour or more for styling your application.
 
+<!-- #### 7.15 ESLint -->
 #### 7.15 ESLint
 
-Konfiguroi frontend käyttämään ESLintiä
+<!-- Konfiguroi frontend käyttämään ESLintiä -->
+Configure the frontend of your application to use ESLint
 
-#### 7.16 Webpack
+<!-- #### 7.16 Webpack -->
+#### 7.16 
 
-Tee sovellukselle sopiva webpack-konfiguraatio
+<!-- Tee sovellukselle sopiva webpack-konfiguraatio -->
+Implement a suitable webpack configuration for your application from scratch.
 
-#### 7.17 End to end -testaus, step1
+<!-- #### 7.17 End to end -testaus, step1 -->
+#### 7.17 End to end testing, step1
 
-Tee sovellukselle ainakin kaksi E2E-testiä [Cypress-kirjaston](/osa7/luokkakomponentit_e_2_e_testaus#sovelluksen-end-to-end-testaus) avulla. Sopiva testattava asia on esim. käyttäjän kirjautuminen sovellukseen.
+<!-- Tee sovellukselle ainakin kaksi E2E-testiä [Cypress-kirjaston](/osa7/luokkakomponentit_e_2_e_testaus#sovelluksen-end-to-end-testaus) avulla. Sopiva testattava asia on esim. käyttäjän kirjautuminen sovellukseen. -->
+Implement at least two end to end tests for your application with the [Cypress](/osa7/luokkakomponentit_e_2_e_testaus#sovelluksen-end-to-end-testaus) library. One suitable use case for testing would be logging in to the application with an existing user.
 
-Tämän tehtävän testeissä voit olettaa, että tietokannan tila on testien kannalta sopiva, eli että tietokannassa on olemassa ainakin yksi käyttäjä. 
+<!-- Tämän tehtävän testeissä voit olettaa, että tietokannan tila on testien kannalta sopiva, eli että tietokannassa on olemassa ainakin yksi käyttäjä.  -->
+You can assume that the state of the database is suitable for your tests in this exercise. In the example use case described above, you would assume that your application already has one registered user.
 
-Kannattanee käyttää hetki aikaa Cypressin dokumentaation silmäilemiseen, erityisesti 
-[best practices](https://docs.cypress.io/guides/references/best-practices.html) sisältää monia asioita, joita on hyvä pitää mielessä testejä kirjoittaessa.
+<!-- Kannattanee käyttää hetki aikaa Cypressin dokumentaation silmäilemiseen, erityisesti [best practices](https://docs.cypress.io/guides/references/best-practices.html) sisältää monia asioita, joita on hyvä pitää mielessä testejä kirjoittaessa. -->
+It is recommended to spend some time reading through the documentation for Cypress. The [best practices](https://docs.cypress.io/guides/references/best-practices.html) page in particular contains a lot of valuable tips that are good to keep in mind when writing your tests.
 
-#### 7.18 End to end -testaus, step2
+<!-- #### 7.18 End to end -testaus, step2 -->
+#### 7.17 End to end testing, step2
 
-Laajenna E2E-testejä siten, että testit [alustavat tietokannan](/osa7/luokkakomponentit_e_2_e_testaus#tietokannan-tilan-kontrollointi) aina ennen testien suorittamista. Tee myös ainakin yksi testi, joka muokkaa sovelluksen tietokantaa, esim. lisää sovellukseen blogin.
+<!-- Laajenna E2E-testejä siten, että testit [alustavat tietokannan](/osa7/luokkakomponentit_e_2_e_testaus#tietokannan-tilan-kontrollointi) aina ennen testien suorittamista. Tee myös ainakin yksi testi, joka muokkaa sovelluksen tietokantaa, esim. lisää sovellukseen blogin. -->
+Expand your E2E tests so that the tests [initialize the state of the database](/osa7/luokkakomponentit_e_2_e_testaus#tietokannan-tilan-kontrollointi) always before the tests are executed. Write one at least one test that modifies the application's database e.g. by creating a new blog post.
 
-#### 7.19 End to end -testaus, step3
+<!-- #### 7.19 End to end -testaus, step3 -->
+#### 7.19 End to end testing, step3
 
-Laajenna vielä E2E-testejäsi. Voit merkitä tehtävän, jos käytät laajentamiseen vähintään 30 minuuttia aikaa.
+<!-- Laajenna vielä E2E-testejäsi. Voit merkitä tehtävän, jos käytät laajentamiseen vähintään 30 minuuttia aikaa. -->
+Expand the coverage of your E2E tests. You can mark this exercise as finished if you have used at least 30 minutes on this exercise.
 
-#### 7.20 Kurssipalaute
+<!-- #### 7.20 Kurssipalaute -->
+#### 7.20 Course feedback
 
-Anna kurssille palautetta Moodlessa.
+<!-- Anna kurssille palautetta Moodlessa. -->
+How did we do? Give us some feedback for the course in Moodle!
 
 </div>
