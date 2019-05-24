@@ -125,7 +125,7 @@ In the next part of the course we will learn to implement our own logic in the b
 > **NB:** in the current version of our application the browser adds the creation date property to the note. Since the clock of the machine running the browser can be wrongly configured, it's much wiser to let the backend server generate this timestamp for us. This is in fact what we will do in the next part of the course.
 
 <!-- Sovelluksen tämän hetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part2-notes/tree/part2-5), branchissa <i>part2-5</i>. -->
-The code for the current state of our application can be found in the  <i>part2-5</i> branch on [github](https://github.com/fullstack-hy2019/part2-notes/tree/part2-5).
+The code for the current state of our application can be found in the  <i>part2-5</i> branch on [Github](https://github.com/fullstack-hy2019/part2-notes/tree/part2-5).
 
 <!-- ### Muistiinpanon tärkeyden muutos -->
 ### Changing the importance of notes
@@ -190,7 +190,7 @@ const App = () => {
 Notice how every note receives its own <i>unique</i> event handler function, as the <i>id</i> of every note is unique.
 
 <!-- Esim. jos <i>node.id</i> on 3, tulee tapahtumankäsittelijäksi _toggleImportance(note.id)_ eli käytännössä: -->
-E.g. if <i>node.id</i> is 3, the event handler function returned by _toggleImportance(note.id)_ will be:
+E.g. if <i>note.id</i> is 3, the event handler function returned by _toggleImportance(note.id)_ will be:
 
 ```js
 () => { console.log('importance of 3 needs to be toggled') }
@@ -329,7 +329,8 @@ export default {
 <!-- Moduuli palauttaa nyt olion, jonka kenttinä (<i>getAll</i>, <i>create</i> ja <i>update</i>) on kolme muistiinpanojen käsittelyä hoitavaa funktiota. Funktiot palauttavat suoraan axiosin metodien palauttaman promisen. -->
 The module returns an object that has three functions (<i>getAll</i>, <i>create</i> ja <i>update</i>) for dealing with notes as its properties. The functions directly return the promises returned by the axios methods.
 
-Komponentti <i>App</i> saa moduulin käyttöön <em>import</em>-lauseella:
+<!-- Komponentti <i>App</i> saa moduulin käyttöön <em>import</em>-lauseella: -->
+The <i>App</i> components gains access to the module using an <em>import</em> statement:
 
 ```js
 import noteService from './services/notes' // highlight-line
@@ -774,7 +775,7 @@ notes.filter(n => n.id !== id)
 It's probably not a good idea to use alert in more serious React applications. We will soon learn a more advanced way of displaying messages and notifications to users. However, there are situations where a simple battle tested method like <em>alert</em> can function as a starting point. The more advanced method can then be added in later, if there's the time and energy for it.
 
 <!-- Sovelluksen tämän hetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part2-notes/tree/part2-6), branchissa <i>part2-6</i>. -->
-The code for the current state of our application can be found in the  <i>part2-6</i> branch on [github](https://github.com/fullstack-hy2019/part2-notes/tree/part2-6).
+The code for the current state of our application can be found in the  <i>part2-6</i> branch on [Github](https://github.com/fullstack-hy2019/part2-notes/tree/part2-6).
 
 
 </div>
