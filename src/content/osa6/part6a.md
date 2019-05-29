@@ -265,13 +265,15 @@ There are a few notable things in the code.
 <i>App</i> renders the value of the counter by asking it from the store with the method _store.getState()_. The actionhandlers of the buttons <i>dispatch</i> the right actions to the store. 
 
 <!-- Kun storessa olevan tilan arvo muuttuu, ei React osaa automaattisesti renderöidä sovellusta uudelleen. Olemmekin rekisteröineet koko sovelluksen renderöinnin suorittavan funktion _renderApp_ kuuntelemaan storen muutoksia metodilla _store.subscribe_. Huomaa, että joudumme kutsumaan heti alussa metodia _renderApp_, ilman kutsua sovelluksen ensimmäistä renderöintiä ei koskaan tapahdu. -->
-When the state in the store is changed, React is not able to automatically rerender the application. Thus we have registered a function _renderApp_, which renders the whole app, to listen changes in the store with the  _store.subscribe_ method. Note, that we have to immediately in the start call the _renderApp_ method. Without the call the first rendering of the app would never happen. 
+When the state in the store is changed, React is not able to automatically rerender the application. Thus we have registered a function _renderApp_, which renders the whole app, to listen for changes in the store with the  _store.subscribe_ method. Note, that we have to immediately call the _renderApp_ method. Without the call the first rendering of the app would never happen. 
 
 ### Redux-notes
 
-Tavoitteenamme on muuttaa muistiinpanosovellus käyttämään tilanhallintaan Reduxia. Katsotaan kuitenkin ensin eräitä konsepteja hieman yksinkertaistetun muistiinpanosovelluksen kautta.
+<!-- Tavoitteenamme on muuttaa muistiinpanosovellus käyttämään tilanhallintaan Reduxia. Katsotaan kuitenkin ensin eräitä konsepteja hieman yksinkertaistetun muistiinpanosovelluksen kautta. -->
+Our aim is to modify our note application to use Redux for state management. However let's first cover a few key concepts through a simplified note application. 
 
-Sovelluksen ensimmäinen versio seuraavassa
+<!-- Sovelluksen ensimmäinen versio seuraavassa -->
+The first version of our application is the following
 
 ```js
 const noteReducer = (state = [], action) => {
@@ -318,9 +320,11 @@ const App = () => {
 }
 ```
 
-Toistaiseksi sovelluksessa ei siis ole toiminnallisuutta uusien muistiinpanojen lisäämiseen, voimme kuitenkin tehdä sen dispatchaamalla <i>NEW\_NOTE</i>-tyyppisiä actioneja koodista.
+<!-- Toistaiseksi sovelluksessa ei siis ole toiminnallisuutta uusien muistiinpanojen lisäämiseen, voimme kuitenkin tehdä sen dispatchaamalla <i>NEW\_NOTE</i>-tyyppisiä actioneja koodista. -->
+So far the application does not have the functionality for adding new notes, although it is possible to do so by dispatching <i>NEW\_NOTE</i> actions. 
 
-Actioneissa on nyt tyypin lisäksi kenttä <i>data</i>, joka sisältää lisättävän muistiinpanon:
+<!-- Actioneissa on nyt tyypin lisäksi kenttä <i>data</i>, joka sisältää lisättävän muistiinpanon: -->
+Now the actions have a type and a field <i>data</i>, which contains the note to be added:
 
 ```js
 {
@@ -348,13 +352,17 @@ const noteReducer = (state = [], action) => {
 }
 ```
 
-Tila on nyt taulukko. <i>NEW\_NOTE</i>-tyyppisen actionin seurauksena tilaan lisätään uusi muistiinpano metodilla [push](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push).
+<!-- Tila on nyt taulukko. <i>NEW\_NOTE</i>-tyyppisen actionin seurauksena tilaan lisätään uusi muistiinpano metodilla [push](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push). -->
+The state is now an Array. <i>NEW\_NOTE</i>- type actions cause a new note to be added to the state with the [push](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push) method. 
 
-Sovellus näyttää toimivan, mutta määrittelemämme reduceri on huono, se rikkoo Reduxin reducerien [perusolettamusta](https://github.com/reactjs/redux/blob/master/docs/basics/Reducers.md#handling-actions) siitä, että reducerien tulee olla [puhtaita funktioita](https://en.wikipedia.org/wiki/Pure_function).
+<!-- Sovellus näyttää toimivan, mutta määrittelemämme reduceri on huono, se rikkoo Reduxin reducerien [perusolettamusta](https://github.com/reactjs/redux/blob/master/docs/basics/Reducers.md#handling-actions) siitä, että reducerien tulee olla [puhtaita funktioita](https://en.wikipedia.org/wiki/Pure_function). -->
+The application seems to be working, but the reducer we have declared is bad. It breaks the [basic assumption](https://github.com/reactjs/redux/blob/master/docs/basics/Reducers.md#handling-actions) of Redux reducer that reducers must be [pure functions](https://en.wikipedia.org/wiki/Pure_function).
 
-Puhtaat funktiot ovat sellaisia, että ne <i>eivät aiheuta mitään sivuvaikutuksia</i> ja niiden tulee aina palauttaa sama vastaus samoilla parametreilla kutsuttaessa.
+<!-- Puhtaat funktiot ovat sellaisia, että ne <i>eivät aiheuta mitään sivuvaikutuksia</i> ja niiden tulee aina palauttaa sama vastaus samoilla parametreilla kutsuttaessa. -->
+Pure functions are such, that they <i>do not cause any side effects</i> and they must always return the same response when called with the same parameters. 
 
-Lisäsimme tilaan uuden muistiinpanon metodilla <i>state.push(action.data)</i> joka <i>muuttaa</i> state-olion tilaa. Tämä ei ole sallittua. Ongelma korjautuu helposti käyttämällä metodia [concat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat), joka luo <i>uuden taulukon</i>, jonka sisältönä on vanhan taulukon alkiot sekä lisättävä alkio:
+<!-- Lisäsimme tilaan uuden muistiinpanon metodilla <i>state.push(action.data)</i> joka <i>muuttaa</i> state-olion tilaa. Tämä ei ole sallittua. Ongelma korjautuu helposti käyttämällä metodia [concat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat), joka luo <i>uuden taulukon</i>, jonka sisältönä on vanhan taulukon alkiot sekä lisättävä alkio: -->
+We added a new note to the state with the method <i>state.push(action.data)</i> which <i>changes</i> the state of the state-object. This is not allowed. The problem is easily solved by using the [concat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat) method, which creates a <i>new array</i>, which contains all the elements of the old array and the new element: 
 
 ```js
 const noteReducer = (state = [], action) => {
@@ -366,7 +374,8 @@ const noteReducer = (state = [], action) => {
 }
 ```
 
-Reducen tilan tulee koostua muuttumattomista eli [immutable](https://en.wikipedia.org/wiki/Immutable_object) olioista. Jos tilaan tulee muutos, ei vanhaa oliota muuteta, vaan se <i>korvataan uudella muuttuneella oliolla</i>. Juuri näin toimimme uudistuneessa reducerissa, vanha taulukko korvaantuu uudella.
+<!-- Reducen tilan tulee koostua muuttumattomista eli [immutable](https://en.wikipedia.org/wiki/Immutable_object) olioista. Jos tilaan tulee muutos, ei vanhaa oliota muuteta, vaan se <i>korvataan uudella muuttuneella oliolla</i>. Juuri näin toimimme uudistuneessa reducerissa, vanha taulukko korvaantuu uudella. -->
+Reduce state must be complied of [immutable](https://en.wikipedia.org/wiki/Immutable_object) objects. If there is a change in the state, the old object is not changed, but it is <i>replaced with a new, changed, object</i>. This is exactly what we did with the new reducer, the old array is replaced by the new. 
 
 Laajennetaan reduceria siten, että se osaa käsitellä muistiinpanon tärkeyteen liittyvän muutoksen:
 
