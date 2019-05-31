@@ -502,7 +502,7 @@ const App = ({ notes }) => {
 <!-- Koodissamme on käytetty koko ajan moduuleja. Tiedoston ensimmäiset rivit -->
 Note, that the <i>key</i> attribute must now be defined for the <i>Note</i> components, and not for the <i>li</i> tags like before. 
 
-A whole React application can be written to a single file, but that is of course not very practical. Common practice is to declare each component in their own file as a <i>ES6-module</i>.
+A whole React application can be written to a single file, but that is of course not very practical. It is a common practice to declare each component in their own file as a <i>ES6-module</i>.
 
 We have been using modules the whole time. The first few lines of a file
 
@@ -512,7 +512,7 @@ import ReactDOM from 'react-dom'
 ```
 
 <!-- [importtaavat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) eli ottavat käyttöönsä kaksi moduulia. Moduuli <i>react</i> sijoitetaan muuttujaan _React_ ja <i>react-dom</i> muuttujaan _ReactDOM_.  -->
-[Import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) two modules, enabling them to be used in the code. The <i>react</i> module is placed into a variable called _React_ and <i>react-dom</i> to variable _ReactDOM_.
+[import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) two modules, enabling them to be used in the code. The <i>react</i> module is placed into a variable called _React_ and <i>react-dom</i> to variable _ReactDOM_.
 
 <!-- Siirretään nyt komponentti <i>Note</i> omaan moduuliinsa. -->
 
@@ -521,7 +521,7 @@ import ReactDOM from 'react-dom'
 <!-- Tehdään nyt sovellukseen hakemisto <i>components</i> ja sinne tiedosto <i>Note.js</i> jonka sisältö on seuraava: -->
 Let's move our <i>Note</i> component into its own module. 
 
-In smaller applications components are usually placed in a directory called <i>components</i> , which is placed within the <i>src</i> directory. The convention is to name the file after the component. 
+In smaller applications, components are usually placed in a directory called <i>components</i>, which is placed within the <i>src</i> directory. The convention is to name the file after the component. 
 
 Now we'll create a directory called <i>components</i> to our application and place a file <i>Note.js</i> there. 
 The contents of the Note.js file are as follows: 
@@ -564,7 +564,7 @@ const App = ({notes}) => {
 <!-- Huomaa, että itse määriteltyä komponenttia importatessa komponentin sijainti tulee ilmaista <i>suhteessa importtaavaan tiedostoon</i>: -->
 The component exported by the module is now available for use in the variable <i>Note</i> just as it was earlier. 
 
-Note, that when importing our own components their location must be given <i>in relation to the importing file</i>:
+Note that, when importing our own components, their location must be given <i>in relation to the importing file</i>:
 
 ```js
 './components/Note'
@@ -624,10 +624,10 @@ ReactDOM.render(
 Modules have plenty of other uses than enabling component declarations to be separated into their own files. We will get back into them later in this course. 
 
 <!-- Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part2-notes/tree/part2-1) -->
-The current code of the application can be found from [github](https://github.com/fullstack-hy2019/part2-notes/tree/part2-1).
+The current code of the application can be found in [GitHub](https://github.com/fullstack-hy2019/part2-notes/tree/part2-1).
 
 <!-- Huomaa, että repositorion master-haarassa on myöhemmän vaiheen koodi, tämän hetken koodi on branchissa [part2-1](https://github.com/fullstack-hy2019/part2-notes/tree/part2-1): -->
-Note, that the master branch of the repository contains the code for a later version of the application. The current code is in the branch [part2-1](https://github.com/fullstack-hy2019/part2-notes/tree/part2-1):
+Note that the master branch of the repository contains the code for a later version of the application. The current code is in the branch [part2-1](https://github.com/fullstack-hy2019/part2-notes/tree/part2-1):
 
 ![](../images/2/2b.png)
 
@@ -637,15 +637,15 @@ If you clone the project to yourself, run the command _npm install_ before start
 ### When the application breaks
 
 <!-- Kun aloitat ohjelmoijan uraasi (ja allekirjoittaneella edelleen 30 vuoden ohjelmointikokemuksella) käy melko usein niin, että ohjelma hajoaa aivan totaalisesti. Erityisen usein näin käy dynaamisesti tyypitetyillä kielillä, kuten Javascript, missä kääntäjä ei tarkasta minkä tyyppisiä arvoja esim. funktioiden parametreina ja paluuarvoina liikkuu. -->
-When you start your programming career (and even after 30 years of coding like yours truly) quite often the application just breaks down completely. Especially this happens with dynamically typed languages like JavaScript, where the compiler does not check the data type of e.g. function variables or return values. 
+When you start your programming career (and even after 30 years of coding like yours truly), quite often the application just breaks down completely. This happens especially with dynamically typed languages like JavaScript, where the compiler does not check the data type of e.g. function variables or return values. 
 
 <!-- Reactissa räjähdys näyttää esim. seuraavalta -->
-React explosion can for example look like this:
+An explosion of errors in React can look like this, for example:
 
 ![](../images/2/3b.png)
 
 <!-- Tilanteista pelastaa yleensä parhaiten <em>console.log</em>. Pala räjähdyksen aiheuttavaa koodia seuraavassa -->
-In these situations your best way out is the <em>console.log</em>.
+In these situations, your best way out is the <em>console.log</em>.
 The piece of code causing the explosion is this: 
 
 ```js
@@ -733,7 +733,7 @@ const Course = (props) => { // highlight-line
 <!-- Ja jos ongelma ei vieläkään selviä, ei auta kuin jatkaa vianjäljitystä, eli kirjoittaa lisää console.logeja. -->
 
 <!-- Lisäsin tämän luvun materiaaliin, kun seuraavan tehtävän mallivastauksen koodi räjähti ihan totaalisesti (syynä väärässä muodossa ollut propsi), ja jouduin jälleen kerran debuggaamaan console.logaamalla. -->
-If the problem has still not been solved, doesn't help but continue tracking down the issue by writing more console.log. 
+If the problem has still not been solved, there's nothing else to be done but to continue tracking down the issue, by writing more console.logs. 
 
 I added this chapter to the material after the model answer of the next question exploded completely (due to props of the wrong type), and I had to debug by using console.log.
 
@@ -748,14 +748,14 @@ I added this chapter to the material after the model answer of the next question
 <!-- Voit palauttaa kurssin kaikki tehtävät samaan repositorioon, tai käyttää useita repositorioita. Jos palautat eri osien tehtäviä samaan repositorioon, käytä järkevää hakemistojen nimentää. -->
 
 <!-- Tehtävät palautetaan **yksi osa kerrallaan**. Kun olet palauttanut osan tehtävät, et voi enää palauttaa saman osan tekemättä jättämiäsi tehtäviä. -->
-The exercises are submitted via GitHub, and by marking the exercises as done in the [submission system](https://studies.cs.helsinki.fi/fullstackopen2019/).
+The exercises are submitted to GitHub, and by marking the exercises as done in the [submission system](https://studies.cs.helsinki.fi/fullstackopen2019/).
 
 You can submit all of the exercises into the same repository, or use multiple different repositories. If you submit exercises from different parts into the same repository, name your directories well.
 
-The exercises are submitted **One part at a time**. When you have submitted the exercises for a part, you can no longer submit any missed exercises for that part.
+The exercises are submitted **one part at a time**. When you have submitted the exercises for a single part, you can no longer submit any missed exercises for that part.
 
 <!-- Huomaa, että tässä osassa on muitakin tehtäviä kuin allaolevat, eli <i>älä tee palautusta</i> ennen kun olet tehnyt osan tehtävistä kaikki mitkä haluat palauttaa. -->
-Note, that this part has more exercises than the ones below, so <i>do not submit</i> before you have done all exercises from this part you want to submit. 
+Note that this part has more exercises than the ones below, so <i>do not submit</i> before you have done all exercises from this part you want to submit. 
 
 <!-- **VAROITUS** create-react-app tekee projektista automaattisesti git-repositorion, ellei sovellusta luoda jo olemassaolevan repositorion sisälle. Todennäköisesti **et halua** että projektista tulee repositorio, joten suorita projektin juuressa komento _rm -rf .git_. -->
 **WARNING** create-react-app makes the project automatically into a git-repository, if the project is not created inside of an already existing repository. You propably **do not** want the project to become a repository, so run the command  _rm -rf .git_ from its root. 
@@ -763,11 +763,11 @@ Note, that this part has more exercises than the ones below, so <i>do not submit
 <h4>2.1: course contents step6</h4>
 
 <!-- Viimeistellään nyt tehtävien 1.1-1.5 kurssin sisältöjä renderöivän ohjelman koodi. Voit ottaa tarvittaessa pohjaksi mallivastauksen koodin. -->
-Let's finish the code for rendering course contents from exercises 1.1 - 1.5. You can start with the code from the model answers. 
+Let's finish the code for rendering course contents from exercises 1.1 - 1.5. If you wish, you can start with the code from the model answers. 
 
 <!-- **Huomaa, että jos kopioit projektin paikasta toiseen, saattaa olla tarpeen ensin tuhota hakemisto <i>node\_modules</i> ja antaa sen jälkeen asentaa riippuvuudet uudelleen, eli komento _npm install_ ennen kuin saat kopioidun projektin käynnistettyä.** Lähtökohtaisesti toki kannattaa olla kokonaan kopioimatta tai laittamatta versionhallintaan hakemistoa <i>node\_modules</i> -->
-**Note that if you copy a project from one place to another, you might have to destroy the <i>node\_modules</i> directory and install the debendencies again with the command _npm install_ before you can start the application.**
-It might not be good to copy a project or to put the  <i>node\_modules</i> directory into the version control per se. 
+**Note that if you copy a project from one place to another, you might have to destroy the <i>node\_modules</i> directory and install the dependencies again with the command _npm install_ before you can start the application.**
+In general, it is a bad idea to copy the  <i>node\_modules</i> directory of a project. It is also a bad idea to include it in the version control (git repository). 
 
 <!-- Muutetaan komponenttia <i>App</i> seuraavasti: -->
 Let's change the <i>App</i> component like so: 
@@ -870,14 +870,14 @@ const total = parts.reduce( (s, p) => {
 ```
 
 <!-- **Pro tip2:** VS codeen on asennettavissa laajennus, ilmeisesti [tämä](https://marketplace.visualstudio.com/items?itemName=cmstead.jsrefactor), jonka avulla nuolifunktion lyhyen muodon voi muuttaa automaattisesti pidemmäksi muodoksi ja päinvastoin: -->
-**Pro tip2:** There is a plugin for VS code, [this one](https://marketplace.visualstudio.com/items?itemName=cmstead.jsrefactor), which  changes short form arrow functions into their longer form automatically, and vice versa. 
+**Pro tip2:** There is a plugin for VS code, [this one](https://marketplace.visualstudio.com/items?itemName=cmstead.jsrefactor), which changes short form arrow functions into their longer form automatically, and vice versa. 
 
 ![](../images/2/5b.png)
 
 <h4>2.4: Course contents step9</h4>
 
 <!-- Laajennetaan sovellusta siten, että kursseja voi olla <i>mielivaltainen määrä</i>: -->
-Let's extend our application to allow for <i>arbituary number</i> of courses:
+Let's extend our application to allow for <i>an arbitrary number</i> of courses:
 
 ```js
 const App = () => {
@@ -930,7 +930,7 @@ const App = () => {
 ```
 
 <!-- Sovelluksen ulkoasu voi olla esim seuraava: -->
-The application can for example look like this: 
+The application can look like this, for example: 
 
 ![](../images/teht/10.png)
 

@@ -19,7 +19,7 @@ The GraphQL philosophy is very different from REST. REST is <i>resource based</i
 The resource basedness of REST works well in most situations. However, it can be bit awkward sometimes. 
 
 <!-- Oletetaan että blogilistasovelluksemme sisältäisi somemaista toiminnallisuutta ja haluaisimme esim. näyttää sovelluksessa listan, joka sisältää kaikkien seuraamiemme (follow) käyttäjien blogeja kommentoineiden käyttäjien lisäämien blogien nimet. -->
-Lets assume our bloglist application contains social media like functionality, and we would i.e want to show a list of all the blogs the users who have commented on the blogs we follow have added. 
+Let's assume our bloglist application contains social media like functionality, and we would i.e want to show a list of all the blogs the users who have commented on the blogs we follow have added. 
 
 <!-- Jos palvelin toteuttaisi REST API:n, joutuisimme todennäköisesti tekemään monia HTTP-pyyntöjä selaimen koodista, ennen kuin saisimme muodostettua halutun datan. Pyyntöjen vastauksena tulisi myös paljon ylimääräistä dataa ja halutun datan keräävä selaimen koodi olisi todennäköisesti kohtuullisen monimutkainen. -->
 If the server implemented a REST API, we would propably have to do multiple HTTP-requests from the browser before we had all the data we wanted. The requests would also return a lot of unnecessary data, and the code on the browser would propably be quite complicated. 
@@ -276,7 +276,7 @@ The data a GraphQL API uses can be saved into a relational database, document da
 ### Apollo server
 
 <!-- Toteuteaan nyt GraphQL-palvelin tämän hetken johtavaa kirjastoa [Apollo -serveriä](https://www.apollographql.com/docs/apollo-server/) käyttäen.  -->
-Lets implement a GraphQL-server with today's leading library [Apollo -server](https://www.apollographql.com/docs/apollo-server/).
+Let's implement a GraphQL-server with today's leading library [Apollo -server](https://www.apollographql.com/docs/apollo-server/).
 
 <!-- Luodaan uusi npm-projekti komennolla _npm init_ ja asennetaan tarvittavat riippuvuuet -->
 Create a new npm-project with _npm init_ and install the required dependencies.
@@ -436,7 +436,7 @@ has a resolver which returns <i>all</i> objects from the _persons_ array.
 When Apollo-server is run on development mode, it starts a [GraphQL-playground](https://www.apollographql.com/docs/apollo-server/features/graphql-playground.html) to address [http://localhost:4000/graphql](http://localhost:4000/graphql). This is very useful for a developer, and can be used to make queries to the server. 
 
 <!-- Kokeillaan  -->
-Lets try it out
+Let's try it out
 
 ![](../images/8/1.png)
 
@@ -547,7 +547,7 @@ If the functionality of the default resolver is enough, you don't need to define
 <!-- Voisimme esimerkiksi määritellä, että kaikkien henkilöiden osoitteeksi tulisi <i>Manhattan New York</i> kovakoodaamalla seuraavat tyypin <i>Person</i> kenttien street ja city resolvereiksi: -->
 We could for example define, that the address of all persons is 
 <i>Manhattan New York</i> by hard coding the following to the resolvers of the street and city fields of the type <i>Person</i>.
-
+Puhelinnumeron päivitys
 ```js
 Person: {
   street: (root) => "Manhattan",
@@ -641,7 +641,7 @@ Contrary to the type <i>Person</i>, the <i>Address</i> type does not have a <i>i
 
 <!-- Koska taulukkoon talletetuilla olioilla ei ole kenttää <i>address</i> oletusarvoinen resolveri ei enää riitä. Lisätään resolveri tyypin <i>Person</i> kentälle <i>address</i>: -->
 Because the objects saved in the array do not have a field <i>address</i>, the default resolver is not sufficient enough. 
-Lets add a resolver for the field <i>address</i> of type <i>Person</i>: 
+Let's add a resolver for the field <i>address</i> of type <i>Person</i>: 
 
 ```js
 const resolvers = {
@@ -673,7 +673,7 @@ The current code of the application can be found from [ github](https://github.c
 ### Mutations
 
 <!-- Laajennetaan sovellusta siten, että puhelinluetteloon on mahdollista lisätä uusia henkilöitä. GraphQL:ssä kaikki muutoksen aiheuttavat operaatiot tehdään [mutaatioiden](https://graphql.org/learn/queries/#mutations) avulla. Mutaatiot määritellään skeemaan tyypin <i>Mutation</i> avaimina. -->
-Lets add functionality for adding new persons to the phonebook. In GraphQL, all operations which cause a change are done with [mutations](https://graphql.org/learn/queries/#mutations). Mutations are described in the schema as the keys of type <i>Mutation</i>.
+Let's add functionality for adding new persons to the phonebook. In GraphQL, all operations which cause a change are done with [mutations](https://graphql.org/learn/queries/#mutations). Mutations are described in the schema as the keys of type <i>Mutation</i>.
 
 <!-- Käyttäjän lisäävä mutaation skeema näyttää seuraavalta -->
 The schema for a mutation for adding a new person looks as follows: 
@@ -792,11 +792,11 @@ If we try to create a new person, but the parameters do not correspond with the 
 So some of the error handling can be automatically with graphQL [validation](https://graphql.org/learn/validation/).
 
 <!-- Kaikkea GraphQL ei kuitenkaan pysty hoitamaan automaattisesti. Esimerkiksi tarkemmat säännöt mutaatiolla lisättävän datan kenttien muodolle on lisättävä itse. Niistä aiheutuvat virheet tulee hoitaa [GraphQL:n poikkeuskäsittelymekanismilla](https://www.apollographql.com/docs/apollo-server/features/errors.html). -->
-However GraphQL cannot handle everything automatically. For example stricter rules for data sent to a Mutation has to be added by oneself. 
+However GraphQL cannot handle everything automatically. For example stricter rules for data sent to a Mutation have to be added manually.
 The errors from those rules are handled by [the error handling mechanism of GraphQL](https://www.apollographql.com/docs/apollo-server/features/errors.html).
 
 <!-- Estetään saman nimen lisääminen puhelinluetteloon useampaan kertaan: -->
-Lets block adding the same name to the phonebook multiple times: 
+Let's block adding the same name to the phonebook multiple times: 
 
 ```js
 const { ApolloServer, UserInputError, gql } = require('apollo-server') // highlight-line
@@ -834,7 +834,7 @@ The current code of the application can be found from [ github](https://github.c
 ### Enum
 
 <!-- Tehdään sovellukseen vielä sellainen lisäys, että kaikki henkilöt palauttavaa kyselyä voidaan säädellä parametrilla <i>phone</i> siten, että kysely palauttaa vain henkilöt, joilla on puhelinnumero -->
-Lets add a possibility to filter the query returning all persons with the parameter <i>phone</i> so, that it returns only persons with a phone number
+Let's add a possibility to filter the query returning all persons with the parameter <i>phone</i> so, that it returns only persons with a phone number
 
 ```js
 query {
@@ -903,7 +903,7 @@ Query: {
 ### Changing a phonenumber
 
 <!-- Tehdään sovellukseen myös mutaatio, joka mahdollistaa henkilön puhelinnumeron muuttamisen. Mutaation skeema näyttää seuraavalta -->
-Lets add a mutation for changing the phonenumber of a person. The schema of this mutation looks as follows
+Let's add a mutation for changing the phonenumber of a person. The schema of this mutation looks as follows
 
 ```js
 type Mutation {
