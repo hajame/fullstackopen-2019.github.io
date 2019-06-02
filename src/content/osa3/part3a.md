@@ -7,7 +7,7 @@ letter: a
 <div class="content">
 
 <!-- Siirrämme tässä osassa fokuksen backendiin, eli palvelimella olevaan toiminnallisuuteen. -->
-In this part our focus shifts towards the backend, that is towards implementing functionality on the server side of the stack.
+In this part our focus shifts towards the backend: that is, towards implementing functionality on the server side of the stack.
 
 <!-- Backendin toteutusympäristönä käytämme [Node.js](https://nodejs.org/en/):ää, joka on melkein missä vaan, erityisesti palvelimilla ja omalla koneellasikin toimiva, Googlen [chrome V8](https://developers.google.com/v8/) -Javascriptmoottoriin perustuva Javascriptin suoritusympäristö. -->
 We will be building our backend on top of [NodeJS](https://nodejs.org/en/), which is a JavaScript runtime based on Google's [Chrome V8](https://developers.google.com/v8/) JavaScript engine.
@@ -16,7 +16,7 @@ We will be building our backend on top of [NodeJS](https://nodejs.org/en/), whic
 This course material was written with the version <i>v8.10.0</i> of Node.js. Please make sure that your version of Node is at least as new the version used in the material (you can check the version by running _node -v_ in the command line).
 
 <!-- Kuten [osassa 1](/osa1/javascriptia) todettiin, selaimet eivät vielä osaa uusimpia Javascriptin ominaisuuksia ja siksi selainpuolen koodi täytyy kääntää eli <i>transpiloida</i> esim [babel](https://babeljs.io/):illa. Backendissa tilanne on kuitenkin toinen, uusin Node hallitsee riittävissä määrin myös Javascriptin uusia versioita, joten suoritamme Nodella suoraan kirjoittamaamme koodia ilman transpilointivaihetta. -->
-As mentioned in [part 1](/osa1/javascriptia), browsers don't yet support the newest features of JavaScript and that is why the code running in the browser must be <i>transpiled</i> with e.g. [babel](https://babeljs.io/). The situation with JavaScript running in the backend is different. The newest version of Node supports a large majority of the latest features of JavaScript, so we can use the latest features without having to transpile our code.
+As mentioned in [part 1](/osa1/javascriptia), browsers don't yet support the newest features of JavaScript, and that is why the code running in the browser must be <i>transpiled</i> with e.g. [babel](https://babeljs.io/). The situation with JavaScript running in the backend is different. The newest version of Node supports a large majority of the latest features of JavaScript, so we can use the latest features without having to transpile our code.
 
 <!-- Tavoitteenamme on tehdä [osan 2](/osa2) muistiinpanosovellukseen sopiva backend. Aloitetaan kuitenkin ensin perusteiden läpikäyminen toteuttamalla perinteinen "hello world"-sovellus. -->
 Our goal is to implement a backend that will work with the notes application from [part 2](/osa2). However, let's start with the basics by implementing a classic "hello world" application.
@@ -126,7 +126,7 @@ console.log(`Server running on port ${port}`)
 ```
 
 <!-- Kun sovellus käynnistuu, konsoliin tulostuu -->
-Once the application is running, we see the following message get printed to the console:
+Once the application is running, the following message is printed in the console:
 
 ```bash
 Server running on port 3001
@@ -181,7 +181,7 @@ import http from 'http'
 These days, code that runs in the browser uses ES6 modules. Modules are defined with an [export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export) and taken into use with an [import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import).
 
 <!-- Node.js kuitenkin käyttää ns. [CommonJS](https://en.wikipedia.org/wiki/CommonJS)-moduuleja. Syy tälle on siinä, että Node-ekosysteemillä oli tarve moduuleihin jo kauan ennen kuin Javascript tuki kielen tasolla moduuleja. Node ei toistaiseksi tue ES-moduuleja, mutta tuki on todennäköisesti jossain vaiheessa [tulossa](https://nodejs.org/api/esm.html). -->
-However, Node.js uses so-called [CommonJS](https://en.wikipedia.org/wiki/CommonJS) modules. The reason for this is that the Node ecosystem had a need for modules long before JavaScript supported them in the the language specification. At the time of writing Node does not support ES6 modules, but support for them [will be coming](https://nodejs.org/api/esm.html) somewhere down the road.
+However, Node.js uses so-called [CommonJS](https://en.wikipedia.org/wiki/CommonJS) modules. The reason for this is that the Node ecosystem had a need for modules long before JavaScript supported them in the the language specification. At the time of writing this material, Node does not support ES6 modules, but support for them [is coming](https://nodejs.org/api/esm.html) somewhere down the road.
 
 <!-- CommonJS-moduulit toimivat kohtuullisessa määrin samaan tapaan kuin ES6-moduulit, ainakin tämän kurssin tarpeiden puitteissa. -->
 CommonJS modules function almost exactly like ES6 modules, at least as far as our needs in this course are concerned.
@@ -251,10 +251,10 @@ console.log(`Server running on port ${port}`)
 ```
 
 <!-- Käynnistetään palvelin uudelleen (palvelin sammutetaan painamalla _ctrl_ ja _c_ yhtä aikaa konsolissa) ja refreshataan selain. -->
-Let's restart the server (you can shut the server down by holding _ctrl_ _c_ down at the same time in the console) and let's refresh the browser.
+Let's restart the server (you can shut the server down by pressing _Ctrl+C_ in the console) and let's refresh the browser.
 
 <!-- Headerin <i>Content-Type</i> arvolla <i>application/json</i> kerrotaan, että kyse on JSON-muotoisesta datasta. Muuttujassa _notes_ oleva taulukko muutetaan jsoniksi metodilla <em>JSON.stringify(notes)</em>. -->
-The <i>application/json</i> value in <i>Content-Type</i> header informs the receiver that the data is in the JSON format. The _notes_ array gets transformed into JSON with the <em>JSON.stringify(notes)</em> method.
+The <i>application/json</i> value in the <i>Content-Type</i> header informs the receiver that the data is in the JSON format. The _notes_ array gets transformed into JSON with the <em>JSON.stringify(notes)</em> method.
 
 <!-- Kun avaamme selaimen, on tulostusasu sama kuin [osassa 2](/osa2#datan-haku-palvelimelta) käytetyn [json-serverin](https://github.com/typicode/json-server) tarjoamalla muistiinpanojen listalla: -->
 When we open the browser, the displayed format is exactly the same as in [part 2](/osa2#datan-haku-palvelimelta) where we used [json-server](https://github.com/typicode/json-server) to serve the list of notes:
@@ -262,7 +262,7 @@ When we open the browser, the displayed format is exactly the same as in [part 2
 ![](../images/3/2.png)
 
 <!-- Voimme jo melkein ruveta käyttämään uutta backendiämme osan 2 muistiinpano-frontendin kanssa. Mutta vain _melkein_, sillä kun käynnistämme frontendin, tulee konsoliin virheilmoitus -->
-We're nearly ready to start using our new backend with the notes application frontend from part 2. Nearly, but not quite. When we fire up the frontend we see the following error message in the console:
+We're nearly ready to start using our new backend with the notes application frontend from part 2. Nearly, but not quite. When we fire up the frontend, we see the following error message in the console:
 
 ![](../assets/3/3.png)
 
@@ -272,7 +272,7 @@ We will look into this error soon, but first we will improve our code in other w
 ### Express
 
 <!-- Palvelimen koodin tekeminen suoraan Noden sisäänrakennetun web-palvelimen [http](https://nodejs.org/docs/latest-v8.x/api/http.html):n päälle on mahdollista, mutta työlästä, erityisesti jos sovellus kasvaa hieman isommaksi. -->
-Implementing our server code directly with Node's built-in [http](https://nodejs.org/docs/latest-v8.x/api/http.html) web server is possible but cumbersome, especially once the application grows in size.
+Implementing our server code directly with Node's built-in [http](https://nodejs.org/docs/latest-v8.x/api/http.html) web server is possible. However, it is cumbersome, especially once the application grows in size.
 
 <!-- Nodella tapahtuvaa web-sovellusten ohjelmointia helpottamaan onkin kehitelty useita _http_:tä miellyttävämmän ohjelmointirajapinnan tarjoamia kirjastoja. Näistä ylivoimaisesti suosituin on [express](http://expressjs.com). -->
 Many libraries have been developed to ease server side development with Node, by offering a more pleasing interface to work with than the built-in http module. By far the most popular library intended for this purpose is [express](http://expressjs.com).
@@ -306,7 +306,7 @@ The source code for the dependency is installed to the <i>node\_modules</i> dire
 These are in fact the dependencies of the express library, and the dependencies of all of its dependencies, and so forth. These are called the [transitive dependencies](https://lexi-lambda.github.io/blog/2016/08/24/understanding-the-npm-dependency-model/) of our project.
 
 <!-- Projektiin asentui expressin versio 4.16.4. Mitä tarkoittaa </i>package.json:issa</i> versiomerkinnän edessä oleva väkänen, eli miksi muoto on -->
-The version 4.16.4. of express was installed to our project. What does the caret at the end of the version number in <i>package.json</i> mean?
+The version 4.16.4. of express was installed in our project. What does the caret in front of the version number in <i>package.json</i> mean?
 
 ```json
 "express": "^4.16.4"
@@ -316,7 +316,7 @@ The version 4.16.4. of express was installed to our project. What does the caret
 The versioning model used in npm is called [semantic versioning](https://docs.npmjs.com/getting-started/semantic-versioning).
 
 <!-- Merkintä <i>^4.16.4</i> tarkoittaa, että jos/kun projektin riippuvuudet päivitetään, asennetaan expressistä versio, joka on vähintään <i>4.16.4</i>, mutta asennetuksi voi tulla versio, jonka <i>patch</i> eli viimeinen numero tai <i>minor</i> eli keskimmäinen numero voi olla suurempi. Pääversio eli <i>major</i> täytyy kuitenkin olla edelleen sama. -->
-The caret at the end of <i>^4.16.4</i> means, that if and when the dependencies of a project are updated, the version of express that is installed will be at least <i>4.16.4</i>. However, the installed version of express can also be one that has a larger <i>patch</i> number (the last number), or a larger <i>minor</i> number (the middle number). The major version of the library indicated by the first <i>major</i> number must be the same.
+The caret in the front of <i>^4.16.4</i> means, that if and when the dependencies of a project are updated, the version of express that is installed will be at least <i>4.16.4</i>. However, the installed version of express can also be one that has a larger <i>patch</i> number (the last number), or a larger <i>minor</i> number (the middle number). The major version of the library indicated by the first <i>major</i> number must be the same.
 
 <!-- Voimme päivittää projektin riippuvuudet komennolla -->
 We can update the dependencies of the project with the command:
@@ -363,7 +363,7 @@ app.listen(PORT, () => {
 ```
 
 <!-- Jotta sovelluksen uusi versio saadaan käyttöön, on sovellus uudelleenkäynnistettävä. -->
-In order to get the new version of our application into use we have to restart the application.
+In order to get the new version of our application into use, we have to restart the application.
 
 <!-- Sovellus ei muutu paljoa. Heti alussa otetaan käyttöön _express_, joka on tällä kertaa <i>funktio</i>, jota kutsumalla luodaan muuttujaan _app_ sijoitettava express-sovellusta vastaava olio: -->
 The application did not change a whole lot. Right at the beginning of our code we're importing _express_, which this time is a <i>function</i> that is used to create an express application stored in the _app_ variable:
@@ -408,17 +408,17 @@ The request is responded to with the [json](http://expressjs.com/en/4x/api.html#
 ![](../images/3/6.png)
 
 <!-- Pieni huomio JSON-muodossa palautettavasta datasta. -->
-Quick observation about data send in the JSON format.
+Next, let's take a quick look at the data sent in the JSON format.
 
 <!-- Aiemmassa, pelkkää Nodea käyttämässä versiossa, jouduimme muuttamaan palautettavan datan json-muotoon metodilla _JSON.stringify_: -->
-In the earlier version where we were only using Node, we had to transform the data into the JSON format with the _JSON.stringify__ method:
+In the earlier version where we were only using Node, we had to transform the data into the JSON format with the _JSON.stringify_ method:
 
 ```js
 response.end(JSON.stringify(notes))
 ```
 
 <!-- Expressiä käytettäessä tämä ei ole tarpeen, sillä muunnos tapahtuu automaattisesti. -->
-With express this is no longer required, because this transformation happens automatically.
+With express, this is no longer required, because this transformation happens automatically.
 
 <!-- Kannattaa huomata, että [JSON](https://en.wikipedia.org/wiki/JSON) on merkkijono, eikä Javascript-olio kuten muuttuja _notes_. -->
 It's worth noting, that [JSON](https://en.wikipedia.org/wiki/JSON) is a string, and not a JavaScript object like the value assigned to _notes_.
@@ -434,7 +434,7 @@ The experiment above was done in the interactive [node-repl](https://nodejs.org/
 ### nodemon
 
 <!-- Jos muutamme sovelluksen koodia, joudumme uudelleenkäynnistämään sovelluksen (eli ensin sammuttamaan konsolista _ctrl_ ja _c_ ja sitten käynnistämään uudelleen), jotta muutokset tulisivat voimaan. Verrattuna Reactin mukavaan workflowhun, missä selain päivittyi automaattisesti koodin muuttuessa tuntuu uudelleenkäynnistely kömpelöltä. -->
-If we make changes to the application's code we have to restart the application in order to see the changes. We restart the application by first shutting it down by typing _ctrl_ _c_ and then restarting the application. Compared to the convenient workflow in React where the browser automatically reloaded after changes were made, this feels slightly cumbersome.
+If we make changes to the application's code we have to restart the application in order to see the changes. We restart the application by first shutting it down by typing _Ctrl+C_ and then restarting the application. Compared to the convenient workflow in React where the browser automatically reloaded after changes were made, this feels slightly cumbersome.
 
 <!-- Ongelmaan ratkaisu on [nodemon](https://github.com/remy/nodemon): -->
 The solution to this problem is [nodemon](https://github.com/remy/nodemon): 
@@ -467,7 +467,7 @@ The contents of <i>package.json</i> have also changed:
 If you accidentally used the wrong command and the nodemon dependency was added under "dependencies" instead of "devDependencies", then manually change the contents of <i>package.json</i> to match what is shown above.
 
 <!-- Kehitysaikaisilla riippuvuuksilla tarkoitetaan työkaluja, joita tarvitaan ainoastaan sovellusta kehitettäessä, esim. testaukseen tai sovelluksen automaattiseen uudelleenkäynnistykseen kuten <i>nodemon</i>. -->
-By development dependencies we are referring to tools that are needed only during the development of the application, e.g. for testing or automatically restarting the application like <i>nodemon</i>.
+By development dependencies, we are referring to tools that are needed only during the development of the application, e.g. for testing or automatically restarting the application, like <i>nodemon</i>.
 
 <!-- Kun sovellusta suoritetaan tuotantomoodissa, eli samoin kun sitä tullaan suorittamaan tuotantopalvelimella (esim. Herokussa, mihin tulemme kohta siirtämään sovelluksemme), ei kehitysaikaisia riippuvuuksia tarvita. -->
 These development dependencies are not needed when the application is run in production mode on the production server (e.g. Heroku).
@@ -632,7 +632,7 @@ app.get('/notes/:id', (request, response) => {
 ```
 
 <!-- Vierailtaessa jälleen yksittäisen muistiinpanon sivulla jokaisesta vertailufunktion kutsusta tulostetaan nyt monta asiaa. Konsolin tulostus on seuraava: -->
-When we visit the URL again in the browser, each call to the comparison function prints a few different things to the console. The console output in its entirety is the following:
+When we visit the URL again in the browser, each call to the comparison function prints a few different things to the console. The console output is the following:
 
 <pre>
 1 'number' '1' 'string' false
@@ -641,7 +641,7 @@ When we visit the URL again in the browser, each call to the comparison function
 </pre>
 
 <!-- ongelman syy selviää: muuttujassa _id_ on tallennettuna merkkijono '1' kun taas muistiinpanojen id:t ovat numeroita. Javascriptissä === vertailu katsoo kaikki eri tyyppiset arvot oletusarvoisesti erisuuriksi, joten 1 ei ole '1'. -->
-The cause of the bug becomes clear. The _id_ variable contains a string '1', whereas the id's of notes are integers. In JavaScript the "triple equals" comparison === considers all values of different types to not be equal by default, meaning that 1 is not '1'. 
+The cause of the bug becomes clear. The _id_ variable contains a string '1', whereas the id's of notes are integers. In JavaScript, the "triple equals" comparison === considers all values of different types to not be equal by default, meaning that 1 is not '1'. 
 
 <!-- Korjataan ongelma, muuttamalla parametrina oleva merkkijonomuotoinen id [numeroksi](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number): -->
 Let's fix the issue by changing the id parameter from a string into a [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number):
@@ -798,10 +798,10 @@ app.post('/notes', (request, response) => {
 The event handler function can access the data from the <i>body</i> property of the _request_ object.
 
 <!-- Ilman body-parser-käyttöönottoa pyynnön kentän <i>body</i> arvo olisi ollut määrittelemätön. body-parserin toimintaperiaatteena on, että se ottaa pyynnön mukana olevan JSON-muotoisen datan, muuttaa sen Javascript-olioksi ja sijoittaa _request_-olion kenttään <i>body</i> ennen kuin routen käsittelijää kutsutaan. -->
-Without body-parser the <i>body</i> property would be undefined. The body-parser functions so that it takes the JSON data of a request, transforms it into a JavaScript object and then attaches it to the <i>body</i> property of the _request_ object before the route handler is called.
+Without a body-parser, the <i>body</i> property would be undefined. The body-parser functions so that it takes the JSON data of a request, transforms it into a JavaScript object and then attaches it to the <i>body</i> property of the _request_ object before the route handler is called.
 
 <!-- Toistaiseksi sovellus ei vielä tee vastaanotetulle datalle mitään muuta kuin tulostaa sen konsoliin ja palauttaa sen pyynnön vastauksessa. -->
-For the time being the application does not do anything with the received data besides printing it to the console and sending it back in the response.
+For the time being, the application does not do anything with the received data besides printing it to the console and sending it back in the response.
 
 <!-- Ennen toimintalogiikan viimeistelyä varmistetaan ensin postmanilla, että lähetetty tieto menee varmasti perille. Pyyntötyypin ja urlin lisäksi on määriteltävä myös pyynnön mukana menevä data eli <i>body</i>: -->
 Before we implement the rest of the application logic, let's verify with Postman that the data is actually received by the server. In addition to defining the URL and request type in Postman, we also have to define the data sent in the <i>body</i>:
@@ -851,13 +851,13 @@ We created a new <i>new\_note.rest</i> file for the request. The request is form
 One benefit that the REST client has over Postman is that the requests are handily available at the root of the project repository, and they can be distributed to everyone in the development team. Postman also allows users to save requests, but the situation can get quite chaotic especially when you're working on multiple unrelated projects.
 
 <!-- > **Tärkeä sivuhuomio** -->
-> **Important sitenode**
+> **Important sidenode**
 >
 <!-- > Välillä debugatessa tulee vastaan tilanteita, joissa backendissä on tarve selvittää mitä headereja HTTP-pyynnöille on asetettu. Eräs menetelmä tähän on _request_-olion melko kehnosti nimetty metodi [get](http://expressjs.com/en/4x/api.html#req.get), jonka avulla voi selvittää yksittäisen headerin arvon. _request_-oliolla on myös kenttä <i>headers</i>, jonka arvona ovat kaikki pyyntöön liittyvät headerit. -->
-> Sometimes when you're debugging you may want to find out what headers have been set to the HTTP request. One way of accomplishing this is through the [get](http://expressjs.com/en/4x/api.html#req.get) method of the _request_ object, that can be used for getting the value of a single header. The _request_ object also has the <i>headers</i> property, that contains all of the headers of the application.
+> Sometimes when you're debugging, you may want to find out what headers have been set to the HTTP request. One way of accomplishing this is through the [get](http://expressjs.com/en/4x/api.html#req.get) method of the _request_ object, that can be used for getting the value of a single header. The _request_ object also has the <i>headers</i> property, that contains all of the headers of the application.
 >
 <!-- > Ongelmia voi esim syntyä jos jätät vahingossa VS REST clientillä ylimmän rivin ja headerit määrittelevien rivien väliin tyhjän rivin. Tällöin REST client tulkitsee, että millekään headerille ei aseteta arvoa ja näin backend ei osaa tulkita pyynnön mukana olevaa dataa JSON:iksi. -->
-> Problems can occur with the VS REST client if you accidentally add an empty line between the top row and the row specifying the HTTP headers. In this situation the REST client interprets this to mean that all headers are left empty, which means that the backend server has no way of knowing that the data it has received is in the JSON format.
+> Problems can occur with the VS REST client if you accidentally add an empty line between the top row and the row specifying the HTTP headers. In this situation, the REST client interprets this to mean that all headers are left empty, which means that the backend server has no way of knowing that the data it has received is in the JSON format.
 >
 <!-- > Puuttuvan <i>content-type</i>-headerin ongelma selviää kun backendissa tulostaa pyynnön headerit esim. komennolla _console.log(request.headers)_ -->
 You will be able to spot this missing <i>Content-Type</i> header if at some point in your code you print all of the request headers with the _console.log(request.headers)_ command.
@@ -881,7 +881,7 @@ app.post('/notes', (request, response) => {
 ```
 
 <!-- Uudelle muistiinpanolle tarvitaan uniikki id. Ensin selvitetään olemassaolevista id:istä suurin muuttujaan _maxId_. Uuden muistiinpanon id:ksi asetetaan sitten _maxId + 1_. Tämä tapa ei ole itseasiassa kovin hyvä, mutta emme nyt välitä siitä sillä tulemme pian korvaamaan tavan, jolla muistiinpanot talletetaan. -->
-We need a unique id for the note. First we find out the largest id number in the current list and assign it to the _maxId_ variable. The id of the new note is then defined as _maxId + 1_. This method is in fact not recommended, but we will live with it for now as we will replace it soon enough.
+We need a unique id for the note. First, we find out the largest id number in the current list and assign it to the _maxId_ variable. The id of the new note is then defined as _maxId + 1_. This method is in fact not recommended, but we will live with it for now as we will replace it soon enough.
 
 <!-- Tämän hetkisessä versiossa on vielä se ongelma, että voimme HTTP POST -pyynnöllä lisätä mitä tahansa kenttiä sisältäviä olioita. Parannellaan sovellusta siten, että kenttä <i>content</i> ei voi olla tyhjä. Kentille <i>important</i> ja <i>date</i> asetetaan oletusarvot. Kaikki muut kentät hylätään: -->
 The current version still has the problem that the HTTP POST request can be used to add objects with arbitrary properties. Let's improve the application by defining that the <i>concept</i> property may not be empty. The <i>important</i> and <i>date</i> properties will be given default values. All other properties are discarded:
