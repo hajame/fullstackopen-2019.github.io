@@ -149,7 +149,7 @@ module.exports = notesRouter
 ```
 
 <!-- Kyseessä on käytännössä melkein suora copypaste tiedostosta <i>index.js</i>. -->
-The is almost an exact copy-paste of our previous <i>index.js</i> file.
+This is almost an exact copy-paste of our previous <i>index.js</i> file.
 
 <!-- Muutoksia on muutama. Tiedoston alussa luodaan [router](http://expressjs.com/en/api.html#router)-olio: -->
 However, there are a few significant changes. At the very beginning of the file we create a new [router](http://expressjs.com/en/api.html#router) object:
@@ -327,7 +327,7 @@ For smaller applications the structure does not matter that much. Once the appli
 There is no strict directory structure or file naming convention that is required for Express applications. To contrast this, Ruby on Rails does require a specific structure. Our current structure simply follows some of the best practices you can come across on the internet.
 
 <!-- Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-1), branchissa <i>part4-1</i>: -->
-You can find the code for our current application in its entirety in the <i>part4-1</i> branch of [this github repository](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-1).
+You can find the code for our current application in its entirety in the <i>part4-1</i> branch of [this Github repository](https://github.com/fullstack-hy2019/part3-notes-backend/tree/part4-1).
 
 
 <!-- Jos kloonaat projektin itsellesi, suorita komento _npm install_ ennen käynnistämistä eli komentoa _npm start_. -->
@@ -400,7 +400,7 @@ app.listen(PORT, () => {
 Turn the application into a functioning <i>npm</i> project. In order to keep your development productive, configure the application to be executed with <i>nodemon</i>. You can create a new database for your application with MongoDB Atlas, or use the same database from the previous part's exercises.
 
 <!-- Varmista, että sovellukseen on mahdollista lisätä blogeja Postmanilla tai VS Code REST clientilla, ja että sovellus näyttää lisätyt blogit. -->
-Verify that it is possible to add blogs to list with Postman or the VS Code REST client and that the application returns the added blogs for the correct endpoint.
+Verify that it is possible to add blogs to list with Postman or the VS Code REST client and that the application returns the added blogs at the correct endpoint.
 
 <!-- #### 4.2 blogilista, step2 -->
 #### 4.2 Blog list, step2
@@ -486,7 +486,7 @@ Let's define the <i>npm script _test_</i> to execute tests with Jest and to repo
 ```
 
 <!-- Jestin uudemmissa versioissa näyttäisi olevan tarve kertoa, että suoritusympäristönä on käytössä Node. Tämä tapahtuu esim. lisäämällä <i>package.json</i> tiedoston loppuun: -->
-I newer versions of Jest, there appears to be the need to specify that the execution environment is Node. This can be done by adding the following to the end of <i>package.json</i>:
+In newer versions of Jest, there appears to be the need to specify that the execution environment is Node. This can be done by adding the following to the end of <i>package.json</i>:
 
 ```js
 {
@@ -775,7 +775,7 @@ The value returned by the function could be in the following format:
 <!-- Tee myös tämän ja seuraavien kohtien testit kukin oman <i>describe</i>-lohkon sisälle. -->
 Write the tests for this exercise inside of a new <i>describe</i> block. Do the same for the remaining exercises as well.
 
-#### 4.6*: apufunktioita ja yksikkötestejä, step4
+#### 4.6*: helper functions and unit tests, step4
 
 <!-- Tämä ja seuraava tehtävä ovat jo hieman haastavampia. Tehtävien tekeminen ei ole osan jatkon kannalta oleellista, eli voi olla hyvä idea palata näihin vasta kun muu osa on kahlattu läpi. -->
 This and the next exercise are a little bit more challenging. Finishing these two exercises is not required in order to advance in the course material, so it may be a good idea to return to these once you're done going through the material for this part in its entirety.
