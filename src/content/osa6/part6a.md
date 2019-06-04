@@ -375,9 +375,10 @@ const noteReducer = (state = [], action) => {
 ```
 
 <!-- Reducen tilan tulee koostua muuttumattomista eli [immutable](https://en.wikipedia.org/wiki/Immutable_object) olioista. Jos tilaan tulee muutos, ei vanhaa oliota muuteta, vaan se <i>korvataan uudella muuttuneella oliolla</i>. Juuri näin toimimme uudistuneessa reducerissa, vanha taulukko korvaantuu uudella. -->
-Reduce state must be complied of [immutable](https://en.wikipedia.org/wiki/Immutable_object) objects. If there is a change in the state, the old object is not changed, but it is <i>replaced with a new, changed, object</i>. This is exactly what we did with the new reducer, the old array is replaced by the new. 
+Reduce state must be compiled of [immutable](https://en.wikipedia.org/wiki/Immutable_object) objects. If there is a change in the state, the old object is not changed, but it is <i>replaced with a new, changed, object</i>. This is exactly what we did with the new reducer: the old array is replaced with the new. 
 
-Laajennetaan reduceria siten, että se osaa käsitellä muistiinpanon tärkeyteen liittyvän muutoksen:
+<!-- Laajennetaan reduceria siten, että se osaa käsitellä muistiinpanon tärkeyteen liittyvän muutoksen: -->
+Let's expand our reducer so, that it can handle the change of a notes importance: 
 
 ```js
 {
@@ -388,15 +389,20 @@ Laajennetaan reduceria siten, että se osaa käsitellä muistiinpanon tärkeytee
 }
 ```
 
-Koska meillä ei ole vielä koodia joka käyttää ominaisuutta, laajennetaan reduceria testivetoisesti. Aloitetaan tekemällä testi actionin <i>NEW\_NOTE</i> käsittelylle.
+<!-- Koska meillä ei ole vielä koodia joka käyttää ominaisuutta, laajennetaan reduceria testivetoisesti. Aloitetaan tekemällä testi actionin <i>NEW\_NOTE</i> käsittelylle. -->
+Since we do not have any code which uses this functionality yet, we are expanding the reducer 'test first'.
+Let's start by creating a test for handling the action <i>NEW\_NOTE</i>.
 
-Jotta testaus olisi helpompaa, siirretään reducerin koodi ensin omaan moduuliinsa tiedostoon <i>src/reducers/noteReducer.js</i>. Otetaan käyttöön myös kirjasto [deep-freeze](https://github.com/substack/deep-freeze), jonka avulla voimme varmistaa, että reducer on määritelty oikeaoppisesti puhtaana funktiona. Asennetaan kirjasto kehitysaikaiseksi riippuvuudeksi
+<!-- Jotta testaus olisi helpompaa, siirretään reducerin koodi ensin omaan moduuliinsa tiedostoon <i>src/reducers/noteReducer.js</i>. Otetaan käyttöön myös kirjasto [deep-freeze](https://github.com/substack/deep-freeze), jonka avulla voimme varmistaa, että reducer on määritelty oikeaoppisesti puhtaana funktiona. Asennetaan kirjasto kehitysaikaiseksi riippuvuudeksi -->
+To make testing easier, we'll first move the reducers code to its own module to file <i>src/reducers/noteReducer.js</i>. We'll also add the library [deep-freeze](https://github.com/substack/deep-freeze), which can be used to ensure that the reducer has been correctly defined as a immutable function. 
+Let's install the library as a development dependency
 
 ```js
 npm install --save-dev deep-freeze
 ```
 
-Testi, joka määritellään tiedostoon <i>src/reducers/noteReducer.test.js</i> on sisällöltään seuraava:
+<!-- Testi, joka määritellään tiedostoon <i>src/reducers/noteReducer.test.js</i> on sisällöltään seuraava: -->
+The test, which we define in file <i>src/reducers/noteReducer.test.js</i>, has the following content: 
 
 ```js
 import noteReducer from './noteReducer'
@@ -423,11 +429,13 @@ describe('noteReducer', () => {
 })
 ```
 
-Komento <i>deepFreeze(state)</i> varmistaa, että reducer ei muuta parametrina olevaa storen tilaa. Jos reduceri käyttää state:n manipulointiin komentoa _push_, testi ei mene läpi
+<!-- Komento <i>deepFreeze(state)</i> varmistaa, että reducer ei muuta parametrina olevaa storen tilaa. Jos reduceri käyttää state:n manipulointiin komentoa _push_, testi ei mene läpi -->
+The <i>deepFreeze(state)</i> commans ensures, that reducer does not change the state of the store given to it as a parameter. If the reducer uses the _push_ command to manipulate the state, the test will not pass
 
 ![](../images/6/2.png)
 
-Tehdään sitten testi actionin <i>TOGGLE\_IMPORTANCE</i> käsittelylle:
+<!-- Tehdään sitten testi actionin <i>TOGGLE\_IMPORTANCE</i> käsittelylle: -->
+Now we'll create a test for the <i>TOGGLE\_IMPORTANCE</i> action:
 
 ```js
 test('returns new state with action TOGGLE_IMPORTANCE', () => {
@@ -465,7 +473,8 @@ test('returns new state with action TOGGLE_IMPORTANCE', () => {
 })
 ```
 
-Eli seuraavan actionin
+<!-- Eli seuraavan actionin -->
+So the following action
 
 ```js
 {
@@ -475,9 +484,11 @@ Eli seuraavan actionin
 }
 ```
 
-tulee muuttaa id:n 2 omaavan muistiinpanon tärkeyttä.
+<!-- tulee muuttaa id:n 2 omaavan muistiinpanon tärkeyttä. -->
+has to change the importance of the note with the id 2.
 
-Reduceri laajenee seuraavasti
+<!-- Reduceri laajenee seuraavasti -->
+The reducer is expanded as follows
 
 ```js
 const noteReducer = (state = [], action) => {
@@ -500,15 +511,18 @@ const noteReducer = (state = [], action) => {
 }
 ```
 
-Luomme tärkeyttä muuttaneesta muistiinpanosta kopion osasta 2 [tutulla syntaksilla](/osa2/palvelimella_olevan_datan_muokkaaminen#muistiinpanon-tarkeyden-muutos) ja korvaamme tilan uudella tilalla, mihin otetaan muuttumattomat muistiinpanot ja muutettavasta sen muutettu kopio <i>changedNote</i>.
+<!-- Luomme tärkeyttä muuttaneesta muistiinpanosta kopion osasta 2 [tutulla syntaksilla](/osa2/palvelimella_olevan_datan_muokkaaminen#muistiinpanon-tarkeyden-muutos) ja korvaamme tilan uudella tilalla, mihin otetaan muuttumattomat muistiinpanot ja muutettavasta sen muutettu kopio <i>changedNote</i>. -->
+We create a copy of the note which importance has changed with the syntax [familiar from part 2](/osa2/palvelimella_olevan_datan_muokkaaminen#muistiinpanon-tarkeyden-muutos), and replace the state with a new state containing all the notes which have not changed and the copy of the changed note <i>changedNote</i>.
 
-Kerrataan vielä mitä koodissa tapahtuu. Ensin etsitään olio, jonka tärkeys on tarkoitus muuttaa:
+<!-- Kerrataan vielä mitä koodissa tapahtuu. Ensin etsitään olio, jonka tärkeys on tarkoitus muuttaa: -->
+Let's recap what goes on in the code. First we search for the note object, whichs importance we want to change: 
 
 ```js
 const noteToChange = state.find(n => n.id === id)
 ```
 
-luodaan sitten uusi olio, joka on muuten <i>kopio</i> muuttuvasta oliosta mutta kentän <i>important</i> arvo on muutettu päinvastaiseksi:
+<!-- luodaan sitten uusi olio, joka on muuten <i>kopio</i> muuttuvasta oliosta mutta kentän <i>important</i> arvo on muutettu päinvastaiseksi: -->
+then we create a new object, which is a <i>copy</i> of the original note, only the value of the <i>important</i> field has been changed to the opposite of what it was: 
 
 ```js
 const changedNote = { 
@@ -517,7 +531,8 @@ const changedNote = {
 }
 ```
 
-Palautetaan uusi tila, joka saadaan ottamalla kaikki vanhan tilan muistiinpanot paitsi uusi juuri luotu olio tärkeydeltään muuttavasta muistiinpanosta:
+<!-- Palautetaan uusi tila, joka saadaan ottamalla kaikki vanhan tilan muistiinpanot paitsi uusi juuri luotu olio tärkeydeltään muuttavasta muistiinpanosta: -->
+the new state, which we get by taking all of the notes from the old state, except for the changed note, which we replace with it's copy, is then returned: 
 
 ```js
 state.map(note =>
@@ -525,11 +540,13 @@ state.map(note =>
 )
 ```
 
-### array spread -syntaksi
+### Array spread -syntax
 
-Koska reducerilla on nyt suhteellisen hyvät testit, voimme refaktoroida koodia turvallisesti.
+<!-- Koska reducerilla on nyt suhteellisen hyvät testit, voimme refaktoroida koodia turvallisesti. -->
+Because we now have quite good tests for the reducer, we can refactor the code safely. 
 
-Uuden muistiinpanon lisäys luo palautettavan tilan taulukon _concat_-funktiolla. Katsotaan nyt miten voimme toteuttaa saman hyödyntämällä Javascriptin [array spread](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator) -syntaksia:
+<!-- Uuden muistiinpanon lisäys luo palautettavan tilan taulukon _concat_-funktiolla. Katsotaan nyt miten voimme toteuttaa saman hyödyntämällä Javascriptin [array spread](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator) -syntaksia: -->
+Adding new notes creates the state it returns with Arrays _concat_-function. Let's take a look at how we can achieve the same by using JavaScript [array spread](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator) -syntax:
 
 ```js
 const noteReducer = (state = [], action) => {
@@ -544,29 +561,35 @@ const noteReducer = (state = [], action) => {
 }
 ```
 
-Spread-syntaksi toimii seuraavasti. Jos määrittelemme
+<!-- Spread-syntaksi toimii seuraavasti. Jos määrittelemme -->
+The spread -syntax works as follows. If we declare
 
 ```js
 const luvut = [1, 2, 3]
 ```
 
-niin <code>...luvut</code> hajottaa taulukon yksittäisiksi alkioiksi, eli voimme sijoittaa sen esim. toisen taulukon sisään:
+<!-- niin <code>...luvut</code> hajottaa taulukon yksittäisiksi alkioiksi, eli voimme sijoittaa sen esim. toisen taulukon sisään: -->
+<code>...luvut</code> breaks the array up into individual elements, which can place i.e to another array. 
 
 ```js
 [...luvut, 4, 5]
 ```
 
-ja lopputuloksena on taulukko, jonka sisältö on `[1, 2, 3, 4, 5]`.
+<!-- ja lopputuloksena on taulukko, jonka sisältö on `[1, 2, 3, 4, 5]`. -->
+and the result is an array `[1, 2, 3, 4, 5]`.
 
-Jos olisimme sijoittaneet taulukon toisen sisälle ilman spreadia, eli
+<!-- Jos olisimme sijoittaneet taulukon toisen sisälle ilman spreadia, eli -->
+If we would have placed the array to another array without the spread
 
 ```js
 [luvut, 4, 5]
 ```
 
-lopputulos olisi ollut `[ [1, 2, 3], 4, 5]`.
+<!-- lopputulos olisi ollut `[ [1, 2, 3], 4, 5]`. -->
+the result would have been `[ [1, 2, 3], 4, 5]`.
 
-Samannäköinen syntaksi toimii taulukosta [destrukturoimalla](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) alkioita otettaessa siten, että se <i>kerää</i> loput alkiot:
+<!-- Samannäköinen syntaksi toimii taulukosta [destrukturoimalla](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) alkioita otettaessa siten, että se <i>kerää</i> loput alkiot: -->
+When we take elements from an array by [destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment), a similar looking syntax is used to <i>gather</i> the rest of the elements: 
 
 ```js
 const luvut = [1, 2, 3, 4, 5, 6]
@@ -582,13 +605,16 @@ console.log(loput)  // tulostuu [3, 4, 5, 6]
 
 <div class="tasks">
 
-### Tehtäviä
+### Exercises
 
-Tehdään hieman yksinkertaistettu versio osan 1 unicafe-tehtävästä. Hoidetaan sovelluksen tilan käsittely Reduxin avulla.
+<!-- Tehdään hieman yksinkertaistettu versio osan 1 unicafe-tehtävästä. Hoidetaan sovelluksen tilan käsittely Reduxin avulla. -->
+Let's make a simplified version of the unicafe-exercise from part 1. Let's handle the state management with Redux. 
 
-Voit ottaa sovelluksesi pohjaksi repositoriossa https://github.com/fullstack-hy2019/unicafe-redux olevan projektin.
+<!-- Voit ottaa sovelluksesi pohjaksi repositoriossa https://github.com/fullstack-hy2019/unicafe-redux olevan projektin. -->
+You can take the project from this repository https://github.com/fullstack-hy2019/unicafe-redux for the base of your project. 
 
-<i>Aloita poistamalla kloonatun sovelluksen git-konfiguraatio ja asentamalla riippuvuudet</i>
+<!-- <i>Aloita poistamalla kloonatun sovelluksen git-konfiguraatio ja asentamalla riippuvuudet</i> -->
+<i>Start by removing the git-configuration of the cloned repository, and by installing dependencies</i>
 
 ```bash
 cd unicafe-redux   // mene kloonatun repositorion hakemistoon
@@ -598,9 +624,11 @@ npm install
 
 #### 6.1: unicafe revisited, step1
 
-Ennen sivulla näkyvää toiminnallisuutta toteutetaan storen edellyttämä toiminnallisuus.
+<!-- Ennen sivulla näkyvää toiminnallisuutta toteutetaan storen edellyttämä toiminnallisuus. -->
+Before implementing the functionality of the UI let's implement the functionality required by the store. 
 
-Storeen täytyy tallettaa erikseen lukumäärä jokaisentyyppisestä palautteesta. Storen hallitsema tila on siis muotoa:
+<!-- Storeen täytyy tallettaa erikseen lukumäärä jokaisentyyppisestä palautteesta. Storen hallitsema tila on siis muotoa: -->
+We have to save the number of each kind of feedback to the store, so the form of the state in the store is: 
 
 ```js
 {
@@ -610,7 +638,8 @@ Storeen täytyy tallettaa erikseen lukumäärä jokaisentyyppisestä palautteest
 }
 ```
 
-Projektissa on seuraava runko reducerille:
+<!-- Projektissa on seuraava runko reducerille: -->
+The project has the following starter for a reducer: 
 
 ```js
 const initialState = {
@@ -637,7 +666,8 @@ const counterReducer = (state = initialState, action) => {
 export default counterReducer
 ```
 
-ja sen testien runko
+<!-- ja sen testien runko -->
+and a starter for its tests
 
 ```js
 import deepFreeze from 'deep-freeze'
@@ -677,25 +707,34 @@ describe('unicafe reducer', () => {
 })
 ```
 
-**Toteuta reducer ja tee sille testit.**
+<!-- **Toteuta reducer ja tee sille testit.** -->
+**Implement reducer and it's tests.**
 
-Varmista testeissä <i>deep-freeze</i>-kirjaston avulla, että kyseessä on <i>puhdas funktio</i>. Huomaa, että valmiin ensimmäisen testin on syytä mennä läpi koska redux olettaa, että reduceri palauttaa järkevän alkutilan kun sitä kutsutaan siten että ensimmäinen parametri, eli aiempaa tilaa edustava <i>state</i> on <i>undefined</i>.
+<!-- Varmista testeissä <i>deep-freeze</i>-kirjaston avulla, että kyseessä on <i>puhdas funktio</i>. Huomaa, että valmiin ensimmäisen testin on syytä mennä läpi koska redux olettaa, että reduceri palauttaa järkevän alkutilan kun sitä kutsutaan siten että ensimmäinen parametri, eli aiempaa tilaa edustava <i>state</i> on <i>undefined</i>. -->
+In the tests make sure that the reducer is an <i>immutable function</i> with the <i>deep-freeze</i>-library. 
+Ensure, that the provided first test passes, because redux expects that the reducer returns a sensible original state when it is called so that the first parameter, <i>state</i> representing the previous state, is 
+<i>undefined</i>.
 
-Aloita laajentamalla reduceria siten, että molemmat testeistä menevät läpi. Lisää tämän jälkeen loput testit ja niiden toteuttava toiminnallisuus.
+<!-- Aloita laajentamalla reduceria siten, että molemmat testeistä menevät läpi. Lisää tämän jälkeen loput testit ja niiden toteuttava toiminnallisuus. -->
+Let's start by expanding the reducer so, that both tests pass. Then add the rest of the tests and the functionality they are testing. 
 
-Reducerin toteutuksessa kannattaa ottaa mallia ylläolevasta [redux-muistiinpanot](/osa6/flux_arkkitehtuuri_ja_redux#puhtaat-funktiot-immutable)-esimerkistä. 
+<!-- Reducerin toteutuksessa kannattaa ottaa mallia ylläolevasta [redux-muistiinpanot](/osa6/flux_arkkitehtuuri_ja_redux#puhtaat-funktiot-immutable)-esimerkistä.  -->
+A good model for the reducer is the [redux-notes](/osa6/flux_arkkitehtuuri_ja_redux#puhtaat-funktiot-immutable)
+example above. 
 
 #### 6.2: unicafe revisited, step2
 
-Toteuta sitten sovelluksen koko sen varsinainen toiminnallisuus. 
+<!-- Toteuta sitten sovelluksen koko sen varsinainen toiminnallisuus.  -->
+Now implement the actual functionality of the application. 
 
 </div>
 
 <div class="content">
 
-### ei-kontrolloitu lomake
+### uncontrolled  form
 
-Lisätään sovellukseen mahdollisuus uusien muistiinpanojen tekemiseen sekä tärkeyden muuttamiseen:
+<!-- Lisätään sovellukseen mahdollisuus uusien muistiinpanojen tekemiseen sekä tärkeyden muuttamiseen: -->
+Let's add functionality for adding new notes and changing their importance: 
 
 ```js
 const generateId = () =>
@@ -744,12 +783,16 @@ const App = () => {
 }
 ```
 
-Molemmat toiminnallisuudet on toteutettu suoraviivaisesti. Huomionarvoista uuden muistiinpanon lisäämisessä on nyt se, että toisin kuin aiemmat Reactilla toteutetut lomakkeet, <i>emme ole</i> nyt sitoneet lomakkeen kentän arvoa komponentin <i>App</i> tilaan. React kutsuu tälläisiä lomakkeita [ei-kontrolloiduiksi](https://reactjs.org/docs/uncontrolled-components.html).
+<!-- Molemmat toiminnallisuudet on toteutettu suoraviivaisesti. Huomionarvoista uuden muistiinpanon lisäämisessä on nyt se, että toisin kuin aiemmat Reactilla toteutetut lomakkeet, <i>emme ole</i> nyt sitoneet lomakkeen kentän arvoa komponentin <i>App</i> tilaan. React kutsuu tälläisiä lomakkeita [ei-kontrolloiduiksi](https://reactjs.org/docs/uncontrolled-components.html). -->
+The implementation of both functionalities is straightforward. Noteworthy is, that we <i>have not</i> bound the state of the form fields to the state of the <i>App</i> component like we have previously done. React calls this kind of form [uncontrolled](https://reactjs.org/docs/uncontrolled-components.html).
 
-> Ei-kontrolloiduilla lomakkeilla on tiettyjä rajoitteita (ne eivät esim. mahdollista lennossa annettavia validointiviestejä, lomakkeen lähetysnapin disabloimista sisällön perusteella ym...), meidän käyttötapaukseemme ne kuitenkin tällä kertaa sopivat.
-Voit halutessasi lukea aiheesta enemmän [täältä](https://goshakkk.name/controlled-vs-uncontrolled-inputs-react/).
+<!-- > Ei-kontrolloiduilla lomakkeilla on tiettyjä rajoitteita (ne eivät esim. mahdollista lennossa annettavia validointiviestejä, lomakkeen lähetysnapin disabloimista sisällön perusteella ym...), meidän käyttötapaukseemme ne kuitenkin tällä kertaa sopivat. -->
+>Uncontrolled forms have certain limitations (for example dynamic error messages or disabling the submit button based on input are not possible). However they are suitable for our current needs. 
+<!-- Voit halutessasi lukea aiheesta enemmän [täältä](https://goshakkk.name/controlled-vs-uncontrolled-inputs-react/). -->
+You can read more about uncontrolled forms [here](https://goshakkk.name/controlled-vs-uncontrolled-inputs-react/).
 
-Muistiinpanon lisäämisen käsittelevä metodi on yksinkertainen, se ainoastaan dispatchaa muistiinpanon lisäävän actionin:
+<!-- Muistiinpanon lisäämisen käsittelevä metodi on yksinkertainen, se ainoastaan dispatchaa muistiinpanon lisäävän actionin: -->
+The method handling adding new notes is simple, it just dispatches the action for adding notes: 
 
 ```js
 addNote = (event) => {
@@ -767,7 +810,8 @@ addNote = (event) => {
 }
 ```
 
-Uuden muistiinpanon sisältö saadaan suoraan lomakkeen syötekentästä, johon kentän nimeämisen ansiosta päästään käsiksi tapahtumaolion kautta <i>event.target.note.value</i>. Kannattaa huomata, että syötekentällä on oltava nimi, jotta sen arvoon on mahdollista päästä käsiksi:
+<!-- Uuden muistiinpanon sisältö saadaan suoraan lomakkeen syötekentästä, johon kentän nimeämisen ansiosta päästään käsiksi tapahtumaolion kautta <i>event.target.note.value</i>. Kannattaa huomata, että syötekentällä on oltava nimi, jotta sen arvoon on mahdollista päästä käsiksi: -->
+We can get the content of the new note straight from the form field. Due to the field having a name we can access the content via the event object<i>event.target.note.value</i>.  
 
 ```js
 <form onSubmit={addNote}>
@@ -776,7 +820,8 @@ Uuden muistiinpanon sisältö saadaan suoraan lomakkeen syötekentästä, johon 
 </form>
 ```
 
-Tärkeyden muuttaminen tapahtuu klikkaamalla muistiinpanon nimeä. Käsittelijä on erittäin yksinkertainen:
+<!-- Tärkeyden muuttaminen tapahtuu klikkaamalla muistiinpanon nimeä. Käsittelijä on erittäin yksinkertainen: -->
+Notes importance can be changed by clicking a name of a note. The event handler is very simple: 
 
 ```js
 toggleImportance = (id) => {
@@ -787,11 +832,14 @@ toggleImportance = (id) => {
 }
 ```
 
-### action creatorit
+### action creators
 
-Alamme huomata, että jo näinkin yksinkertaisessa sovelluksessa Reduxin käyttö yksinkertaistaa sovelluksen ulkoasusta vastaavaa koodia. Pystymme kuitenkin vielä paljon parempaan. 
+<!-- Alamme huomata, että jo näinkin yksinkertaisessa sovelluksessa Reduxin käyttö yksinkertaistaa sovelluksen ulkoasusta vastaavaa koodia. Pystymme kuitenkin vielä paljon parempaan.  -->
+We begin to notice, that even in applications as simple as ours, using Redux can simplify the frontend code. However we can do a lot better. 
 
-React-komponenttien on oikeastaan tarpeetonta tuntea reduxin actionien tyyppejä ja esitysmuotoja. Eristetään actioiden luominen omiksi funktioiksi:
+<!-- React-komponenttien on oikeastaan tarpeetonta tuntea reduxin actionien tyyppejä ja esitysmuotoja. Eristetään actioiden luominen omiksi funktioiksi: -->
+It is actually not necessary for React-components to know the redux action types and forms. 
+Let's separate creating actions into their own functions: 
 
 ```js
 const createNote = (content) => {
@@ -813,10 +861,12 @@ const toggleImportanceOf = (id) => {
 }
 ```
 
-Actioneja luovia funktioita kutsutaan [action creatoreiksi](https://redux.js.org/advanced/async-actions#synchronous-action-creators).
+<!-- Actioneja luovia funktioita kutsutaan [action creatoreiksi](https://redux.js.org/advanced/async-actions#synchronous-action-creators). -->
+Functions creating actions are called [action creatoreiksi](https://redux.js.org/advanced/async-actions#synchronous-action-creators).
 
 
-Komponentin <i>App</i> ei tarvitse enää tietää mitään actionien sisäisestä esitystavasta, se saa sopivan actionin kutsumalla creator-funktiota:
+<!-- Komponentin <i>App</i> ei tarvitse enää tietää mitään actionien sisäisestä esitystavasta, se saa sopivan actionin kutsumalla creator-funktiota: -->
+The <i>App</i> component does not have to know anything about the inner representation of the actions anymore, it just gets the right action by calling the creator-function: 
 
 ```js
 const App = () => {
@@ -838,13 +888,16 @@ const App = () => {
 }
 ```
 
-### staten välittäminen propseissa
+### Forwarding the state using props
 
-Sovelluksemme on reduceria lukuunottamatta tehty samaan tiedostoon. Kyseessä ei tietenkään ole järkevä käytäntö, eli on syytä eriyttää <i>App</i> omaan moduuliinsa.
+<!-- Sovelluksemme on reduceria lukuunottamatta tehty samaan tiedostoon. Kyseessä ei tietenkään ole järkevä käytäntö, eli on syytä eriyttää <i>App</i> omaan moduuliinsa. -->
+Aside from the reducer, our application is in one file. This is of course not sensible, and we should separate <i>App</i> into its own module. 
 
-Herää kuitenkin kysymys miten <i>App</i> pääsee muutoksen jälkeen käsiksi <i>storeen</i>? Ja yleisemminkin, kun komponentti koostuu suuresta määrästä komponentteja, tulee olla jokin mekanismi, minkä avulla komponentit pääsevät käsiksi storeen.
+<!-- Herää kuitenkin kysymys miten <i>App</i> pääsee muutoksen jälkeen käsiksi <i>storeen</i>? Ja yleisemminkin, kun komponentti koostuu suuresta määrästä komponentteja, tulee olla jokin mekanismi, minkä avulla komponentit pääsevät käsiksi storeen. -->
+Now the question is, how can the <i>App</i> access the store after the move? And more broadly, when a component is compiled of many smaller components, there must be a way for all of the components to access the store. 
 
-Tapoja on muutama. Yksinkertaisin vaihtoehto on välittää store propsien avulla. Sovelluksen käynnistyspiste <i>index.js</i> typistyy seuraavasti
+<!-- Tapoja on muutama. Yksinkertaisin vaihtoehto on välittää store propsien avulla. Sovelluksen käynnistyspiste <i>index.js</i> typistyy seuraavasti -->
+There are a few ways to achieve this. The simplest way is to forward the store using props. The starting point of the application <i>index.js</i> becomes 
 
 ```js
 
@@ -867,7 +920,8 @@ renderApp()
 store.subscribe(renderApp)
 ```
 
-Muutos omaan moduuliinsa eriytettyyn komponenttiin <i>App</i> on pieni, storeen viitataan <i>propsien</i> kautta <code>props.store</code>:
+<!-- Muutos omaan moduuliinsa eriytettyyn komponenttiin <i>App</i> on pieni, storeen viitataan <i>propsien</i> kautta <code>props.store</code>: -->
+The change to the <i>App</i> component is small. The store can now be accessed via <i>props</i> with <code>props.store</code>:
 
 ```js
 import React from 'react'
@@ -917,7 +971,8 @@ const App = (props) => {
 export default App
 ```
 
-Action creator -funktioiden määrittely on siirretty reducerin kanssa samaan tiedostoon 
+<!-- Action creator -funktioiden määrittely on siirretty reducerin kanssa samaan tiedostoon  -->
+Defining the action creators has been moved to the reducer file
 
 ```js
 const noteReducer = (state = [], action) => {
@@ -948,17 +1003,21 @@ export const toggleImportanceOf = (id) => { // highlight-line
 export default noteReducer
 ```
 
-Jos sovelluksessa on enemmän storea tarvitsevia komponentteja, tulee <i>App</i>-komponentin välittää <i>store</i> propseina kaikille sitä tarvitseville komponenteille.
+<!-- Jos sovelluksessa on enemmän storea tarvitsevia komponentteja, tulee <i>App</i>-komponentin välittää <i>store</i> propseina kaikille sitä tarvitseville komponenteille. -->
+If the application has many components which need the store, the <i>App</i>-component must forward <i>store</i> as props to all of those components.
 
-Moduulissa on nyt useita [export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export)-komentoja.
+<!-- Moduulissa on nyt useita [export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export)-komentoja. -->
+The module now has multiple [export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export) commands. 
 
-Reducer-funktio palautetaan edelleen komennolla <i>export default</i>. Tämän ansiosta reducer importataan tuttuun tapaan:
+<!-- Reducer-funktio palautetaan edelleen komennolla <i>export default</i>. Tämän ansiosta reducer importataan tuttuun tapaan: -->
+The reducer function is still returned with the <i>export default</i> command, so the reducer can be imported the usual way: 
 
 ```js
 import noteReducer from './reducers/noteReducer'
 ```
 
-Moduulilla voi olla vain <i>yksi default export</i>, mutta useita "normaaleja" exporteja
+<!-- Moduulilla voi olla vain <i>yksi default export</i>, mutta useita "normaaleja" exporteja -->
+A module can have only <i>one default export</i>, but multiple "normal" exports
 
 ```js
 export const noteCreation = content => {
@@ -970,13 +1029,15 @@ export const toggleImportanceOf = (id) => {
 }
 ```
 
-Normaalisti (eli ei defaultina) exportattujen funktioiden käyttöönotto tapahtuu aaltosulkusyntaksilla:
+<!-- Normaalisti (eli ei defaultina) exportattujen funktioiden käyttöönotto tapahtuu aaltosulkusyntaksilla: -->
+Normally (not as defaults) exported functions can be imported with the curly brace syntax:
 
 ```js
 import { noteCreation } from './../reducers/noteReducer'
 ```
 
-Eriytetään uuden muistiinpanon luominen omaksi komponentiksi. 
+<!-- Eriytetään uuden muistiinpanon luominen omaksi komponentiksi.  -->
+Let's separate creating new notes into its own component. 
 
 ```js
 import { createNote } from '../reducers/noteReducer' // highlight-line
@@ -999,10 +1060,12 @@ const NewNote = (props) => {
 }
 ```
 
-Toisin kuin aiemmin ilman Reduxia tekemässämme React-koodissa, sovelluksen tilaa (joka on nyt siis reduxissa) muuttava tapahtumankäsittelijä on siirretty pois <i>App</i>-komponentista, alikomponentin vastuulle. Itse tilaa muuttava logiikka on kuitenkin siististi reduxissa eristettynä koko sovelluksen React-osuudesta.
+<!-- Toisin kuin aiemmin ilman Reduxia tekemässämme React-koodissa, sovelluksen tilaa (joka on nyt siis reduxissa) muuttava tapahtumankäsittelijä on siirretty pois <i>App</i>-komponentista, alikomponentin vastuulle. Itse tilaa muuttava logiikka on kuitenkin siististi reduxissa eristettynä koko sovelluksen React-osuudesta. -->
+Unlike in the React code we did without Redux, the event handler for changing the state of the app (which now lives in redux) has been moved away from the <i>App</i> to a child component. The logic for changing the state is however neatly in redux separated from the whole React part of the application. 
 
 
-Eriytetään veilä muistiinpanojen lista ja yksittäisen muistiinpanon esittäminen omiksi komponenteikseen:
+<!-- Eriytetään veilä muistiinpanojen lista ja yksittäisen muistiinpanon esittäminen omiksi komponenteikseen: -->
+Let's separate the list of notes and showing a single note into their own components: 
 
 ```js
 const Note = ({ note, handleClick }) => {
@@ -1031,9 +1094,11 @@ const Notes = ({ store }) => {
 }
 ```
 
-Muistiinpanon tärkeyttä muuttava logiikka on nyt muistiinpanojen listaa hallinnoivalla komponentilla.
+<!-- Muistiinpanon tärkeyttä muuttava logiikka on nyt muistiinpanojen listaa hallinnoivalla komponentilla. -->
+The logic for changing the importance of a note is now in the component managing the list of notes. 
 
-Komponenttiin <i>App</i> ei jää enää paljoa koodia:
+<!-- Komponenttiin <i>App</i> ei jää enää paljoa koodia: -->
+There is not much code left in <i>App</i>:
 
 ```js
 const App = (props) => {
@@ -1048,69 +1113,87 @@ const App = (props) => {
 ```
 
 
-Yksittäisen muistiinpanon renderöinnistä huolehtiva <i>Note</i> on erittäin yksinkertainen, eikä ole tietoinen siitä, että sen propsina saama tapahtumankäsittelijä dispatchaa actionin. Tälläisiä komponentteja kutsutaan Reactin terminologiassa [presentational](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)-komponenteiksi.
+<!-- Yksittäisen muistiinpanon renderöinnistä huolehtiva <i>Note</i> on erittäin yksinkertainen, eikä ole tietoinen siitä, että sen propsina saama tapahtumankäsittelijä dispatchaa actionin. Tälläisiä komponentteja kutsutaan Reactin terminologiassa [presentational](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)-komponenteiksi. -->
+<i>Note</i>, responsible for rendering a single note, is very simple, and is not aware that the event handler it gets as props dispatches an action. These kind of componets are called [presentational](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) in React terminology. 
 
-<i>Notes</i> taas on sellainen mitä kutsutaan [container](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)-komponenteiksi, se sisältää sovelluslogiikkaa, eli määrittelee mitä <i>Note</i>-komponenttien tapahtumankäsittelijät tekevät ja koordinoi <i>presentational</i>-komponenttien, eli <i>Notejen</i> konfigurointia.
+<!-- <i>Notes</i> taas on sellainen mitä kutsutaan [container](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)-komponenteiksi, se sisältää sovelluslogiikkaa, eli määrittelee mitä <i>Note</i>-komponenttien tapahtumankäsittelijät tekevät ja koordinoi <i>presentational</i>-komponenttien, eli <i>Notejen</i> konfigurointia. -->
+<i>Notes</i> in the other hand is a [container](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) component, as it contains some application logic: it defines what the event handlers of a <i>Note</i> do and coordinates the configuration of <i>presentational</i> components, or the <i>Notejes</i>.
 
-Palaamme presentational/container-jakoon tarkemmin myöhemmin tässä osassa.
+<!-- Palaamme presentational/container-jakoon tarkemmin myöhemmin tässä osassa. -->
+We will return to the presentational/container divide later in this part. 
 
-<i>storen</i> välittäminen sitä tarvitseviin komponentteihin propsien avulla on melko ikävää. Vaikka <i>App</i> ei itse tarvitse storea, sen on otettava store vastaan, pystyäkseen välittämään sen edelleen komponenteille <i>NewNote</i> ja <i>Notes</i>. Tähän on kuitenkin tulossa parannus hetken päästä.
+<!-- <i>storen</i> välittäminen sitä tarvitseviin komponentteihin propsien avulla on melko ikävää. Vaikka <i>App</i> ei itse tarvitse storea, sen on otettava store vastaan, pystyäkseen välittämään sen edelleen komponenteille <i>NewNote</i> ja <i>Notes</i>. Tähän on kuitenkin tulossa parannus hetken päästä. -->
+Forwarding the <i>store</i> to all components as props is not the best solution. Even though the <i>App</i> does not need the store, it has to receive it in order to forward it to <i>NewNote</i> and <i>Notes</i>.
+In a bit we will have a solution for this problem. 
 
-Redux-sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/redux-notes/tree/part6-1), branchissa <i>part6-1</i>.
+<!-- Redux-sovelluksen tämänhetkinen koodi on kokonaisuudessaan [githubissa](https://github.com/fullstack-hy2019/redux-notes/tree/part6-1), branchissa <i>part6-1</i>. -->
+The code of the Redux- application can be found from [github](https://github.com/fullstack-hy2019/redux-notes/tree/part6-1), branch <i>part6-1</i>.
 
 </div>
 
 <div class="tasks">
 
-### Tehtäviä
+### Exercises
 
-Toteutetaan nyt versio toisesta ensimmäisen osan anekdoottien äänestyssovelluksesta. Ota ratkaisusi pohjaksi repositoriossa https://github.com/fullstack-hy2019/redux-anecdotes oleva projekti.
+<!-- Toteutetaan nyt versio toisesta ensimmäisen osan anekdoottien äänestyssovelluksesta. Ota ratkaisusi pohjaksi repositoriossa https://github.com/fullstack-hy2019/redux-anecdotes oleva projekti. -->
+Let's make a new version of the anecdote voting application from part 1. Take the project from this repository https://github.com/fullstack-hy2019/redux-anecdotes to base your solution on.  
 
-Jos kloonaat projektin olemassaolevan git-reposition sisälle, <i>poista kloonatun sovelluksen git-konfiguraatio:</i>
+<!-- Jos kloonaat projektin olemassaolevan git-reposition sisälle, <i>poista kloonatun sovelluksen git-konfiguraatio:</i> -->
+If you clone the project in to existing git-repository,<i>remove the git-configuration of the cloned application:</i> 
 
 ```bash
 cd redux-anecdotes  // mene kloonatun repositorion hakemistoon
 rm -rf .git
 ```
 
-Sovellus käynnistyy normaaliin tapaan, mutta joudut ensin asentamaan sovelluksen riippuvuudet:
+<!-- Sovellus käynnistyy normaaliin tapaan, mutta joudut ensin asentamaan sovelluksen riippuvuudet: -->
+The application can be started as usual, but you have to install the dependencies first: 
 
 ```bash
 npm install
 npm start
 ```
 
-Kun teet seuraavat tehtävät, tulisi sovelluksen näyttää seuraavalta
+<!-- Kun teet seuraavat tehtävät, tulisi sovelluksen näyttää seuraavalta -->
+After completing these exercises, your application should look like this
 
 ![](../images/6/3.png)
 
-#### 6.3: anekdootit, step1
+#### 6.3: anecdotes, step1
 
-Toteuta mahdollisuus anekdoottien äänestämiseen. Äänien määrä tulee tallettaa redux-storeen.
+<!-- Toteuta mahdollisuus anekdoottien äänestämiseen. Äänien määrä tulee tallettaa redux-storeen. -->
+Implement functionality for voting anecdotes. The amount of votes must be saved to a redux-store.
 
-#### 6.4: anekdootit, step2
+#### 6.4: anecdotes, step2
 
-Tee sovellukseen mahdollisuus uusien anekdoottien lisäämiselle.
+<!-- Tee sovellukseen mahdollisuus uusien anekdoottien lisäämiselle. -->
+Implement functionality for adding new anecdotes. 
 
-Voit pitää lisäyslomakkeen aiemman esimerkin tapaan [ei-kontrolloituna](/osa6/flux_arkkitehtuuri_ja_redux#ei-kontrolloitu-lomake).
+<!-- Voit pitää lisäyslomakkeen aiemman esimerkin tapaan [ei-kontrolloituna](/osa6/flux_arkkitehtuuri_ja_redux#ei-kontrolloitu-lomake). -->
+You can keep the form uncontrolled, like we did [earlier](/osa6/flux_arkkitehtuuri_ja_redux#ei-kontrolloitu-lomake).
 
-#### 6.5*: anekdootit, step3
+#### 6.5*: anecdotes, step3
 
-Huolehdi siitä, että anekdootit pysyvät äänten mukaisessa suuruusjärjestyksessä.
+<!-- Huolehdi siitä, että anekdootit pysyvät äänten mukaisessa suuruusjärjestyksessä. -->
+Make sure, that the anecdotes are oredered by number of votes. 
 
-#### 6.6: anekdootit, step4
+#### 6.6: anecdotes, step4
 
-Jos et jo sitä tehnyt, eriytä action-olioiden luominen [action creator](https://redux.js.org/basics/actions#action-creators) -funktioihin ja sijoita ne tiedostoon <i>src/reducers/anecdoteReducer.js</i>. Eli toimi samalla tavalla kuin materiaali esimerkissä kohdasta [action creator](/osa6/flux_arkkitehtuuri_ja_redux#action-creatorit) alkaen on toimittu.
+<!-- Jos et jo sitä tehnyt, eriytä action-olioiden luominen [action creator](https://redux.js.org/basics/actions#action-creators) -funktioihin ja sijoita ne tiedostoon <i>src/reducers/anecdoteReducer.js</i>. Eli toimi samalla tavalla kuin materiaali esimerkissä kohdasta [action creator](/osa6/flux_arkkitehtuuri_ja_redux#action-creatorit) alkaen on toimittu. -->
+If you haven't done so already, separate creating action-objects to [action creator](https://redux.js.org/basics/actions#action-creators)-functions and place them in the <i>src/reducers/anecdoteReducer.js</i> file, so do like we have been doing since the chapter [action creators](/osa6/flux_arkkitehtuuri_ja_redux#action-creatorit).
 
-#### 6.7: anekdootit, step5
+#### 6.7: anecdotes, step5
 
-Eriytä uuden anekdootin luominen omaksi komponentikseen nimeltään <i>AnecdoteForm</i>. Siirrä kaikki anekdootin luomiseen liittyvä logiikka uuteen komponenttiin.
+<!-- Eriytä uuden anekdootin luominen omaksi komponentikseen nimeltään <i>AnecdoteForm</i>. Siirrä kaikki anekdootin luomiseen liittyvä logiikka uuteen komponenttiin. -->
+Separate creating new anecdotes into its own component called <i>AnecdoteForm</i>. Move all logic for creating a new anecdote into this new component. 
 
-#### 6.8: anekdootit, step6
+#### 6.8: anecdotes, step6
 
-Eriytä anekdoottilistan näyttäminen omaksi komponentikseen nimeltään <i>AnecdoteList</i>. Siirrä kaikki anekdoottien äänestämiseen liittyvä logiikka uuteen komponenttiin.
+<!-- Eriytä anekdoottilistan näyttäminen omaksi komponentikseen nimeltään <i>AnecdoteList</i>. Siirrä kaikki anekdoottien äänestämiseen liittyvä logiikka uuteen komponenttiin. -->
+Separate rendering the anecdote list into its own component called <i>AnecdoteList</i>. Move all logic for voting for a anecdote to this new component. 
 
-Tämän tehtävän jälkeen komponentin <i>App</i> pitäisi näyttää seuraavalta:
+<!-- Tämän tehtävän jälkeen komponentin <i>App</i> pitäisi näyttää seuraavalta: -->
+Now the <i>App</i> component should look like this: 
 
 ```js
 import React from 'react'
