@@ -184,23 +184,35 @@ the code is not executed, but is only rendered as 'text' on the page:
 
 since React [takes care of sanitizing data in variables](https://reactjs.org/docs/introducing-jsx.html#jsx-prevents-injection-attacks). Some versions of React [have been vulnerable](https://medium.com/dailyjs/exploiting-script-injection-flaws-in-reactjs-883fb1fe36c1) to XSS-attacks. The security-holes have of course been patched, but there is no guarantee that there could be more.
 
-Käytettyjen kirjastojen suhteen tuleekin olla tarkkana, jos niihin tulee tietoturvapäivityksiä, on kirjastot syytä päivittää omissa sovelluksissa. Expressin tietoturvapäivitykset löytyvät [kirjaston dokumentaatiosta](https://expressjs.com/en/advanced/security-updates.html) ja Nodeen liittyvät [blogista](https://nodejs.org/en/blog/).
+<!-- Käytettyjen kirjastojen suhteen tuleekin olla tarkkana, jos niihin tulee tietoturvapäivityksiä, on kirjastot syytä päivittää omissa sovelluksissa. Expressin tietoturvapäivitykset löytyvät [kirjaston dokumentaatiosta](https://expressjs.com/en/advanced/security-updates.html) ja Nodeen liittyvät [blogista](https://nodejs.org/en/blog/). -->
 
-Riippuvuuksien ajantasaisuuden voi testata komennolla
+One needs to remain vigilant when using libraries; if there are security updates to those libraries, it is advised to update those libraries in ones own applications. Security updates for Express are found in the [library's documentation](https://expressjs.com/en/advanced/security-updates.html) and ones for Node are found in [this blog](https://nodejs.org/en/blog/).
+
+<!-- Riippuvuuksien ajantasaisuuden voi testata komennolla -->
+
+You can check how up to date your dependencies are using the command
 
 ```bash
 npm outdated --depth 0
 ```
 
-Viime vuoden mallivastaus osan 4 tehtäväsarjaan sisältää jo aika paljon vanhentuneita riippuvuuksia:
+<!-- Viime vuoden mallivastaus osan 4 tehtäväsarjaan sisältää jo aika paljon vanhentuneita riippuvuuksia: -->
+
+Last year's model answer for the exercises in part 4 already have quite a few outdated dependencies:
 
 ![](../images/7/33.png)
 
-Riippuvuudet saa ajantasaistettua päivittämällä tiedostoa <i>package.json</i> ja suorittamalla komennon _npm install_. Riippuvuuksien vanhat versiot eivät tietenkään välttämättä ole tietoturvariski.
+<!-- Riippuvuudet saa ajantasaistettua päivittämällä tiedostoa <i>package.json</i> ja suorittamalla komennon _npm install_. Riippuvuuksien vanhat versiot eivät tietenkään välttämättä ole tietoturvariski. -->
 
-Aiemmissa Noden ja npm:n versioissa [Node Security Platform](https://nodesecurity.io/) valvoi npm:ssä olevien riippuvuuksien turvallisuutta; Noden versiosta 10.0.0 ja npm:n versiosta 6.0.0 alkaen Node Security Platform [on osa npm:ää](https://medium.com/npm-inc/npm-acquires-lift-security-258e257ef639), eli riippuvuuksien turvallisuutta voidaan tarkistaa [audit](https://docs.npmjs.com/cli/audit)-komennolla (ja npm tarkistaa sitä automaattisesti kun sovellukselle asetetaan uusia pakkauksia).
+The dependencies can be brought up to date by updating the file <i>package.json</i> and running the command _npm install_. However, old versions of the dependencies are not necessarily a security risk. 
 
-Komennon _npm audit_ suorittaminen viime vuoden osan 4 mallivastaukselle antaa pitkän listan valituksia ja korjausehdotuksia. Seuraavassa osa raportista:
+<!-- Aiemmissa Noden ja npm:n versioissa [Node Security Platform](https://nodesecurity.io/) valvoi npm:ssä olevien riippuvuuksien turvallisuutta; Noden versiosta 10.0.0 ja npm:n versiosta 6.0.0 alkaen Node Security Platform [on osa npm:ää](https://medium.com/npm-inc/npm-acquires-lift-security-258e257ef639), eli riippuvuuksien turvallisuutta voidaan tarkistaa [audit](https://docs.npmjs.com/cli/audit)-komennolla (ja npm tarkistaa sitä automaattisesti kun sovellukselle asetetaan uusia pakkauksia). -->
+
+In previous versions of Node and npm the [Node Security Platform](https://nodesecurity.io/) was monitoring the security of dependencies in npm. Since Node version 10.0.0 and npm version 6.0.0 the Node Security Platform [is part of npm](https://medium.com/npm-inc/npm-acquires-lift-security-258e257ef639), meaning the security of dependencies can be checked using the [audit](https://docs.npmjs.com/cli/audit)-command (and npm checks this automatically when installing new packages for an application).
+
+<!-- Komennon _npm audit_ suorittaminen viime vuoden osan 4 mallivastaukselle antaa pitkän listan valituksia ja korjausehdotuksia. Seuraavassa osa raportista: -->
+
+Executing the command _npm audit_ on last year's model answer for part 4 provides a long list of complaints and suggestions for fixes. Here is part of the report:
 
 ```
                        === npm audit security report ===
@@ -254,31 +266,53 @@ found 29 vulnerabilities (7 low, 18 moderate, 4 high) in 964 scanned packages
 
 
 
-Toinen palvelu riippuvuuksien turvallisuuden tarkkailuun on [Snyk](https://snyk.io).
+<!-- Toinen palvelu riippuvuuksien turvallisuuden tarkkailuun on [Snyk](https://snyk.io). -->
 
-Eräs OWASP:in listan mainitsemista uhista on <i>Broken Authentication</i> ja siihen liittyvä <i>Broken Access Control</i>. Käyttämämme token-perustainen autentikointi on kohtuullisen robusti, jos sovellusta käytetään tietoliikenteen salaavalla HTTPS-protokollalla. Access Controlin eli pääsynhallinnan toteuttamisessa on aina syytä muistaa tehdä esim. käyttäjän identiteetin tarkastus selaimen lisäksi myös palvelimella. Huonoa tietoturvaa olisi estää jotkut toimenpiteet ainoastaan piilottamalla niiden suoritusmahdollisuus selaimessa olevasta koodista.
+Another service for monitoring the security of dependencies is [Snyk](https://snyk.io).
 
-Mozillan MDN:n erittäin hyvä [Website security -guide](https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Website_security) nostaakin esiin tämän tärkeän seikan:
+<!-- Eräs OWASP:in listan mainitsemista uhista on <i>Broken Authentication</i> ja siihen liittyvä <i>Broken Access Control</i>. Käyttämämme token-perustainen autentikointi on kohtuullisen robusti, jos sovellusta käytetään tietoliikenteen salaavalla HTTPS-protokollalla. Access Controlin eli pääsynhallinnan toteuttamisessa on aina syytä muistaa tehdä esim. käyttäjän identiteetin tarkastus selaimen lisäksi myös palvelimella. Huonoa tietoturvaa olisi estää jotkut toimenpiteet ainoastaan piilottamalla niiden suoritusmahdollisuus selaimessa olevasta koodista. -->
+
+One of the threats mentioned in the list from OWASP is <i>Broken Authentication</i> and the related <i>Broken Access Control</i>. The token based authentication we have been using is fairly robust, if the application is being used on the traffic-encrypting HTTPS-protocol. When implementing access control one should e.g. remember to not only check a user's identity in the browser but also on the server. Bad security would be to prevent some actions to be taken only by hiding the execution options in the code of the browser.
+
+<!-- Mozillan MDN:n erittäin hyvä [Website security -guide](https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Website_security) nostaakin esiin tämän tärkeän seikan: -->
+
+On Mozilla's MDN there is a very good [Website security -guide](https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Website_security), which brings up this very important topic:
 
 ![](../images/7/34.png)
 
-Expressin dokumentaatio sisältää tietoturvaa käsittelevän osan [Production Best Practices: Security](https://expressjs.com/en/advanced/best-practice-security.html) joka kannattaa lukea läpi. Erittäin suositeltavaa on ottaa backendissa käyttöön [Helmet](https://helmetjs.github.io/)-kirjasto, joka sisältää joukon Express-sovelluksista tunnettuja turvallisuusriskejä eliminoivia middlewareja.
+<!-- Expressin dokumentaatio sisältää tietoturvaa käsittelevän osan [Production Best Practices: Security](https://expressjs.com/en/advanced/best-practice-security.html) joka kannattaa lukea läpi. Erittäin suositeltavaa on ottaa backendissa käyttöön [Helmet](https://helmetjs.github.io/)-kirjasto, joka sisältää joukon Express-sovelluksista tunnettuja turvallisuusriskejä eliminoivia middlewareja. -->
 
-Myös ESlintin [security-plugininen](https://github.com/nodesecurity/eslint-plugin-security) käyttöönotto kannattaa.
+The documentation for Express includes a section on security: [Production Best Practices: Security](https://expressjs.com/en/advanced/best-practice-security.html), which is worth a read through. It is also recommended to add a library called [Helmet](https://helmetjs.github.io/) to the backend. It includes a set of middlewares that eliminate some security vulnerabilities in Express applications.
 
-### Tämän päivän trendejä
+<!-- Myös ESlintin [security-plugininen](https://github.com/nodesecurity/eslint-plugin-security) käyttöönotto kannattaa. -->
 
-Katsotaan vielä lopuksi muutamaa huomisen tai oikeastaan jo tämän päivän tekniikkaa, ja suuntia joihin Web-sovelluskehitys on kulkemassa.
+Using the ESlint [security-plugininen](https://github.com/nodesecurity/eslint-plugin-security) is also worth doing.
 
-#### Javascriptin tyypitetyt versiot
+<!-- ### Tämän päivän trendejä -->
+### Current trends
 
-Javascriptin muuttujien [dynaaminen tyypitys](https://developer.mozilla.org/en-US/docs/Glossary/Dynamic_typing) aiheuttaa välillä ikäviä bugeja. Osassa 5 käsittelimme lyhyesti [PropTypejä](/osa5/props_children_ja_proptypet#prop-types), eli mekanismia, jonka avulla React-komponenteille välitettävile propseille on mahdollista tehdä tyyppitarkastuksia.
+<!-- Katsotaan vielä lopuksi muutamaa huomisen tai oikeastaan jo tämän päivän tekniikkaa, ja suuntia joihin Web-sovelluskehitys on kulkemassa. -->
 
-Viime aikoina on ollut havaittavissa nousevaa kiinnostusta [staattiseen tyypitykseen](https://en.wikipedia.org/wiki/Type_system#Static_type_checking).
+Finally, let's take a look at some of technology of tomorrow (or actually already today), and directions Web development is heading.
 
-Javascriptistä on olemassa useita staattisesti tyypitettyjä versioita, suosituimmat näistä ovat Facebookin kehittämä [flow](https://flow.org/) ja Microsofin [Typescript](https://www.typescriptlang.org/). Vaakakuppi näyttää kallistuneen selkeästi Typescriptin puolelle, mm sen tarjoaman hyvän VS Code -integraation takia.
+<!-- #### Javascriptin tyypitetyt versiot -->
+#### Typed versions of JavaScript
 
-Typescriptissä voidaan esim. funktion parametreille ja paluuarvolle asettaa tyypit:
+<!-- Javascriptin muuttujien [dynaaminen tyypitys](https://developer.mozilla.org/en-US/docs/Glossary/Dynamic_typing) aiheuttaa välillä ikäviä bugeja. Osassa 5 käsittelimme lyhyesti [PropTypejä](/osa5/props_children_ja_proptypet#prop-types), eli mekanismia, jonka avulla React-komponenteille välitettävile propseille on mahdollista tehdä tyyppitarkastuksia. -->
+
+Sometimes the [dynamic typing](https://developer.mozilla.org/en-US/docs/Glossary/Dynamic_typing) of JavaScript variables creates annoying bugs. In part 5 we talked briefly about [PropTypejä](/osa5/props_children_ja_proptypet#prop-types): a mechanism which enables one to enforce type checking for props passed to React-components.
+
+<!-- Viime aikoina on ollut havaittavissa nousevaa kiinnostusta [staattiseen tyypitykseen](https://en.wikipedia.org/wiki/Type_system#Static_type_checking). -->
+
+Lately there has been a notable uplift in the interest in [static type checking](https://en.wikipedia.org/wiki/Type_system#Static_type_checking).
+
+<!-- Javascriptistä on olemassa useita staattisesti tyypitettyjä versioita, suosituimmat näistä ovat Facebookin kehittämä [flow](https://flow.org/) ja Microsofin [Typescript](https://www.typescriptlang.org/). Vaakakuppi näyttää kallistuneen selkeästi Typescriptin puolelle, mm sen tarjoaman hyvän VS Code -integraation takia. -->
+
+There are many versions of JavaScript that implement static type checking, the most popular one being [flow](https://flow.org/) developed at Facebook, and [Typescript](https://www.typescriptlang.org/) developed at Microsoft. The scales seem to have tipped in favor of Typescript due to, among other things, the great VS Code -integration.
+
+<!-- Typescriptissä voidaan esim. funktion parametreille ja paluuarvolle asettaa tyypit: -->
+
+In Typescript we can, e.g. set types for the parameters and return value of a function:
 
 ```js
 const sum = (n: number, m: number): number => {
@@ -286,15 +320,23 @@ const sum = (n: number, m: number): number => {
 }
 ```
 
-Funktion kutsuminen ei nyt onnistu väärän tyyppisillä parametreilla, väärällä parametrien määrällä tai jos vastaus yritetään sijoittaa väärän tyyppiseen muuttujaan. Visual Studio Code tekee tyypintarkastuksen jo siinä vaiheessa kun koodia kirjoitetaan, ja varottaa heti jos koodi sisältää tyyppien kanssa epäyhteensopivia operaatioita:
+<!-- Funktion kutsuminen ei nyt onnistu väärän tyyppisillä parametreilla, väärällä parametrien määrällä tai jos vastaus yritetään sijoittaa väärän tyyppiseen muuttujaan. Visual Studio Code tekee tyypintarkastuksen jo siinä vaiheessa kun koodia kirjoitetaan, ja varottaa heti jos koodi sisältää tyyppien kanssa epäyhteensopivia operaatioita: -->
+
+Calling the function with parameters of the wrong type, the wrong amount of parameters, or trying to assign the returned value into a variable of the wrong type does not work. Visual Studio Code does the type checking while code is written and immediately prompts the user is the code contains any operations in conflict with the types:
 
 ![](../images/7/35.png)
 
-Ero normaaliin Javascriptiin on suuri, tyypitys löytää monia potentiaalisia bugeja jo koodin kirjoitusvaiheessa.
+<!-- Ero normaaliin Javascriptiin on suuri, tyypitys löytää monia potentiaalisia bugeja jo koodin kirjoitusvaiheessa. -->
 
-Jotta koodia voitaisiin suorittaa selaimessa tai Nodella, Typescriptillä tehty koodi on käänettävä normaaliksi Javascriptiksi Typescript-kääntäjällä. Käännösprosessi on luonnollisesti mahdollista automatisoida esim. Webpackin avulla siten, että ohjelmoijan workflow säilyy yhtä hyvänä kun normaalia Javascritpiä kirjoittaessa.
+The difference compared to JavaScript is large; the type checking already finds many potential bugs as code is being written.
 
-Katso [täältä](https://www.youtube.com/watch?v=obZaI2rYkLU&list=PLumQiZ25uijis31zaRL7rhzLalSwLqUtm&index=2) Terveystalon Ilari Richardin ja Tuukka Peuraniemen vierailuluento Typescriptistä ja mobiilisovellusten kehittämisestä Reactilla.
+<!-- Jotta koodia voitaisiin suorittaa selaimessa tai Nodella, Typescriptillä tehty koodi on käänettävä normaaliksi Javascriptiksi Typescript-kääntäjällä. Käännösprosessi on luonnollisesti mahdollista automatisoida esim. Webpackin avulla siten, että ohjelmoijan workflow säilyy yhtä hyvänä kun normaalia Javascritpiä kirjoittaessa. -->
+
+For the code to be executable in the browser or with Node, code written in Typescript must be compiled to normal JavaScript using a Typescript-compiler. The compilation process can naturally be automated e.g. using Webpack, so that the workflow of the developer remains as smooth as with normal JavaScript.
+
+<!-- Katso [täältä](https://www.youtube.com/watch?v=obZaI2rYkLU&list=PLumQiZ25uijis31zaRL7rhzLalSwLqUtm&index=2) Terveystalon Ilari Richardin ja Tuukka Peuraniemen vierailuluento Typescriptistä ja mobiilisovellusten kehittämisestä Reactilla. -->
+
+[Here](https://www.youtube.com/watch?v=obZaI2rYkLU&list=PLumQiZ25uijis31zaRL7rhzLalSwLqUtm&index=2) you can find a guest lecture by Ilari Richardin and Tuukka Peuraniemen from Terveystalo about Typescript and developing mobile applications using React.
 
 #### Server side rendering, isomorfiset sovellukset ja universaali koodi
 
