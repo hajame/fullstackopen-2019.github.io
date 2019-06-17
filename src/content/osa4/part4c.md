@@ -7,30 +7,30 @@ letter: c
 <div class="content">
 
 <!-- Haluamme toteuttaa sovellukseemme käyttäjien hallinnan. Käyttäjät tulee tallettaa tietokantaan ja jokaisesta muistiinpanosta tulee tietää sen luonut käyttäjä. Muistiinpanojen poisto ja editointi tulee olla sallittua ainoastaan muistiinpanot tehneelle käyttäjälle. -->
-We want to add user authentication and authorization to our application. Users should be stored in the database and every note should be linked to the user who created it. Deleting and editing a note should only be allowed for the user who created the note.
+We want to add user authentication and authorization to our application. Users should be stored in the database and every note should be linked to the user who created it. Deleting and editing a note should only be allowed for the user who created it.
 
 <!-- Aloitetaan lisäämällä tietokantaan tieto käyttäjistä. Käyttäjän (<i>User</i>) ja muistiinpanojen (<i>Note</i>) välillä on yhden suhde moneen -yhteys: -->
-Let's start by adding information about users to the database. There is a one-to-many relationship between the user (<i>User</i>) and notes (<i>Note</i>):
+Let's start by adding information about the users to the database. There is a one-to-many relationship between the user (<i>User</i>) and notes (<i>Note</i>):
 
 ![](https://yuml.me/a187045b.png)
 
 <!-- Relaatiotietokantoja käytettäessä ratkaisua ei tarvitsisi juuri miettiä. Molemmille olisi oma taulunsa ja muistiinpanoihin liitettäisiin sen luonutta käyttäjää vastaava id vierasavaimeksi (foreign key). -->
-If we were working with a relational database the implementation would be self-evident. Both resources would have separate database tables and the id of the user who created the note would be stored in the notes table as a foreign key.
+If we were working with a relational database the implementation would be straightforward. Both resources would have their separate database tables and the id of the user who created a note would be stored in the note as a foreign key.
 
 <!-- Dokumenttitietokantoja käytettäessä tilanne on kuitenkin toinen, erilaisia tapoja mallintaa tilanne on useita. -->
 When working with document databases the situation is a bit different, as there are many different ways of modeling the situation.
 
 <!-- Olemassaoleva ratkaisumme tallentaa jokaisen luodun muistiinpanon tietokantaan <i>notes</i>-kokoelmaan eli <i>collectioniin</i>. Jos emme halua muuttaa tätä, lienee luontevinta tallettaa käyttäjät omaan kokoelmaansa, esim. nimeltään <i>users</i>. -->
-The existing solution saves every note in the <i>notes collection</i> in the database. If we do not want to change this existing collection, then the natural choice is to save users in their own collection called <i>users</i>, for example.
+The existing solution saves every note in the <i>notes collection</i> in the database. If we do not want to change this existing collection, then the natural choice is to save users in their own collection, <i>users</i> for example.
 
 <!-- Mongossa voidaan kaikkien dokumenttitietokantojen tapaan käyttää olioiden id:itä viittaamaan muissa kokoelmissa talletettaviin dokumentteihin, vastaavasti kuten viiteavaimia käytetään relaatiotietokannoissa. -->
 Like all document databases, we can use object id's in Mongo to reference documents in other collections. This is similar to using foreign keys in relational databases.
 
 <!-- Dokumenttitietokannat kuten Mongo eivät kuitenkaan tue relaatiotietokantojen <i>liitoskyselyitä</i> vastaavaa toiminnallisuutta, joka mahdollistaisi useaan kokoelmaan kohdistuvan tietokantahaun. Tämä ei tarkalleen ottaen enää välttämättä pidä paikkaansa, sillä versiosta 3.2. alkaen Mongo on tukenut useampaan kokoelmaan kohdistuvia [lookup-aggregaattikyselyitä](https://docs.mongodb.com/manual/reference/operator/aggregation/lookup/). Emme kuitenkaan käsittele niitä kurssilla. -->
-Document databases like Mongo do not support similar <i>join queries</i> that are available in relational databases, that are used for aggregating data from multiple tables. This is not strictly true, however. Starting from version 3.2. Mongo has supported [lookup aggregation queries](https://docs.mongodb.com/manual/reference/operator/aggregation/lookup/). We will not be taking a look at this functionality in this course.
+Document databases like Mongo do not have functionality similar to <i>join queries</i>  available in relational databases,  used for aggregating data from multiple tables. Although this might not be strictly true anymore, as starting from version 3.2. Mongo has supported [lookup aggregation queries](https://docs.mongodb.com/manual/reference/operator/aggregation/lookup/). However we will not be taking a look at this functionality in this course.
 
 <!-- Jos tarvitsemme liitoskyselyitä vastaavaa toiminnallisuutta, tulee se toteuttaa sovelluksen tasolla, eli käytännössä tekemällä tietokantaan useita kyselyitä. Tietyissä tilanteissa mongoose-kirjasto osaa hoitaa liitosten tekemisen, jolloin kysely näyttää mongoosen käyttäjälle toimivan liitoskyselyn tapaan. Mongoose tekee kuitenkin näissä tapauksissa taustalla useamman kyselyn tietokantaan. -->
-If we need functionality similar to join queries, we will implement it in our application code by making multiple queries. In certain situations Mongoose can take care of joining and aggregating data which gives the appearance of a join query. However, even in these situations Mongoose makes multiple queries to the database.
+If we need functionality similar to join queries, we will implement it in our application code, which in practice means making multiple queries. In certain situations Mongoose can take care of joining and aggregating data, which gives the appearance of a join query. However, even in these situations Mongoose makes multiple queries to the database.
 
 <!-- ### Viitteet kokoelmien välillä -->
 ### References across collections
@@ -81,7 +81,7 @@ The <i>notes</i> collection contains three notes that all have a <i>user</i> fie
 ```
 
 <!-- Mikään ei kuitenkaan määrää dokumenttitietokannoissa, että viitteet on talletettava muistiinpanoihin, ne voivat olla <i>myös</i> (tai ainoastaan) käyttäjien yhteydessä: -->
-Document databases do not demand the foreign key to be stored in the note resources, they could <i>also</i> be stored in the users collection, or even both:
+Document databases do not demand the foreign key to be stored in the note resources: they could <i>also</i> be stored in the users collection, or even both:
 
 ```js
 [
@@ -102,7 +102,7 @@ Document databases do not demand the foreign key to be stored in the note resour
 Since users can have many notes, the related ids are stored in an array in the <i>notes</i> field.
 
 <!-- Dokumenttitietokannat tarjoavat myös radikaalisti erilaisen tavan datan organisointiin; joissain tilanteissa saattaisi olla mielekästä tallettaa muistiinpanot kokonaisuudessa käyttäjien sisälle: -->
-Document databases offer a radically different way of organizing data.  In some situations it might even be beneficial to nest the entire notes array as a part of the documents in the users collection:
+Document databases also offer a radically different way of organizing data;  in some situations it might even be beneficial to nest the entire notes array as a part of the documents in the users collection:
 
 ```js
 [
